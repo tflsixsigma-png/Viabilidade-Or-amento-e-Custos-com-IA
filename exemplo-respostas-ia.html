@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exemplo de Respostas da IA · Caso ZapRango</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+  :root{
+    --paper:#fbfaf6;--card:#ffffff;--ink:#1d2330;--ink-2:#4a5567;
+    --line:#e3e1d6;--gold:#b8860b;--amber:#f6a609;--green:#1f8a4c;--blue:#2563a8;--violet:#6d4ad6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--paper);color:var(--ink);line-height:1.5}
+  .wrap{max-width:780px;margin:0 auto;padding:24px 18px 60px}
+  .mono{font-family:'Space Mono',monospace}
+
+  header{border:2px solid var(--ink);border-radius:14px;background:var(--card);padding:20px 22px;margin-bottom:8px}
+  .badge{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--violet);text-transform:uppercase}
+  header h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(22px,4.5vw,30px);margin:5px 0 6px;line-height:1.08}
+  header p{color:var(--ink-2);font-size:14.5px}
+
+  .aviso{border:1.5px solid var(--line);border-left:5px solid var(--amber);border-radius:12px;background:#fff8e8;padding:13px 16px;margin:14px 0 0}
+  .aviso .al{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a6b00;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+  .aviso p{font-size:13.5px;color:var(--ink);margin:0}
+  .aviso b{color:var(--ink)}
+
+  .block{border:1.5px solid var(--line);border-radius:13px;background:var(--card);padding:18px 20px;margin:18px 0;position:relative}
+  .block .num{position:absolute;top:-13px;left:18px;width:30px;height:30px;border-radius:50%;background:var(--violet);color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px;font-family:'Space Mono'}
+  .block h2{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:6px 0 2px;padding-left:38px}
+  .prmt{font-family:'Space Mono',monospace;font-size:11px;color:var(--violet);text-transform:uppercase;letter-spacing:.5px;padding-left:38px;margin-bottom:12px}
+
+  .userprompt{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-2);background:#f4f3ee;border:1px solid var(--line);border-radius:9px;padding:11px 14px;margin-bottom:12px;line-height:1.5;white-space:pre-wrap}
+  .userprompt .pl{font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.5px;font-size:10.5px;display:block;margin-bottom:5px}
+
+  .iaresp{border:1px solid #d9cdf5;border-radius:11px;background:#faf8ff;padding:14px 16px}
+  .iaresp .rl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--violet);font-weight:700;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:6px}
+  .iaresp p{font-size:14.5px;margin-bottom:9px;color:var(--ink)}
+  .iaresp p:last-child{margin-bottom:0}
+  .iaresp b{color:var(--ink)}
+  .iaresp .calc{font-family:'Space Mono',monospace;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin:8px 0;line-height:1.7;color:var(--ink)}
+  .iaresp .calc .hi{color:var(--violet);font-weight:700}
+  .iaresp .lead{font-weight:700;color:var(--violet);font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-top:10px}
+  .iaresp ol{margin:4px 0 0 18px;font-size:14px;color:var(--ink-2)}
+  .iaresp ol li{margin:3px 0}
+
+  .verdict{border-left:4px solid var(--green);background:#eef4ec;border-radius:0 8px 8px 0;padding:9px 13px;margin-top:10px;font-size:14px;color:var(--ink)}
+  .verdict b{color:var(--green)}
+
+  .final{border:2px solid var(--violet);border-radius:13px;background:#f4f0fd;padding:20px 22px;margin:22px 0 0}
+  .final h2{font-family:'Fraunces',serif;font-weight:900;font-size:20px;color:#4a2eb0;margin-bottom:8px}
+  .final p{font-size:14.5px;color:var(--ink);font-style:italic;margin:0}
+
+  @media print{body{background:#fff}.block,header,.final{break-inside:avoid}.wrap{padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">Exemplo de resultado gerado por IA · Caso ZapRango</div>
+    <h1>Como a IA responde a cada prompt</h1>
+    <p>Estas são respostas <b>de exemplo</b>, no formato que uma IA bem orientada produz ao receber os prompts da ficha com os dados do ZapRango. Use como referência do que esperar.</p>
+    <div class="aviso">
+      <div class="al">⚠️ Leia antes de usar</div>
+      <p>A resposta da <b>sua</b> IA pode sair diferente na <b>forma</b> (organização do texto) e no <b>arredondamento</b>. As contas, por serem matemáticas, devem bater. <b>Sempre confira os números</b> — a IA às vezes erra aritmética ou usa a "soma simples". Você é quem valida.</p>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <div class="block">
+    <div class="num">1</div>
+    <h2>Diagnóstico de desempenho</h2>
+    <div class="prmt">Prompt 1 · VP, VA, CR → IDP, IDC</div>
+    <div class="userprompt"><span class="pl">Você enviou (com os dados do caso)</span>"…VP = R$ 420.000, VA = R$ 357.000, CR = R$ 408.000. Calcule as variações, o IDP e o IDC, explique em linguagem executiva e liste 3 ações."</div>
+    <div class="iaresp">
+      <div class="rl">🤖 Resposta da IA</div>
+      <p>Com base nos dados informados, seguem os cálculos de valor agregado:</p>
+      <div class="calc">Variação de prazo = VA − VP = 357.000 − 420.000 = <span class="hi">− R$ 63.000</span><br>Variação de custo = VA − CR = 357.000 − 408.000 = <span class="hi">− R$ 51.000</span><br>IDP = VA ÷ VP = 357.000 ÷ 420.000 = <span class="hi">0,85</span><br>IDC = VA ÷ CR = 357.000 ÷ 408.000 = <span class="hi">0,875</span></div>
+      <p><b>Leitura executiva:</b> o projeto está <b>atrasado e acima do custo</b>. O IDP de 0,85 indica que apenas 85% do trabalho planejado foi entregue até a medição. O IDC de 0,875 mostra que, para cada R$ 1,00 gasto, o projeto agregou apenas R$ 0,875 de valor. Os dois índices abaixo de 1 configuram um alerta duplo (prazo e custo).</p>
+      <div class="lead">3 ações priorizadas</div>
+      <ol>
+        <li>Investigar a causa-raiz do atraso (retrabalho, escopo mal definido ou produtividade da equipe).</li>
+        <li>Revisar o cronograma das entregas críticas e renegociar prazos onde necessário.</li>
+        <li>Reforçar o controle de custos nas frentes que mais consumiram caixa.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="block">
+    <div class="num">2</div>
+    <h2>Estimar resultados futuros (ENT)</h2>
+    <div class="prmt">Prompt 2 · ONT, VA, CR, IDC → ENT, VNT, EPT</div>
+    <div class="userprompt"><span class="pl">Você enviou</span>"…ONT = R$ 600.000, VA = R$ 357.000, CR = R$ 408.000, IDC = 0,875. Calcule a ENT nos dois cenários, a VNT e a EPT, e diga qual adotar."</div>
+    <div class="iaresp">
+      <div class="rl">🤖 Resposta da IA</div>
+      <p>Calculei a estimativa no término (ENT) nas duas premissas:</p>
+      <div class="calc"><b>Cenário 1 — desvio recorrente</b><br>ENT = ONT ÷ IDC = 600.000 ÷ 0,875 = <span class="hi">R$ 685.714</span><br><br><b>Cenário 2 — desvio pontual</b><br>ENT = CR + (ONT − VA) = 408.000 + 243.000 = <span class="hi">R$ 651.000</span><br><br>VNT = ONT − ENT = 600.000 − 685.714 = <span class="hi">− R$ 85.714</span><br>EPT = ENT − CR = 685.714 − 408.000 = <span class="hi">R$ 277.714</span></div>
+      <p><b>Qual cenário adotar:</b> se o desvio for estrutural (tende a se repetir até o fim), adote o <b>recorrente</b> — projeção mais conservadora, com fechamento em torno de R$ 686 mil e estouro de ~R$ 86 mil. Se o desvio foi um evento isolado já resolvido, o cenário <b>pontual</b> (~R$ 651 mil) é mais realista. Na ausência de certeza, recomendo o recorrente, para não subestimar o custo final.</p>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="block">
+    <div class="num">3</div>
+    <h2>Riscos e reservas</h2>
+    <div class="prmt">Prompt 3 · desvio, reservas, risco</div>
+    <div class="userprompt"><span class="pl">Você enviou</span>"…desvio de R$ 90.000, contingência R$ 60.000, reserva gerencial R$ 50.000, risco de 40% × R$ 120.000. Como cobrir e qual nova reserva?"</div>
+    <div class="iaresp">
+      <div class="rl">🤖 Resposta da IA</div>
+      <p>A <b>reserva de contingência</b> existe para riscos já identificados e é gerida pela equipe do projeto; a <b>reserva gerencial</b> cobre imprevistos e é liberada pela diretoria.</p>
+      <div class="calc">Contingência cobre: R$ 60.000 de R$ 90.000<br>Falta cobrir = 90.000 − 60.000 = <span class="hi">R$ 30.000</span> → acionar reserva gerencial<br>Reforço sugerido (VME) = 40% × 120.000 = <span class="hi">R$ 48.000</span></div>
+      <p><b>Recomendação:</b> cubra os R$ 30.000 restantes com a reserva gerencial, comunicando formalmente o patrocinador (transparência preserva a confiança). Como o risco pode se repetir, reforce a contingência em ~R$ 48.000, valor equivalente ao seu impacto esperado (probabilidade × impacto).</p>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="block">
+    <div class="num">4</div>
+    <h2>Viabilidade do investimento</h2>
+    <div class="prmt">Prompt 4 · VPL, TIR, payback, IL</div>
+    <div class="userprompt"><span class="pl">Você enviou</span>"…investir R$ 500.000, retorno R$ 165.000/ano por 5 anos, taxa exigida 14%. Calcule VPL, TIR, payback e índice de lucratividade e recomende."</div>
+    <div class="iaresp">
+      <div class="rl">🤖 Resposta da IA</div>
+      <p>Avaliação do módulo de pagamentos, trazendo os fluxos a valor presente (14% a.a.):</p>
+      <div class="calc">VP das entradas = R$ 566.458<br>VPL = 566.458 − 500.000 = <span class="hi">+ R$ 66.458</span><br>TIR ≈ <span class="hi">19,4%</span><br>Índice de lucratividade = 566.458 ÷ 500.000 = <span class="hi">1,13</span><br>Payback simples ≈ 500.000 ÷ 165.000 = <span class="hi">3,0 anos</span></div>
+      <p>Observação: a soma simples dos retornos (R$ 825 mil) <b>não</b> deve ser usada para decidir, pois ignora o valor do dinheiro no tempo.</p>
+      <div class="verdict">✅ <b>Recomendação: investir.</b> O VPL é positivo (+R$ 66 mil) e a TIR (19,4%) supera a taxa mínima exigida (14%), com índice de lucratividade acima de 1 — o investimento cria valor.</div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="block">
+    <div class="num">5</div>
+    <h2>Financiamento e custo de capital</h2>
+    <div class="prmt">Prompt 5 · CMPC vs. TIR</div>
+    <div class="userprompt"><span class="pl">Você enviou</span>"…60% próprio a 18%, 40% terceiros a 11%, imposto 34%. Calcule o CMPC com benefício fiscal e compare com a TIR de 19,4%."</div>
+    <div class="iaresp">
+      <div class="rl">🤖 Resposta da IA</div>
+      <p>Cálculo do custo médio ponderado de capital (CMPC), já com o benefício fiscal da dívida:</p>
+      <div class="calc">Custo da dívida após imposto = 11% × (1 − 0,34) = <span class="hi">7,26%</span><br>CMPC = (60% × 18%) + (40% × 7,26%)<br>CMPC = 10,8% + 2,90% = <span class="hi">13,7%</span></div>
+      <p>O capital de terceiros é mais barato e seus juros abatem imposto, o que reduz o custo médio do capital. Ao misturar as fontes, a "régua" do projeto cai de 18% (só capital próprio) para 13,7%.</p>
+      <div class="verdict">✅ <b>Decisão: aprovar com financiamento misto.</b> Como a TIR (19,4%) supera o CMPC (13,7%) com folga, a estrutura mista viabiliza o investimento com menor custo de capital.</div>
+    </div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="final">
+    <h2>🏁 Recomendação final (consolidada pela IA)</h2>
+    <p>"O projeto ZapRango está atrasado e acima do custo (IDP 0,85 · IDC 0,875) e, mantido o ritmo, deve encerrar em ~R$ 686 mil — cerca de R$ 86 mil acima do orçamento; recomendo acionar a reserva gerencial para o desvio atual e reforçar a contingência. Apesar disso, o novo módulo de pagamentos vale a pena: VPL de +R$ 66 mil e TIR de 19,4%, acima dos 14% exigidos. Recomendo aprovar o investimento com financiamento misto (CMPC de 13,7%, bem abaixo da TIR), que entrega o retorno com menor custo de capital."</p>
+  </div>
+
+</div>
+</body>
+</html>

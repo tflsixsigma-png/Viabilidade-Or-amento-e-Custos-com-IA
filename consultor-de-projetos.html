@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultor de Projetos · Mesa de Decisão</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+  :root{
+    --bg:#0d1117;--panel:#1a2330;--panel2:#222d3d;--card:#27344a;
+    --ink:#f4f7fa;            /* texto principal: quase branco */
+    --ink-2:#c9d4e0;          /* texto secundário: cinza claro (alto contraste) */
+    --ink-3:#a7b4c4;          /* legendas pequenas */
+    --line:#3a4860;
+    --gold:#ffc233;--green:#4ade80;--red:#fb7185;--blue:#7cb8ff;--violet:#c4b5fd;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:#0d1117}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh;
+    background-image:radial-gradient(circle at 15% 0%, #16202e 0%, transparent 45%)}
+  .wrap{max-width:880px;margin:0 auto;padding:18px 16px 70px;background:var(--bg);min-height:100vh}
+  .mono{font-family:'Space Mono',monospace}
+
+  header{border:1px solid var(--line);background:linear-gradient(135deg,#1a2330,#222d3d);border-radius:16px;padding:22px 24px;margin:10px 0 18px}
+  .badge{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+  header h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(24px,5vw,34px);line-height:1.05;margin:6px 0 8px;color:#fff}
+  header p{color:var(--ink-2);font-size:15px;max-width:640px}
+
+  .rounds{display:flex;gap:6px;margin:14px 0 22px;flex-wrap:wrap}
+  .rd{flex:1;min-width:72px;text-align:center;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.5px;color:var(--ink-3);
+    border:1px solid var(--line);border-radius:8px;padding:7px 4px;background:var(--panel)}
+  .rd.active{border-color:var(--gold);color:var(--gold);background:#2a2410}
+  .rd.done{border-color:var(--green);color:var(--green);background:#10231a}
+  .rd b{display:block;font-size:15px;font-family:'Space Grotesk'}
+
+  .stage{display:none}
+  .stage.active{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--violet);text-transform:uppercase}
+  h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(22px,4.5vw,30px);line-height:1.1;margin:5px 0 10px;color:#fff}
+  h3{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:18px 0 8px;color:#fff}
+  p{margin-bottom:13px;font-size:15.5px;color:var(--ink)}
+  .soft{color:var(--ink-2)}
+
+  /* botão tira-dúvidas */
+  .helpbtn{display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk';font-weight:700;font-size:13.5px;
+    border:1.5px solid var(--blue);background:#16202e;color:var(--blue);border-radius:10px;padding:9px 15px;cursor:pointer;margin:4px 0 8px;transition:background .15s}
+  .helpbtn:hover{background:var(--blue);color:#0d1117}
+
+  .brief{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .brief .bl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  .brief .quote{font-style:italic;color:var(--ink);font-size:15.5px;border-left:3px solid var(--violet);padding-left:14px}
+
+  .dash{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+  @media(max-width:620px){.dash{grid-template-columns:repeat(2,1fr)}}
+  .kpi{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:13px 14px;transition:border .3s}
+  .kpi .kl{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.8px;color:var(--ink-2);text-transform:uppercase}
+  .kpi .kv{font-family:'Fraunces',serif;font-weight:900;font-size:25px;line-height:1.1;margin-top:3px;color:#fff;transition:color .3s}
+  .kpi .ksub{font-size:11.5px;color:var(--ink-2);margin-top:2px}
+  .kpi.pulse{animation:pulse .6s ease}
+  @keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .up{color:var(--green)!important} .down{color:var(--red)!important}
+
+  .calc{border:1px solid var(--line);background:#10161f;border-radius:12px;padding:14px 16px;margin:14px 0;font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-2);line-height:1.9;overflow-x:auto}
+  .calc .cline{white-space:nowrap}
+  .calc b{color:var(--gold)}
+  .calc .res{color:var(--green)}
+
+  .decisions{display:grid;gap:10px;margin:16px 0}
+  .dec{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:15px 17px;cursor:pointer;transition:transform .12s,border .15s,background .15s}
+  .dec:hover{transform:translateX(4px);border-color:var(--blue);background:var(--panel2)}
+  .dec.sel{border-color:var(--gold);background:#2a2410}
+  .dec .dt{font-weight:700;font-size:15.5px;display:flex;gap:8px;align-items:baseline;color:#fff}
+  .dec .dt .opt{font-family:'Space Mono',monospace;color:var(--gold);font-size:14px}
+  .dec .dd{font-size:13.5px;color:var(--ink-2);margin-top:4px}
+
+  .outcome{display:none;border:1px solid var(--line);border-left:4px solid var(--green);background:#13251c;border-radius:0 12px 12px 0;padding:14px 17px;margin:14px 0;font-size:14.5px;color:var(--ink)}
+  .outcome.show{display:block;animation:fade .3s}
+  .outcome.warn{border-left-color:var(--gold);background:#251f10}
+  .outcome.bad{border-left-color:var(--red);background:#27151a}
+  .outcome .ot{font-family:'Fraunces',serif;font-weight:600;font-size:16px;margin-bottom:4px;color:#fff}
+
+  .aibox{border:1px solid var(--violet);background:#1c1830;border-radius:13px;padding:16px 18px;margin:18px 0}
+  .aibox .ah{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--violet);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+  .aibox .ai-why{font-size:13.5px;color:var(--ink-2);margin-bottom:10px}
+  .prompt{background:#0c1019;border:1px solid var(--line);border-radius:9px;padding:13px 15px;font-family:'Space Mono',monospace;font-size:12.5px;line-height:1.6;color:#e3e9f2;white-space:pre-wrap}
+  .ai-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+  .btn-copy{font-family:'Space Grotesk';font-weight:700;font-size:12.5px;border:1.5px solid var(--violet);background:transparent;color:var(--violet);border-radius:8px;padding:8px 14px;cursor:pointer;transition:background .15s}
+  .btn-copy:hover{background:var(--violet);color:#0d1117}
+  .saved-tag{font-family:'Space Mono',monospace;font-size:11px;color:var(--green)}
+
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
+  .btn{font-family:'Space Grotesk';font-weight:700;font-size:14.5px;border:1px solid var(--gold);border-radius:10px;padding:12px 22px;cursor:pointer;background:var(--gold);color:#0d1117;transition:transform .1s,box-shadow .15s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(255,194,51,.25)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn.violet{background:var(--violet);border-color:var(--violet);color:#0d1117}
+
+  .tipbar{font-size:13.5px;color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin:14px 0}
+  .tipbar b{color:var(--gold)}
+
+  /* sigla com tooltip */
+  .sig{border-bottom:1.5px dotted var(--blue);cursor:help;color:var(--blue);font-weight:700}
+
+  .pkg-item{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:15px 17px;margin:12px 0}
+  .pkg-item .pn{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--gold);margin-bottom:8px}
+
+  /* caso de aplicação */
+  .appblock{border:1px solid var(--line);background:var(--panel);border-radius:13px;padding:16px 18px;margin:14px 0}
+  .abh{font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:#fff;margin-bottom:6px}
+  .abhint{font-family:'Space Mono',monospace;font-size:11px;color:var(--violet);font-weight:400;display:inline-block;margin-left:4px}
+  .appq label{display:block;font-size:14px;color:var(--ink-2);font-weight:700;margin:10px 0 8px}
+  .opts{display:grid;gap:8px}
+  .optbtn{text-align:left;font-family:'Space Grotesk';font-size:14.5px;color:var(--ink);border:1px solid var(--line);background:var(--card);border-radius:10px;padding:11px 14px;cursor:pointer;transition:border .15s,background .15s}
+  .optbtn:hover{border-color:var(--blue)}
+  .optbtn.right{border-color:var(--green);background:#13251c;color:#fff}
+  .optbtn.wrong{border-color:var(--red);background:#27151a;color:#fff}
+  .optbtn.lock{pointer-events:none}
+
+  /* MODAL tira-dúvidas */
+  .overlay{display:none;position:fixed;inset:0;z-index:60;background:rgba(5,8,12,.78);overflow-y:auto;padding:24px 14px}
+  .overlay.show{display:block}
+  .modal{max-width:680px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 24px 28px}
+  .modal .mclose{float:right;font-family:'Space Grotesk';font-weight:700;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:6px 14px;cursor:pointer}
+  .modal h3{margin-top:0}
+  .modal h2{font-size:24px;margin-bottom:4px}
+  .gloss{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 16px;margin:10px 0}
+  .gloss .gn{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:#fff}
+  .gloss .gn .tag{font-family:'Space Mono',monospace;font-size:11px;background:var(--blue);color:#0d1117;padding:2px 8px;border-radius:6px;margin-left:6px;font-weight:700;vertical-align:middle}
+  .gloss .gd{font-size:14px;color:var(--ink-2);margin-top:5px}
+  .gloss .gd b{color:var(--ink)}
+  .formula{font-family:'Space Mono',monospace;font-size:13px;background:#0c1019;border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin:8px 0;color:var(--gold);white-space:pre-wrap;line-height:1.7}
+  .ex{font-size:13.5px;color:var(--ink-2);background:#13251c;border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:9px 13px;margin:8px 0}
+  .ex b{color:var(--green)}
+
+  @media print{.nav,.btn,.rounds,.ai-actions,.overlay,.helpbtn{display:none!important}body{background:#fff;color:#111}.prompt{color:#111;background:#f2f2f2}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">Certificação · IA aplicada a projetos</div>
+    <h1>Consultor de Projetos</h1>
+    <p>Você é o consultor de custos de um projeto real. A cada rodada, leia o painel, decida entre os cenários e veja os indicadores reagirem — com a conta aparecendo ao lado. Não entendeu uma sigla ou um cálculo? Toque em <b style="color:var(--blue)">Tira-dúvidas</b> a qualquer momento. Em cada decisão você ganha um <b style="color:var(--violet)">prompt de IA</b> para usar nos seus próprios projetos.</p>
+  </header>
+
+  <div class="rounds" id="rounds"></div>
+
+  <!-- ===== STAGE 0 ===== -->
+  <section class="stage active" id="st0">
+    <div class="eyebrow">Briefing inicial</div>
+    <h2>O projeto: ampliação de uma plataforma de petróleo</h2>
+    <div class="brief">
+      <div class="bl">Mensagem do patrocinador</div>
+      <div class="quote">"Aprovamos um orçamento de <b>R$ 31,4 milhões</b> para a ampliação. Já estamos em obra. Preciso de você como consultor de custos: a cada medição, quero saber se estamos no rumo, o que fazer quando desviar e — quando entrar a fase de novo investimento — se vale a pena. Decisões com número, não com achismo."</div>
+    </div>
+    <p>São <b>5 rodadas de decisão</b>. As três primeiras são de <b>controle</b> (o projeto em andamento); as duas últimas, de <b>viabilidade</b> (vale investir mais?). Cada escolha muda os indicadores na hora.</p>
+    <div class="tipbar">🎯 <b>Como funciona:</b> não há "resposta de prova" — há decisões de consultor. Em cada rodada existe um botão <b>Tira-dúvidas</b> que explica, em linguagem simples, todos os conceitos, siglas e cálculos daquela tela. No fim, você leva o <b>pacote de prompts de IA</b>.</div>
+    <div class="nav"><span></span><button class="btn" onclick="goStage(1)">Começar →</button></div>
+  </section>
+
+  <!-- ===== STAGE 1 ===== -->
+  <section class="stage" id="st1">
+    <div class="eyebrow">Rodada 1 · Controle — leitura de desempenho</div>
+    <h2>Novembro, ano 1. O painel acendeu um alerta.</h2>
+    <button class="helpbtn" onclick="openHelp(1)">❓ Tira-dúvidas: o que significam VP, VA, CR, IDP e IDC?</button>
+    <p class="soft">Dados acumulados até a medição (em reais):</p>
+    <div class="dash" id="dash1"></div>
+    <div class="calc" id="calc1"></div>
+    <div class="brief"><div class="bl">A pergunta da mesa</div><div class="quote">O projeto está entregando menos do que devia e gastando perto do previsto. O que você reporta e propõe agora?</div></div>
+    <div class="decisions" id="dec1"></div>
+    <div class="outcome" id="out1"></div>
+    <div class="aibox" id="ai1" style="display:none">
+      <div class="ah">🤖 Prompt para o seu projeto · Diagnóstico de desempenho</div>
+      <div class="ai-why">Use sempre que precisar interpretar VP/VA/CR e explicar a situação para a liderança.</div>
+      <div class="prompt" id="p1">Atue como analista de controle de custos de projetos. No meu projeto, até a data tenho: Valor Planejado (VP, o quanto eu deveria ter entregue) = [valor], Valor Agregado (VA, o quanto realmente entreguei) = [valor] e Custo Real (CR, o quanto já gastei) = [valor]. Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o índice de desempenho de prazo (IDP = VA/VP) e o índice de desempenho de custo (IDC = VA/CR). Depois, explique em linguagem executiva o que esses números significam e liste 3 ações de correção priorizadas.</div>
+      <div class="ai-actions"><button class="btn-copy" onclick="copyP('p1',this)">Copiar prompt</button><span class="saved-tag" id="sv1"></span></div>
+    </div>
+    <div class="nav"><button class="btn ghost" onclick="goStage(0)">← Voltar</button><button class="btn" id="next1" disabled onclick="goStage(2)">Próxima rodada →</button></div>
+  </section>
+
+  <!-- ===== STAGE 2 ===== -->
+  <section class="stage" id="st2">
+    <div class="eyebrow">Rodada 2 · Controle — projetar o término</div>
+    <h2>Julho, ano 2. Hora de prever como isso termina.</h2>
+    <button class="helpbtn" onclick="openHelp(2)">❓ Tira-dúvidas: o que são ONT, ENT, VNT e EPT?</button>
+    <p class="soft">Na medição, o <span class="sig" title="Índice de Desempenho de Custo = valor entregue dividido pelo valor gasto. Acima de 1 = eficiente.">IDC</span> está em <b class="mono">1,024</b> (eficiente em custo). O <span class="sig" title="Orçamento No Término: o orçamento total aprovado do projeto.">ONT</span> = <b class="mono">R$ 31.396.500</b>.</p>
+    <div class="dash" id="dash2"></div>
+    <div class="calc" id="calc2"></div>
+    <div class="brief"><div class="bl">A pergunta da mesa</div><div class="quote">Para projetar o custo final (ENT), você precisa de uma premissa: o desempenho atual <b>vai continuar</b> assim até o fim, ou foi um efeito <b>pontual</b> que já se normalizou?</div></div>
+    <div class="decisions" id="dec2"></div>
+    <div class="outcome" id="out2"></div>
+    <div class="aibox" id="ai2" style="display:none">
+      <div class="ah">🤖 Prompt para o seu projeto · Estimar resultados futuros</div>
+      <div class="ai-why">Use para projetar o custo final do seu projeto a partir dos índices atuais.</div>
+      <div class="prompt" id="p2">Atue como especialista em valor agregado. No meu projeto: Orçamento No Término (ONT, orçamento total aprovado) = [valor], Valor Agregado (VA) = [valor], Custo Real (CR) = [valor] e IDC acumulado (índice de desempenho de custo) = [valor]. Calcule a Estimativa No Término (ENT, previsão do custo final) em dois cenários: (1) desvio recorrente, em que ENT = ONT / IDC; e (2) desvio pontual já corrigido, em que ENT = CR + (ONT − VA). Calcule também a Variação No Término (VNT = ONT − ENT) e a Estimativa Para Terminar (EPT = ENT − CR) em cada caso. Explique qual cenário adotar e por quê, considerando esta causa do desvio: [descreva a causa].</div>
+      <div class="ai-actions"><button class="btn-copy" onclick="copyP('p2',this)">Copiar prompt</button><span class="saved-tag" id="sv2"></span></div>
+    </div>
+    <div class="nav"><button class="btn ghost" onclick="goStage(1)">← Voltar</button><button class="btn" id="next2" disabled onclick="goStage(3)">Próxima rodada →</button></div>
+  </section>
+
+  <!-- ===== STAGE 3 ===== -->
+  <section class="stage" id="st3">
+    <div class="eyebrow">Rodada 3 · Controle — corrigir o rumo</div>
+    <h2>O projeto estourou. R$ 900 mil acima do previsto.</h2>
+    <button class="helpbtn" onclick="openHelp(3)">❓ Tira-dúvidas: reserva de contingência × reserva gerencial</button>
+    <p class="soft">Um risco se materializou. A <span class="sig" title="Dinheiro guardado para riscos que você já sabia que podiam acontecer.">reserva de contingência</span> disponível é de <b class="mono">R$ 600.000</b>. Você precisa cobrir o desvio.</p>
+    <div class="dash" id="dash3"></div>
+    <div class="calc" id="calc3"></div>
+    <div class="brief"><div class="bl">A pergunta da mesa</div><div class="quote">A contingência não cobre tudo. Como você fecha o buraco de R$ 900 mil sem perder a confiança do patrocinador?</div></div>
+    <div class="decisions" id="dec3"></div>
+    <div class="outcome" id="out3"></div>
+    <div class="aibox" id="ai3" style="display:none">
+      <div class="ah">🤖 Prompt para o seu projeto · Riscos e reservas</div>
+      <div class="ai-why">Use para dimensionar reservas e decidir entre contingência e reserva gerencial.</div>
+      <div class="prompt" id="p3">Atue como gerente de riscos de projetos. Meu projeto teve um desvio de custo de [valor] acima do orçamento. Minha reserva de contingência (para riscos já identificados) é [valor] e há reserva gerencial (para imprevistos, liberada pela diretoria) de [valor]. Explique a diferença entre as duas reservas e recomende como cobrir o desvio. Depois, liste os riscos que eu deveria reavaliar para reforçar a contingência e proponha um novo percentual de reserva coerente com o risco que vou descrever: [descreva o contexto].</div>
+      <div class="ai-actions"><button class="btn-copy" onclick="copyP('p3',this)">Copiar prompt</button><span class="saved-tag" id="sv3"></span></div>
+    </div>
+    <div class="nav"><button class="btn ghost" onclick="goStage(2)">← Voltar</button><button class="btn" id="next3" disabled onclick="goStage(4)">Ir para viabilidade →</button></div>
+  </section>
+
+  <!-- ===== STAGE 4 ===== -->
+  <section class="stage" id="st4">
+    <div class="eyebrow">Rodada 4 · Viabilidade — vale investir?</div>
+    <h2>Fase nova: instalar um módulo extra que gera receita.</h2>
+    <button class="helpbtn" onclick="openHelp(4)">❓ Tira-dúvidas: fluxo de caixa, VPL, TIR e payback</button>
+    <p class="soft">Investimento de <b class="mono">R$ 8 mi</b> hoje; retornos de <b class="mono">R$ 2,41 mi/ano</b> por 5 anos. A taxa mínima exigida é <b class="mono">12% ao ano</b>.</p>
+    <div class="dash" id="dash4"></div>
+    <div class="calc" id="calc4"></div>
+    <div class="brief"><div class="bl">A pergunta da mesa</div><div class="quote">Os números na ponta do lápis somam mais que o investimento. Mas e quando trazemos o futuro a valor de hoje? Qual a sua recomendação?</div></div>
+    <div class="decisions" id="dec4"></div>
+    <div class="outcome" id="out4"></div>
+    <div class="aibox" id="ai4" style="display:none">
+      <div class="ah">🤖 Prompt para o seu projeto · Viabilidade (VPL, TIR, payback)</div>
+      <div class="ai-why">Use para decidir se um investimento de projeto cria valor.</div>
+      <div class="prompt" id="p4">Atue como analista de viabilidade econômico-financeira. Meu projeto exige investimento inicial de [valor] e gera os seguintes ganhos anuais: [liste os valores por ano]. A taxa mínima de retorno exigida é [taxa]% ao ano. Calcule e explique em linguagem simples: (1) o Valor Presente Líquido (VPL, soma dos ganhos futuros trazidos a valor de hoje menos o investimento); (2) a Taxa Interna de Retorno (TIR, a rentabilidade do projeto); (3) o payback simples e o descontado (tempo para recuperar o dinheiro); (4) o índice de lucratividade. Conclua com uma recomendação clara de investir ou não, usando a regra VPL>0 e TIR>taxa exigida.</div>
+      <div class="ai-actions"><button class="btn-copy" onclick="copyP('p4',this)">Copiar prompt</button><span class="saved-tag" id="sv4"></span></div>
+    </div>
+    <div class="nav"><button class="btn ghost" onclick="goStage(3)">← Voltar</button><button class="btn" id="next4" disabled onclick="goStage(5)">Última rodada →</button></div>
+  </section>
+
+  <!-- ===== STAGE 5 ===== -->
+  <section class="stage" id="st5">
+    <div class="eyebrow">Rodada 5 · Viabilidade — estrutura de capital</div>
+    <h2>O projeto não fechou só com dinheiro próprio. E agora?</h2>
+    <button class="helpbtn" onclick="openHelp(5)">❓ Tira-dúvidas: capital próprio, capital de terceiros e CMPC</button>
+    <p class="soft">O <span class="sig" title="Dinheiro do próprio dono/empresa. Mais caro porque o dono corre mais risco.">capital próprio</span> custa <b class="mono">16% ao ano</b>. Surge a opção de financiar parte com <span class="sig" title="Dinheiro emprestado (banco, investidores). Mais barato e os juros abatem imposto.">capital de terceiros</span> a <b class="mono">9% ao ano</b> (com benefício fiscal; imposto de 25%).</p>
+    <div class="dash" id="dash5"></div>
+    <div class="calc" id="calc5"></div>
+    <div class="brief"><div class="bl">A pergunta da mesa</div><div class="quote">A "régua" que o projeto precisa superar é o custo do capital (o CMPC). Como você estrutura o financiamento para viabilizar a decisão?</div></div>
+    <div class="decisions" id="dec5"></div>
+    <div class="outcome" id="out5"></div>
+    <div class="aibox" id="ai5" style="display:none">
+      <div class="ah">🤖 Prompt para o seu projeto · Financiamento e custo de capital</div>
+      <div class="ai-why">Use para calcular o custo do capital e ver o efeito do dinheiro emprestado.</div>
+      <div class="prompt" id="p5">Atue como analista financeiro de projetos. Vou financiar meu projeto com [%] de capital próprio (dinheiro do dono, custo [taxa]% ao ano) e [%] de capital de terceiros (dinheiro emprestado, custo [taxa]% ao ano), com imposto de [valor]%. Calcule o Custo Médio Ponderado de Capital (CMPC, a média do custo das duas fontes), considerando o benefício fiscal da dívida (os juros abatem imposto). Explique o impacto do dinheiro emprestado no caixa do dono (entra dinheiro no início, mas saem parcelas e juros depois) e diga como usar o CMPC como taxa mínima na decisão, comparando com a TIR do projeto.</div>
+      <div class="ai-actions"><button class="btn-copy" onclick="copyP('p5',this)">Copiar prompt</button><span class="saved-tag" id="sv5"></span></div>
+    </div>
+    <div class="nav"><button class="btn ghost" onclick="goStage(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="goStage(6)">Aplicar num caso novo →</button></div>
+  </section>
+
+  <!-- ===== STAGE 6: CASO DE APLICAÇÃO ===== -->
+  <section class="stage" id="st6">
+    <div class="eyebrow">Caso de aplicação · sua vez de fechar o diagnóstico</div>
+    <h2>Agora você é o consultor de um projeto novo.</h2>
+    <p class="soft">Use os <b>prompts que você coletou</b> (ou faça as contas você mesmo) para responder cada bloco. Ao final, junte tudo numa recomendação. Os botões "Tira-dúvidas" das rodadas anteriores continuam valendo.</p>
+
+    <div class="brief">
+      <div class="bl">Briefing do projeto · App "ZapRango" (delivery regional)</div>
+      <div class="quote">"Estamos desenvolvendo um app de delivery. O orçamento aprovado (ONT) é de <b>R$ 600.000</b>. Na última medição, eu deveria ter entregue <b>R$ 420.000</b> de trabalho, mas só entreguei <b>R$ 357.000</b> — e já gastei <b>R$ 408.000</b>. Quero saber em que pé estamos, como o projeto deve terminar, e se vale investir <b>R$ 500.000</b> num módulo de pagamentos que renderia <b>R$ 165.000/ano por 5 anos</b> (exijo no mínimo 14% ao ano). Meu capital próprio custa 18% e consigo empréstimo a 11% (imposto de 34%)."</div>
+    </div>
+
+    <!-- bloco 1 -->
+    <div class="appblock">
+      <div class="abh">1 · Como está o desempenho? <span class="abhint">(prompt 1 · IDP e IDC)</span></div>
+      <p class="soft" style="font-size:14px">Dados: VP = R$ 420.000 · VA = R$ 357.000 · CR = R$ 408.000</p>
+      <div class="appq">
+        <label>O projeto está…</label>
+        <div class="opts" data-q="q1">
+          <button class="optbtn" onclick="pick('q1',this)" data-v="0">Adiantado e barato</button>
+          <button class="optbtn" onclick="pick('q1',this)" data-v="1">Atrasado e estourando o custo</button>
+          <button class="optbtn" onclick="pick('q1',this)" data-v="2">No prazo e no custo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- bloco 2 -->
+    <div class="appblock">
+      <div class="abh">2 · Como deve terminar? <span class="abhint">(prompt 2 · ENT, premissa recorrente)</span></div>
+      <p class="soft" style="font-size:14px">ONT = R$ 600.000 · IDC = 0,875 (se o desempenho continuar). ENT = ONT ÷ IDC.</p>
+      <div class="appq">
+        <label>A estimativa de custo final (ENT) será de aproximadamente…</label>
+        <div class="opts" data-q="q2">
+          <button class="optbtn" onclick="pick('q2',this)" data-v="0">R$ 525.000 (abaixo do orçamento)</button>
+          <button class="optbtn" onclick="pick('q2',this)" data-v="1">R$ 600.000 (igual ao orçamento)</button>
+          <button class="optbtn" onclick="pick('q2',this)" data-v="2">R$ 686.000 (acima do orçamento)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- bloco 3 -->
+    <div class="appblock">
+      <div class="abh">3 · O novo investimento cria valor? <span class="abhint">(prompt 4 · VPL e TIR)</span></div>
+      <p class="soft" style="font-size:14px">Investir R$ 500.000 hoje; receber R$ 165.000/ano por 5 anos; taxa exigida 14%. <span class="mono">(VPL ≈ +R$ 66 mil · TIR ≈ 19,4%)</span></p>
+      <div class="appq">
+        <label>Sua leitura:</label>
+        <div class="opts" data-q="q3">
+          <button class="optbtn" onclick="pick('q3',this)" data-v="0">VPL positivo e TIR acima de 14% → cria valor</button>
+          <button class="optbtn" onclick="pick('q3',this)" data-v="1">VPL negativo → destrói valor</button>
+          <button class="optbtn" onclick="pick('q3',this)" data-v="2">A soma simples (R$ 825 mil) já basta para decidir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- bloco 4 -->
+    <div class="appblock">
+      <div class="abh">4 · Como financiar? <span class="abhint">(prompt 5 · CMPC vs. TIR)</span></div>
+      <p class="soft" style="font-size:14px">Próprio 18% · terceiros 11% (imposto 34%). Com 40% emprestado, o CMPC ≈ 13,7%. A TIR é 19,4%.</p>
+      <div class="appq">
+        <label>A decisão de financiamento:</label>
+        <div class="opts" data-q="q4">
+          <button class="optbtn" onclick="pick('q4',this)" data-v="0">100% próprio (CMPC 18%) — a TIR não supera a régua</button>
+          <button class="optbtn" onclick="pick('q4',this)" data-v="1">Misto (CMPC 13,7%) — a TIR 19,4% supera a régua → financia</button>
+          <button class="optbtn" onclick="pick('q4',this)" data-v="2">Não importa a origem do dinheiro</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:20px 0"><button class="btn" onclick="fecharCaso()">Fechar diagnóstico e ver a recomendação →</button></div>
+    <div class="outcome" id="caso-final" style="border-left-color:var(--violet);background:#1c1830"></div>
+
+    <div class="nav"><button class="btn ghost" onclick="goStage(5)">← Voltar</button><button class="btn" id="next6" disabled onclick="goStage(7)">Ver meu pacote de IA →</button></div>
+  </section>
+
+  <!-- ===== STAGE 7: PACOTE ===== -->
+  <section class="stage" id="st7">
+    <div class="eyebrow">Encerramento</div>
+    <h2>Consultoria concluída. Aqui está o seu pacote de IA.</h2>
+    <div class="brief"><div class="bl">Resumo das suas decisões</div><div id="resumo"></div></div>
+    <h3>📦 Seu Pacote de IA para Projetos</h3>
+    <p class="soft">Estes são os prompts que você praticou. Adapte os campos [entre colchetes] aos dados do seu projeto real e cole em qualquer IA. Leve este pacote para a sua mesa de trabalho.</p>
+    <div id="pacote"></div>
+    <div style="text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn violet" onclick="copyPacote(this)">📋 Copiar pacote inteiro</button>
+      <button class="btn ghost" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+      <button class="btn ghost" onclick="goStage(0)">↻ Refazer</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== MODAL TIRA-DÚVIDAS ===== -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="mclose" onclick="closeHelp()">✕ Fechar</button>
+    <div id="help-content"></div>
+    <div style="text-align:center;margin-top:18px"><button class="btn" onclick="closeHelp()">Entendi, voltar</button></div>
+  </div>
+</div>
+
+<script>
+const fmt=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
+const f3=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:3,maximumFractionDigits:3});
+const roundLabels=['Briefing','Diagnóstico','Projeção','Correção','Viabilidade','Capital','Aplicação','Pacote'];
+let stage=0;const decisions={};
+
+function renderRounds(){
+  document.getElementById('rounds').innerHTML=roundLabels.map((l,i)=>{
+    let cls='rd';if(i===stage)cls+=' active';else if(i<stage)cls+=' done';
+    return `<div class="${cls}"><b>${i===0?'·':i===7?'★':i}</b>${l}</div>`;}).join('');
+}
+function goStage(n){
+  document.querySelectorAll('.stage').forEach(s=>s.classList.remove('active'));
+  document.getElementById('st'+n).classList.add('active');
+  stage=n;renderRounds();window.scrollTo({top:0,behavior:'smooth'});
+  if(n===7)montarPacote();
+}
+renderRounds();
+
+/* ===== TIRA-DÚVIDAS (conteúdo por rodada) ===== */
+const helpData={
+ 1:{titulo:'Lendo o painel do projeto',intro:'Para saber se um projeto vai bem, o consultor compara três valores. Veja o que cada sigla quer dizer:',
+   items:[
+    {n:'Valor Planejado',tag:'VP',d:'Quanto de trabalho você <b>deveria</b> ter entregue até hoje, em dinheiro. É o plano.'},
+    {n:'Valor Agregado',tag:'VA',d:'Quanto de trabalho você <b>realmente entregou</b> até hoje, em dinheiro. É o progresso de verdade.'},
+    {n:'Custo Real',tag:'CR',d:'Quanto você <b>já gastou</b> para chegar até aqui.'},
+    {n:'Índice de Desempenho de Prazo',tag:'IDP',d:'Mostra se está adiantado ou atrasado.'},
+    {n:'Índice de Desempenho de Custo',tag:'IDC',d:'Mostra se está barato ou caro em relação ao que entrega.'}],
+   formula:'IDP = VA ÷ VP   (1 = no prazo · menor que 1 = atrasado)\nIDC = VA ÷ CR   (1 = no custo · menor que 1 = gastando demais)',
+   ex:'Exemplo: entreguei R$ 1.150.000 (VA), mas deveria ter entregue R$ 1.283.000 (VP). IDP = 1.150.000 ÷ 1.283.000 = 0,90 → entreguei só 90% do planejado, estou atrasado.'},
+ 2:{titulo:'Prevendo como o projeto termina',intro:'Com os índices em mãos, o consultor projeta o custo final do projeto. As siglas:',
+   items:[
+    {n:'Orçamento No Término',tag:'ONT',d:'O orçamento <b>total aprovado</b> do projeto (quanto se planejou gastar do início ao fim).'},
+    {n:'Estimativa No Término',tag:'ENT',d:'A <b>nova previsão</b> de quanto o projeto vai custar no fim, com base no desempenho atual.'},
+    {n:'Variação No Término',tag:'VNT',d:'A diferença entre o orçamento e a nova previsão. Positiva = vai sobrar; negativa = vai estourar.'},
+    {n:'Estimativa Para Terminar',tag:'EPT',d:'Quanto ainda falta gastar daqui até o fim.'}],
+   formula:'Se o desvio CONTINUA até o fim:  ENT = ONT ÷ IDC\nSe o desvio foi PONTUAL (já passou): ENT = CR + (ONT − VA)\nVNT = ONT − ENT        EPT = ENT − CR',
+   ex:'Exemplo: orçamento (ONT) de R$ 31,4 mi e IDC de 1,024 (eficiente). Se isso continuar: ENT = 31,4 mi ÷ 1,024 = R$ 30,66 mi → vai custar menos que o previsto (sobra de R$ 736 mil).'},
+ 3:{titulo:'As duas reservas de um projeto',intro:'Todo orçamento sério guarda dinheiro para sustos. Existem dois tipos de reserva:',
+   items:[
+    {n:'Reserva de Contingência',tag:'',d:'Para riscos que você <b>já sabia</b> que podiam acontecer. Calculada por probabilidade × impacto. Fica <b>dentro</b> do orçamento e a equipe pode usar.'},
+    {n:'Reserva Gerencial',tag:'',d:'Para <b>imprevistos</b> que ninguém mapeou. Fica <b>fora</b> do orçamento e só a diretoria (patrocinadores) libera.'},
+    {n:'Linha de base',tag:'',d:'O orçamento de referência contra o qual o projeto é controlado (inclui a contingência, mas não a gerencial).'}],
+   formula:'Reserva de contingência = Σ (probabilidade do risco × impacto em R$)',
+   ex:'Exemplo: um risco com 50% de chance e impacto de R$ 100 mil pede uma contingência de 0,50 × 100.000 = R$ 50.000.'},
+ 4:{titulo:'O dinheiro vale mais hoje do que amanhã',intro:'Um investimento gasta agora para ganhar no futuro. Para decidir se vale, usamos:',
+   items:[
+    {n:'Fluxo de caixa',tag:'',d:'A lista de quanto dinheiro <b>entra e sai</b> a cada ano do projeto.'},
+    {n:'Valor Presente Líquido',tag:'VPL',d:'Traz todos os ganhos futuros para o valor de <b>hoje</b> e subtrai o investimento. <b>VPL maior que zero = o projeto cria valor.</b> É o critério nº 1.'},
+    {n:'Taxa Interna de Retorno',tag:'TIR',d:'A <b>rentabilidade</b> embutida no projeto (em % ao ano). Se for maior que a taxa que você exige, compensa.'},
+    {n:'Payback',tag:'',d:'O <b>tempo</b> para recuperar o dinheiro investido. A partir daí, é lucro.'}],
+   formula:'Por que descontar? R$ 100 hoje, rendendo, viram mais no futuro.\nEntão R$ 100 que só chegam daqui a 1 ano valem menos que R$ 100 hoje.\nVPL = (ganhos futuros trazidos a hoje) − investimento',
+   ex:'Exemplo: investir R$ 8 mi e receber R$ 2,41 mi/ano por 5 anos parece dar R$ 12 mi. Mas trazendo a 12% ao ano, o VPL é só +R$ 688 mil — ainda vale, mas bem menos do que a soma simples sugeria.'},
+ 5:{titulo:'De onde vem o dinheiro do projeto',intro:'O projeto pode ser financiado de duas formas, e a mistura delas muda o custo do dinheiro:',
+   items:[
+    {n:'Capital próprio',tag:'',d:'Dinheiro do <b>próprio dono</b> ou da empresa. É mais <b>caro</b>, porque o dono corre mais risco e espera retorno maior.'},
+    {n:'Capital de terceiros',tag:'',d:'Dinheiro <b>emprestado</b> (banco, investidores). É mais <b>barato</b> e os juros <b>abatem imposto</b> (benefício fiscal). Em troca, gera parcelas fixas.'},
+    {n:'Custo Médio Ponderado de Capital',tag:'CMPC',d:'A <b>média</b> do custo das duas fontes, conforme a proporção de cada uma. É a <b>régua</b>: o projeto só vale se render mais que o CMPC.'}],
+   formula:'CMPC = (% próprio × custo próprio) + (% terceiros × custo terceiros × (1 − imposto))\nDecisão: vale a pena se a TIR do projeto for MAIOR que o CMPC',
+   ex:'Exemplo: 50% próprio a 16% + 50% emprestado a 9% (com imposto de 25%) → CMPC = 0,5×16% + 0,5×9%×0,75 = 11,4%. Como a TIR é 15,4%, agora supera a régua → viável.'}
+};
+function openHelp(n){
+  const h=helpData[n];
+  let html=`<div class="eyebrow">Tira-dúvidas · linguagem simples</div><h2>${h.titulo}</h2><p class="soft">${h.intro}</p>`;
+  h.items.forEach(it=>{html+=`<div class="gloss"><div class="gn">${it.n}${it.tag?` <span class="tag">${it.tag}</span>`:''}</div><div class="gd">${it.d}</div></div>`;});
+  html+=`<h3>Como se calcula</h3><div class="formula">${h.formula}</div><div class="ex">💡 ${h.ex}</div>`;
+  document.getElementById('help-content').innerHTML=html;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeHelp(){document.getElementById('overlay').classList.remove('show');}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeHelp();});
+
+/* ===== KPIs ===== */
+function kpi(label,value,sub,cls){return `<div class="kpi"><div class="kl">${label}</div><div class="kv ${cls||''}">${value}</div><div class="ksub">${sub||''}</div></div>`;}
+
+/* R1 */
+const R1={vp:1283000,va:1150000,cr:1125000};
+function initR1(){
+  document.getElementById('dash1').innerHTML=
+    kpi('VP · planejado',fmt(R1.vp),'devia ter entregue')+
+    kpi('VA · agregado',fmt(R1.va),'entregue de fato')+
+    kpi('CR · custo real',fmt(R1.cr),'gasto até aqui')+
+    kpi('Situação','?','decida abaixo');
+  const idp=R1.va/R1.vp,idc=R1.va/R1.cr;
+  document.getElementById('calc1').innerHTML=
+    `<div class="cline">IDP = VA ÷ VP = ${fmt(R1.va)} ÷ ${fmt(R1.vp)} = <b>${f3(idp)}</b> <span class="res">→ ${idp<1?'atrasado':'adiantado'}</span></div>`+
+    `<div class="cline">IDC = VA ÷ CR = ${fmt(R1.va)} ÷ ${fmt(R1.cr)} = <b>${f3(idc)}</b> <span class="res">→ ${idc<1?'gastando demais':'dentro do custo'}</span></div>`+
+    `<div class="cline">Variação de prazo (VA−VP) = <b>${fmt(R1.va-R1.vp)}</b> · Variação de custo (VA−CR) = <b>${fmt(R1.va-R1.cr)}</b></div>`;
+}
+const dec1=[
+ {opt:'A',t:'Reportar tudo certo e seguir',d:'Os números estão próximos do plano, não vale alarmar a liderança.',res:'bad',ot:'Decisão arriscada.',txt:'O IDP é 0,896 — o projeto entrega só ~90% do que deveria. Ignorar o atraso deixa o problema crescer em silêncio. Em controle de custos, o sinal fraco de hoje é o estouro de amanhã.'},
+ {opt:'B',t:'Sinalizar o atraso e investigar a causa',d:'IDP abaixo de 1 indica atraso; IDC acima de 1 mostra custo ok. Atacar a raiz do atraso.',res:'good',ot:'Leitura correta.',txt:'Exato: IDP 0,896 (atrasado) e IDC 1,022 (eficiente em custo). O projeto gasta bem, mas progride devagar. A ação certa é alinhar com a equipe de cronograma antes que o atraso vire custo.'},
+ {opt:'C',t:'Cortar custos imediatamente',d:'Se há desvio, reduzir gastos já resolve.',res:'warn',ot:'Solução para o problema errado.',txt:'O custo (IDC acima de 1) não é o problema — o prazo é. Cortar custos de um projeto já eficiente pode piorar o atraso. Diagnostique antes de agir.'}
+];
+function kpiUpd1(i){const idp=R1.va/R1.vp,idc=R1.va/R1.cr;const c=document.querySelectorAll('#dash1 .kpi')[3];c.classList.add('pulse');setTimeout(()=>c.classList.remove('pulse'),600);c.querySelector('.kv').className='kv '+(dec1[i].res==='good'?'up':dec1[i].res==='bad'?'down':'');c.querySelector('.kv').textContent=idp<1?'Atraso':'OK';c.querySelector('.ksub').textContent='IDP '+f3(idp)+' · IDC '+f3(idc);}
+
+/* R2 */
+const R2={ont:31396500,idc:1.024,va:1150000,cr:1125000};
+const entRec=R2.ont/R2.idc,entPont=R2.cr+(R2.ont-R2.va);
+function initR2(){
+  document.getElementById('dash2').innerHTML=
+    kpi('ONT · orçamento',fmt(R2.ont),'total aprovado')+
+    kpi('IDC atual',f3(R2.idc),'eficiente','up')+
+    kpi('ENT · previsão','?','depende da premissa')+
+    kpi('VNT · folga','?','ONT − ENT');
+  document.getElementById('calc2').innerHTML=
+    `<div class="cline">Se continuar (recorrente): ENT = ONT ÷ IDC = ${fmt(R2.ont)} ÷ ${f3(R2.idc)} = <b>${fmt(entRec)}</b></div>`+
+    `<div class="cline">Se foi pontual: ENT = CR + (ONT − VA) = ${fmt(R2.cr)} + (${fmt(R2.ont)} − ${fmt(R2.va)}) = <b>${fmt(entPont)}</b></div>`;
+}
+const dec2=[
+ {opt:'A',t:'Premissa recorrente: ENT = ONT ÷ IDC',d:'O desempenho atual vai se manter até o fim.',res:'good',ot:'Projeção consistente.',txt:`Se a eficiência continua, ENT = ${fmt(entRec)}, abaixo do orçamento. VNT positiva de ${fmt(R2.ont-entRec)} — deve sobrar caixa. É a premissa padrão quando o desvio é estrutural.`,ent:entRec},
+ {opt:'B',t:'Premissa pontual: ENT = CR + (ONT − VA)',d:'Foi um evento isolado; o resto volta ao orçado.',res:'warn',ot:'Válida — se a causa foi mesmo pontual.',txt:`Aqui ENT = ${fmt(entPont)}. Use só se tiver certeza de que a eficiência não se repete. A premissa errada distorce a comunicação com o patrocinador.`,ent:entPont},
+ {opt:'C',t:'Manter a ONT original sem reestimar',d:'O orçamento aprovado é o que vale.',res:'bad',ot:'Perde a função do controle.',txt:'Não reestimar joga fora a informação que os índices dão. O patrocinador quer a melhor projeção possível — e ela mudou.'}
+];
+function kpiUpd2(i){const d=dec2[i];const cells=document.querySelectorAll('#dash2 .kpi');[2,3].forEach(k=>{cells[k].classList.add('pulse');setTimeout(()=>cells[k].classList.remove('pulse'),600);});if(d.ent){cells[2].querySelector('.kv').textContent=fmt(d.ent);cells[2].querySelector('.kv').className='kv '+(d.ent<=R2.ont?'up':'down');const vnt=R2.ont-d.ent;cells[3].querySelector('.kv').textContent=fmt(vnt);cells[3].querySelector('.kv').className='kv '+(vnt>=0?'up':'down');cells[3].querySelector('.ksub').textContent=vnt>=0?'sobra prevista':'estouro previsto';}else{cells[2].querySelector('.kv').textContent='—';cells[3].querySelector('.kv').textContent='—';}}
+
+/* R3 */
+const R3={desvio:900000,conting:600000,gerencial:500000};
+function initR3(){
+  document.getElementById('dash3').innerHTML=
+    kpi('Desvio',fmt(R3.desvio),'acima do orçado','down')+
+    kpi('Contingência',fmt(R3.conting),'disponível')+
+    kpi('Falta cobrir',fmt(R3.desvio-R3.conting),'após contingência','down')+
+    kpi('Decisão','?','escolha abaixo');
+  document.getElementById('calc3').innerHTML=
+    `<div class="cline">Contingência cobre <b>${fmt(R3.conting)}</b> de ${fmt(R3.desvio)}</div>`+
+    `<div class="cline">Falta = ${fmt(R3.desvio)} − ${fmt(R3.conting)} = <span class="res">${fmt(R3.desvio-R3.conting)}</span></div>`+
+    `<div class="cline">Reserva gerencial disponível (fora do orçamento): <b>${fmt(R3.gerencial)}</b></div>`;
+}
+const dec3=[
+ {opt:'A',t:'Contingência + acionar reserva gerencial',d:'Cobrir os R$ 300 mil que faltam com a reserva gerencial, junto ao patrocinador.',res:'good',ot:'Caminho correto.',txt:'A contingência cobre riscos identificados. O que sobra (R$ 300 mil) é imprevisto: aciona-se a reserva gerencial, que só os patrocinadores liberam. Transparência preserva a confiança.',k:'Resolvido'},
+ {opt:'B',t:'Cortar escopo para caber na contingência',d:'Reduzir entregas até o desvio caber nos R$ 600 mil.',res:'warn',ot:'Possível, mas tem custo.',txt:'Cortar escopo fecha a conta, mas pode comprometer o resultado prometido. Use como último recurso e renegocie formalmente.',k:'Escopo menor'},
+ {opt:'C',t:'Esconder o estouro e absorver depois',d:'Seguir e tentar compensar nas próximas medições.',res:'bad',ot:'Risco grave.',txt:'Ocultar desvio destrói a credibilidade quando aparece — e ele sempre aparece. O problema comunicado cedo é gerenciável; escondido, vira crise.',k:'Crise'}
+];
+function kpiUpd3(i){const d=dec3[i];const c=document.querySelectorAll('#dash3 .kpi')[3];c.classList.add('pulse');setTimeout(()=>c.classList.remove('pulse'),600);c.querySelector('.kv').textContent=d.k;c.querySelector('.kv').className='kv '+(d.res==='good'?'up':d.res==='bad'?'down':'');}
+
+/* R4 */
+const R4={inv:8000000,fluxo:2410000,anos:5,taxa:0.12};
+function npv(rate,inv,cf,n){let v=-inv;for(let t=1;t<=n;t++)v+=cf/Math.pow(1+rate,t);return v;}
+function tirCalc(inv,cf,n){let lo=0,hi=1;for(let k=0;k<80;k++){const m=(lo+hi)/2;(npv(m,inv,cf,n)>0)?lo=m:hi=m;}return (lo+hi)/2;}
+const _vpl4=npv(R4.taxa,R4.inv,R4.fluxo,R4.anos),_tir4=tirCalc(R4.inv,R4.fluxo,R4.anos);
+function initR4(){
+  const nominal=R4.fluxo*R4.anos;let vpEnt=0;for(let t=1;t<=R4.anos;t++)vpEnt+=R4.fluxo/Math.pow(1+R4.taxa,t);
+  document.getElementById('dash4').innerHTML=
+    kpi('Investimento',fmt(R4.inv),'hoje')+
+    kpi('Soma simples',fmt(nominal),'sem descontar')+
+    kpi('VPL','?','a 12% ao ano')+
+    kpi('TIR','?','vs. 12% exigido');
+  document.getElementById('calc4').innerHTML=
+    `<div class="cline">Soma simples = ${fmt(R4.fluxo)} × ${R4.anos} = <b>${fmt(nominal)}</b> (parece ótimo…)</div>`+
+    `<div class="cline">Ganhos trazidos a hoje (a 12%) = <b>${fmt(vpEnt)}</b></div>`+
+    `<div class="cline">VPL = ${fmt(vpEnt)} − ${fmt(R4.inv)} = <span class="res">${fmt(_vpl4)}</span></div>`+
+    `<div class="cline">TIR ≈ <span class="res">${(_tir4*100).toFixed(1)}%</span> (a rentabilidade do projeto)</div>`;
+}
+const dec4=[
+ {opt:'A',t:'Aprovar — a soma supera o investimento',d:'R$ 12 mi de retorno contra R$ 8 mi investidos. Lucro claro.',res:'warn',ot:'Cuidado com a soma simples.',txt:`Somar dinheiro de anos diferentes ignora que o dinheiro perde valor com o tempo. Descontando a 12%, o VPL é ${fmt(_vpl4)} — ainda positivo, mas bem menor que a conta nominal sugeria.`},
+ {opt:'B',t:'Aprovar com base no VPL e na TIR',d:'VPL maior que zero e TIR acima da taxa exigida indicam criação de valor.',res:'good',ot:'Decisão tecnicamente correta.',txt:`VPL = ${fmt(_vpl4)} (positivo) e TIR ≈ ${(_tir4*100).toFixed(1)}%, acima dos 12% exigidos. O projeto cria valor mesmo trazendo tudo a valor de hoje. Aprovar é defensável diante do conselho.`},
+ {opt:'C',t:'Rejeitar — demora a recuperar',d:'Levaria mais de 3 anos para recuperar; arriscado demais.',res:'warn',ot:'O payback sozinho engana.',txt:'O payback ignora o que acontece depois e o custo do capital. Com VPL positivo e TIR acima da exigência, rejeitar só pelo tempo descarta um projeto que cria valor.'}
+];
+function kpiUpd4(i){const cells=document.querySelectorAll('#dash4 .kpi');[2,3].forEach(k=>{cells[k].classList.add('pulse');setTimeout(()=>cells[k].classList.remove('pulse'),600);});cells[2].querySelector('.kv').textContent=fmt(_vpl4);cells[2].querySelector('.kv').className='kv '+(_vpl4>0?'up':'down');cells[3].querySelector('.kv').textContent=(_tir4*100).toFixed(1)+'%';cells[3].querySelector('.kv').className='kv '+(_tir4>R4.taxa?'up':'down');}
+
+/* R5 */
+const R5={ke:0.16,kd:0.09,ir:0.25};
+function cmpc(wd){return (1-wd)*R5.ke + wd*R5.kd*(1-R5.ir);}
+function initR5(){
+  document.getElementById('dash5').innerHTML=
+    kpi('Capital próprio',(R5.ke*100)+'%','custo (caro)','down')+
+    kpi('Capital terceiros',(R5.kd*100)+'%','custo (barato)','up')+
+    kpi('CMPC','?','a régua do projeto')+
+    kpi('TIR do projeto','15,4%','da rodada 4','up');
+  document.getElementById('calc5').innerHTML=
+    `<div class="cline">Terceiros após imposto = ${(R5.kd*100)}% × (1 − ${R5.ir}) = <b>${(R5.kd*(1-R5.ir)*100).toFixed(2)}%</b></div>`+
+    `<div class="cline">CMPC = (% próprio × 16%) + (% terceiros × 6,75%) <span class="res">→ varia com a mistura</span></div>`;
+}
+const dec5=[
+ {opt:'A',t:'100% dinheiro próprio',d:'Sem dívida, sem parcelas. Custo do capital = 16%.',res:'bad',ot:'Régua alta demais.',txt:`Só com capital próprio, o CMPC = ${(cmpc(0)*100).toFixed(2)}%. A TIR do projeto (15,4%) fica ABAIXO da régua → inviável. Foi por isso que o projeto não fechou.`,wd:0},
+ {opt:'B',t:'50% próprio + 50% emprestado',d:'Equilibrar as fontes, usando a dívida mais barata e dedutível.',res:'good',ot:'Estrutura que viabiliza.',txt:`Com metade emprestada, CMPC = ${(cmpc(0.5)*100).toFixed(2)}%. Agora a TIR (15,4%) SUPERA a régua → o projeto cria valor. O capital de terceiros, mais barato e com benefício fiscal, virou a chave.`,wd:0.5},
+ {opt:'C',t:'90% emprestado + 10% próprio',d:'Maximizar a dívida barata para derrubar o CMPC ao máximo.',res:'warn',ot:'Barateia, mas eleva o risco.',txt:`CMPC cai para ${(cmpc(0.9)*100).toFixed(2)}%, mas a dívida alta cria parcelas pesadas no caixa e risco de não conseguir pagar se a receita oscilar. Barato nem sempre é seguro.`,wd:0.9}
+];
+function kpiUpd5(i){const d=dec5[i];const c=document.querySelectorAll('#dash5 .kpi')[2];c.classList.add('pulse');setTimeout(()=>c.classList.remove('pulse'),600);const v=cmpc(d.wd);c.querySelector('.kv').textContent=(v*100).toFixed(2)+'%';c.querySelector('.kv').className='kv '+(0.154>v?'up':'down');c.querySelector('.ksub').textContent=0.154>v?'TIR supera → viável':'TIR abaixo → inviável';}
+
+/* decisões genéricas */
+const allDec={1:dec1,2:dec2,3:dec3,4:dec4,5:dec5};
+const allUpd={1:kpiUpd1,2:kpiUpd2,3:kpiUpd3,4:kpiUpd4,5:kpiUpd5};
+function initDec(n){document.getElementById('dec'+n).innerHTML=allDec[n].map((d,i)=>`<div class="dec" data-i="${i}" onclick="choose(${n},${i})"><div class="dt"><span class="opt">${d.opt}</span> ${d.t}</div><div class="dd">${d.d}</div></div>`).join('');}
+function choose(n,i){
+  const d=allDec[n][i];
+  document.querySelectorAll('#dec'+n+' .dec').forEach(el=>el.classList.toggle('sel',+el.dataset.i===i));
+  const out=document.getElementById('out'+n);out.className='outcome show '+(d.res==='good'?'':d.res);out.innerHTML=`<div class="ot">${d.ot}</div>${d.txt}`;
+  document.getElementById('ai'+n).style.display='block';
+  document.getElementById('next'+n).disabled=false;
+  decisions[n]={opt:d.opt,t:d.t,res:d.res};
+  allUpd[n](i);
+}
+
+initR1();initR2();initR3();initR4();initR5();
+[1,2,3,4,5].forEach(initDec);
+
+function copyP(id,btn){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado';const sv=btn.parentNode.querySelector('.saved-tag');if(sv)sv.textContent='✓ salvo no seu pacote';setTimeout(()=>btn.textContent=o,1600);});}
+
+/* ===== caso de aplicação ===== */
+const casoCorreto={q1:1,q2:2,q3:0,q4:1};
+const casoFb={
+ q1:['❌ Olhe de novo: VA (357k) < VP (420k) = atrasado; e CR (408k) > VA (357k) = gastando mais do que entrega.','✅ Isso mesmo. IDP = 357÷420 = 0,85 (atrasado) e IDC = 357÷408 = 0,875 (estourando). Alerta duplo.','❌ Os números não batem: entregou menos do que devia e gastou mais do que entregou.'],
+ q2:['❌ Para terminar abaixo, o IDC teria que ser maior que 1. Aqui ele é 0,875.','❌ Só terminaria igual se não houvesse desvio (IDC = 1).','✅ Correto. ENT = 600.000 ÷ 0,875 = R$ 685.714. Vai estourar ~R$ 86 mil (VNT negativa).'],
+ q3:['✅ Correto. VPL ≈ +R$ 66 mil (positivo) e TIR 19,4% > 14% exigido → o investimento cria valor.','❌ O VPL é positivo (+R$ 66 mil), não negativo.','❌ Somar valores de anos diferentes ignora o valor do dinheiro no tempo. Precisa do VPL.'],
+ q4:['❌ Com 100% próprio o CMPC fica em 18% — acima da TIR (19,4%) por pouco, mas a estrutura mista é claramente melhor.','✅ Correto. Com financiamento misto o CMPC cai para ~13,7%, bem abaixo da TIR de 19,4% → vale financiar e investir.','❌ A origem do dinheiro muda o custo do capital (a régua da decisão). Importa muito.']
+};
+const casoEscolhas={};
+function pick(q,btn){
+  if(document.querySelector('#st6 .opts[data-q="'+q+'"] .optbtn.lock'))return;
+  const v=+btn.dataset.v;casoEscolhas[q]=v;
+  const correct=casoCorreto[q];
+  document.querySelectorAll('#st6 .opts[data-q="'+q+'"] .optbtn').forEach(b=>{
+    b.classList.add('lock');
+    if(+b.dataset.v===correct)b.classList.add('right');
+    else if(b===btn)b.classList.add('wrong');
+  });
+}
+function fecharCaso(){
+  const out=document.getElementById('caso-final');
+  const ans=['q1','q2','q3','q4'];
+  const faltam=ans.filter(q=>casoEscolhas[q]===undefined);
+  if(faltam.length){out.className='outcome show warn';out.innerHTML='<div class="ot">Responda os 4 blocos antes de fechar.</div>Faltam '+faltam.length+' resposta(s).';return;}
+  let acertos=ans.filter(q=>casoEscolhas[q]===casoCorreto[q]).length;
+  let det=ans.map((q,i)=>`<div style="margin:6px 0">Bloco ${i+1}: ${casoFb[q][casoEscolhas[q]]}</div>`).join('');
+  const venceu=acertos===4;
+  out.className='outcome show'+(venceu?'':' warn');
+  out.innerHTML=`<div class="ot">${venceu?'🏆 Diagnóstico fechado com nota máxima!':'Você acertou '+acertos+' de 4. Veja os ajustes:'}</div>${det}
+    <div style="margin-top:14px;padding:13px 15px;border:1px solid var(--violet);border-radius:10px;background:#15111f">
+    <b style="color:var(--violet)">📋 Recomendação final ao patrocinador do ZapRango:</b><br>
+    "O projeto está <b>atrasado e acima do custo</b> (IDP 0,85 · IDC 0,875) e, mantido o ritmo, deve <b>encerrar em ~R$ 686 mil</b>, cerca de R$ 86 mil acima do orçamento — recomendo acionar reservas e plano de correção. <b>Apesar disso, o novo módulo vale a pena</b>: VPL positivo (+R$ 66 mil) e TIR de 19,4%, acima dos 14% exigidos. <b>Recomendo aprovar o investimento com financiamento misto</b> (CMPC ~13,7%, bem abaixo da TIR), que viabiliza o retorno com menor custo de capital."</div>`;
+  document.getElementById('next6').disabled=false;
+}
+
+const pacoteData=[
+ {n:'1 · Diagnóstico de desempenho (VP, VA, CR, IDP, IDC)',id:'p1'},
+ {n:'2 · Estimar resultados futuros (ONT, ENT, VNT, EPT)',id:'p2'},
+ {n:'3 · Riscos e reservas (contingência × gerencial)',id:'p3'},
+ {n:'4 · Viabilidade (VPL, TIR, payback, lucratividade)',id:'p4'},
+ {n:'5 · Financiamento e custo de capital (CMPC)',id:'p5'}
+];
+function montarPacote(){const map={good:'✅',warn:'⚠️',bad:'❌'};let r='';
+  [1,2,3,4,5].forEach(n=>{const d=decisions[n];r+=`<div style="font-size:14px;margin:4px 0;color:var(--ink)">Rodada ${n}: ${d?map[d.res]+' '+d.opt+' — '+d.t:'<span class="soft">não decidida</span>'}</div>`;});
+  document.getElementById('resumo').innerHTML=r;
+  document.getElementById('pacote').innerHTML=pacoteData.map(p=>`<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${document.getElementById(p.id).innerText}</div></div>`).join('');
+}
+function copyPacote(btn){let txt='PACOTE DE IA PARA GESTÃO DE CUSTOS DE PROJETOS\n(adapte os campos [entre colchetes] ao seu projeto)\n\n';pacoteData.forEach(p=>{txt+='### '+p.n+'\n'+document.getElementById(p.id).innerText+'\n\n';});navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✓ Pacote copiado';setTimeout(()=>btn.textContent=o,1800);});}
+</script>
+</body>
+</html>

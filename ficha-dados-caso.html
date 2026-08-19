@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Dados · Caso ZapRango</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+  :root{
+    --paper:#fbfaf6;--card:#ffffff;--ink:#1d2330;--ink-2:#4a5567;
+    --line:#e3e1d6;--gold:#b8860b;--amber:#f6a609;--green:#1f8a4c;--blue:#2563a8;--violet:#6d4ad6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--paper);color:var(--ink);line-height:1.5}
+  .wrap{max-width:780px;margin:0 auto;padding:24px 18px 60px}
+  .mono{font-family:'Space Mono',monospace}
+
+  header{border:2px solid var(--ink);border-radius:14px;background:var(--card);padding:20px 22px;margin-bottom:8px}
+  .badge{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+  header h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(22px,4.5vw,30px);margin:5px 0 6px;line-height:1.08}
+  header p{color:var(--ink-2);font-size:14.5px}
+  .flow{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--violet);margin-top:10px;letter-spacing:.3px}
+
+  .block{border:1.5px solid var(--line);border-radius:13px;background:var(--card);padding:18px 20px;margin:16px 0;position:relative}
+  .block .num{position:absolute;top:-13px;left:18px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px;font-family:'Space Mono'}
+  .block h2{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:6px 0 2px;padding-left:38px}
+  .prmt{font-family:'Space Mono',monospace;font-size:11px;color:var(--violet);text-transform:uppercase;letter-spacing:.5px;padding-left:38px;margin-bottom:10px}
+  .ctx{font-size:14.5px;color:var(--ink-2);margin-bottom:12px}
+  .ctx b{color:var(--ink)}
+  .cena{font-family:'Fraunces',serif;font-style:italic;font-size:14.5px;color:#5a4a2a;background:#fdf6e3;border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:9px 14px;margin:2px 0 12px}
+
+  .dados{border:2px solid var(--amber);border-radius:11px;background:#fff8e8;padding:13px 16px;margin:10px 0}
+  .dados .dl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a6b00;font-weight:700;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:6px}
+  .dados ul{list-style:none;display:grid;gap:10px}
+  .dados li{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;border-bottom:1px dotted #e8cf90;padding-bottom:9px}
+  .dados li:last-child{border-bottom:none;padding-bottom:0}
+  .dados .info{flex:1}
+  .dados .info .term{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .dados .info .term .sig{font-family:'Space Mono',monospace;font-size:11px;color:#9a6b00;font-weight:700;background:#ffefc2;padding:1px 6px;border-radius:5px;margin-left:5px}
+  .dados .info .desc{font-size:12.5px;color:var(--ink-2);line-height:1.35;margin-top:1px}
+  .dados li .v{font-family:'Space Mono',monospace;font-weight:700;font-size:16px;color:#1d2330;background:#fff;border:1px solid #e8cf90;border-radius:7px;padding:4px 9px;white-space:nowrap}
+  .dados li .v.carry{color:var(--violet);background:#f4f0fd;border-color:#d9cdf5}
+
+  .out{font-size:13.5px;color:var(--ink-2);margin-top:11px;background:#eef4ec;border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:8px 13px}
+  .out b{color:var(--green)}
+  .carrytag{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--violet);margin-top:8px;display:block}
+
+  .final{border:2px solid var(--violet);border-radius:13px;background:#f4f0fd;padding:20px 22px;margin:20px 0 0}
+  .final h2{font-family:'Fraunces',serif;font-weight:900;font-size:20px;color:#4a2eb0;margin-bottom:6px}
+  .final p{font-size:14.5px;color:var(--ink);margin-bottom:8px}
+  .final ol{margin:6px 0 0 20px;font-size:14px;color:var(--ink-2)}
+  .final ol li{margin:4px 0}
+
+  .tip{font-size:12.5px;color:var(--ink-2);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;margin:14px 0 0}
+
+  .sobre{border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;background:#f3f7fc;padding:15px 18px;margin:14px 0 0}
+  .sobre .sl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--blue);font-weight:700;text-transform:uppercase;margin-bottom:7px}
+  .sobre p{font-size:14.5px;color:var(--ink);margin-bottom:8px}
+  .sobre-ul{list-style:none;display:grid;gap:5px}
+  .sobre-ul li{font-size:14px;color:var(--ink-2);padding-left:16px;position:relative}
+  .sobre-ul li::before{content:"›";position:absolute;left:0;color:var(--blue);font-weight:700}
+  .sobre-ul li b{color:var(--ink)}
+
+  @media print{
+    body{background:#fff}
+    .block,header,.final{break-inside:avoid}
+    .wrap{padding:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">Ficha de dados · use com o seu pacote de prompts</div>
+    <h1>Caso ZapRango — aplique os 5 prompts</h1>
+    <p>Um único projeto, do começo ao fim. Em cada bloco há <b>só os dados necessários</b> para rodar aquele prompt. O resultado de um bloco entra no próximo.</p>
+    <div class="flow">B1 → B2 → B3 → B4 → B5 → Recomendação final</div>
+  </header>
+
+  <div class="sobre">
+    <div class="sl">📱 O projeto em poucas linhas</div>
+    <p><b>ZapRango</b> é o app de delivery de uma startup que quer conectar restaurantes de bairro a clientes de cidades médias — onde os grandes apps quase não entram.</p>
+    <ul class="sobre-ul">
+      <li><b>Objetivo:</b> lançar o app funcionando, com pedido e pagamento, e validar a operação em uma cidade-piloto.</li>
+      <li><b>Escopo:</b> cadastro de restaurantes, app do cliente, sistema de pedidos, integração de pagamento e painel de entregas.</li>
+      <li><b>Orçamento aprovado:</b> R$ 600.000 · <b>Prazo:</b> ~10 meses · <b>Você:</b> o consultor de custos que o investidor chamou para acompanhar.</li>
+    </ul>
+  </div>
+
+  <div class="tip">⏱️ <b>Como usar:</b> pegue o prompt indicado no seu pacote, cole os "Dados úteis" deste bloco e rode na IA. Anote o resultado — você vai precisar dele adiante.</div>
+
+  <!-- B1 -->
+  <div class="block">
+    <div class="num">1</div>
+    <h2>Como está o desempenho?</h2>
+    <div class="prmt">Prompt 1 · diagnóstico (IDP, IDC)</div>
+    <div class="cena">9h02. A diretora abre a reunião de status sem rodeios: "Me dá um retrato do projeto antes que eu fale com o conselho."</div>
+    <div class="ctx">Medição de novembro. O patrocinador quer saber em que pé o projeto está.</div>
+    <div class="dados">
+      <div class="dl">📌 Dados úteis</div>
+      <ul>
+        <li><div class="info"><div class="term">Valor Planejado <span class="sig">VP</span></div><div class="desc">o quanto de trabalho você <b>deveria</b> ter entregue até hoje, em dinheiro</div></div><span class="v">R$ 420.000</span></li>
+        <li><div class="info"><div class="term">Valor Agregado <span class="sig">VA</span></div><div class="desc">o quanto você <b>realmente entregou</b> até hoje</div></div><span class="v">R$ 357.000</span></li>
+        <li><div class="info"><div class="term">Custo Real <span class="sig">CR</span></div><div class="desc">o quanto você <b>já gastou</b> para chegar aqui</div></div><span class="v">R$ 408.000</span></li>
+      </ul>
+    </div>
+    <div class="out">Você vai obter: variação de prazo e de custo, o <b>IDP</b> (índice de prazo) e o <b>IDC</b> (índice de custo).</div>
+    <span class="carrytag">↪ leve o IDC para o Bloco 2.</span>
+  </div>
+
+  <!-- B2 -->
+  <div class="block">
+    <div class="num">2</div>
+    <h2>Como o projeto vai terminar?</h2>
+    <div class="prmt">Prompt 2 · estimar resultados futuros (ENT)</div>
+    <div class="cena">"Tudo bem, mas e no fim das contas?" — o financeiro cruza os braços. Ele quer um número de fechamento, não um talvez.</div>
+    <div class="ctx">Supondo que o desempenho atual <b>continue</b> até o fim, projete o custo final.</div>
+    <div class="dados">
+      <div class="dl">📌 Dados úteis</div>
+      <ul>
+        <li><div class="info"><div class="term">Orçamento No Término <span class="sig">ONT</span></div><div class="desc">o orçamento <b>total aprovado</b> do projeto</div></div><span class="v">R$ 600.000</span></li>
+        <li><div class="info"><div class="term">Valor Agregado <span class="sig">VA</span></div><div class="desc">o que já foi entregue</div></div><span class="v">R$ 357.000</span></li>
+        <li><div class="info"><div class="term">Custo Real <span class="sig">CR</span></div><div class="desc">o que já foi gasto</div></div><span class="v">R$ 408.000</span></li>
+        <li><div class="info"><div class="term">Índice de Desempenho de Custo <span class="sig">IDC</span></div><div class="desc">mede se está caro ou barato (você calculou no Bloco 1)</div></div><span class="v carry">use o do Bloco 1</span></li>
+      </ul>
+    </div>
+    <div class="out">Você vai obter: <b>ENT</b> (custo final previsto), <b>VNT</b> (sobra ou estouro) e <b>EPT</b>.</div>
+    <span class="carrytag">↪ o sinal de estouro prepara a decisão do Bloco 3.</span>
+  </div>
+
+  <!-- B3 -->
+  <div class="block">
+    <div class="num">3</div>
+    <h2>Um risco virou custo. Como cobrir?</h2>
+    <div class="prmt">Prompt 3 · riscos e reservas</div>
+    <div class="cena">Sexta, 17h40. Mensagem do líder técnico: "Deu problema na integração do pagamento. Vai custar mais." O fim de semana já começou tenso.</div>
+    <div class="ctx">A integração com o meio de pagamento atrasou e gerou um <b>estouro</b>. Decida como cobrir e se a reserva precisa de reforço.</div>
+    <div class="dados">
+      <div class="dl">📌 Dados úteis</div>
+      <ul>
+        <li><div class="info"><div class="term">Desvio gerado</div><div class="desc">quanto o imprevisto custou a mais</div></div><span class="v">R$ 90.000</span></li>
+        <li><div class="info"><div class="term">Reserva de contingência</div><div class="desc">dinheiro guardado para riscos <b>já previstos</b>; a equipe pode usar</div></div><span class="v">R$ 60.000</span></li>
+        <li><div class="info"><div class="term">Reserva gerencial</div><div class="desc">dinheiro para <b>imprevistos</b>; só a diretoria libera</div></div><span class="v">R$ 50.000</span></li>
+        <li><div class="info"><div class="term">Risco recorrente</div><div class="desc">chance de acontecer × quanto custaria (probabilidade × impacto)</div></div><span class="v">40% × R$ 120.000</span></li>
+      </ul>
+    </div>
+    <div class="out">Você vai obter: como fechar o desvio (contingência → gerencial) e uma <b>nova reserva sugerida</b>.</div>
+  </div>
+
+  <!-- B4 -->
+  <div class="block">
+    <div class="num">4</div>
+    <h2>Vale investir no módulo novo?</h2>
+    <div class="prmt">Prompt 4 · viabilidade (VPL, TIR, payback)</div>
+    <div class="cena">Almoço com o sócio investidor. Entre um café e outro, ele lança: "Topo botar mais dinheiro — se você me provar que volta."</div>
+    <div class="ctx">Surge a chance de instalar um <b>módulo de pagamentos</b> que gera receita. Avalie se cria valor.</div>
+    <div class="dados">
+      <div class="dl">📌 Dados úteis</div>
+      <ul>
+        <li><div class="info"><div class="term">Investimento hoje</div><div class="desc">quanto sai do caixa agora para fazer o módulo</div></div><span class="v">R$ 500.000</span></li>
+        <li><div class="info"><div class="term">Retorno por ano</div><div class="desc">quanto o módulo deve gerar a cada ano</div></div><span class="v">R$ 165.000</span></li>
+        <li><div class="info"><div class="term">Duração</div><div class="desc">por quantos anos esse retorno acontece</div></div><span class="v">5 anos</span></li>
+        <li><div class="info"><div class="term">Taxa mínima exigida</div><div class="desc">o retorno mínimo que o investidor aceita (taxa de desconto)</div></div><span class="v">14% ao ano</span></li>
+      </ul>
+    </div>
+    <div class="out">Você vai obter: <b>VPL</b>, <b>TIR</b>, payback e índice de lucratividade.</div>
+    <span class="carrytag">↪ leve a TIR para o Bloco 5.</span>
+  </div>
+
+  <!-- B5 -->
+  <div class="block">
+    <div class="num">5</div>
+    <h2>Como financiar o investimento?</h2>
+    <div class="prmt">Prompt 5 · financiamento e custo de capital (CMPC)</div>
+    <div class="cena">Reunião final, sala de vidro. "Capital próprio ou banco?", pergunta o CFO. A resposta certa pode virar o projeto de inviável para aprovado.</div>
+    <div class="ctx">Calcule o custo do capital e compare com a TIR do Bloco 4 para decidir.</div>
+    <div class="dados">
+      <div class="dl">📌 Dados úteis</div>
+      <ul>
+        <li><div class="info"><div class="term">Custo do capital próprio</div><div class="desc">o quanto custa usar o dinheiro do dono (mais caro)</div></div><span class="v">18% ao ano</span></li>
+        <li><div class="info"><div class="term">Custo do capital de terceiros</div><div class="desc">o quanto custa o dinheiro <b>emprestado</b> (mais barato)</div></div><span class="v">11% ao ano</span></li>
+        <li><div class="info"><div class="term">Imposto</div><div class="desc">os juros da dívida abatem imposto (benefício fiscal)</div></div><span class="v">34%</span></li>
+        <li><div class="info"><div class="term">Estrutura sugerida</div><div class="desc">quanto vem de cada fonte (próprio / emprestado)</div></div><span class="v">60% / 40%</span></li>
+        <li><div class="info"><div class="term">Taxa Interna de Retorno <span class="sig">TIR</span></div><div class="desc">a rentabilidade do projeto (você calculou no Bloco 4)</div></div><span class="v carry">use a do Bloco 4</span></li>
+      </ul>
+    </div>
+    <div class="out">Você vai obter: o <b>CMPC</b> e a decisão final — vale se <b>TIR &gt; CMPC</b>.</div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="final">
+    <h2>🏁 Recomendação final ao patrocinador</h2>
+    <p>Junte os resultados num único parágrafo de consultor, respondendo:</p>
+    <ol>
+      <li><b>Situação</b> — o projeto está bem? (Blocos 1 e 2)</li>
+      <li><b>Risco</b> — como o estouro foi tratado? (Bloco 3)</li>
+      <li><b>Investimento</b> — o módulo novo vale a pena e como financiá-lo? (Blocos 4 e 5)</li>
+    </ol>
+    <p style="margin-top:10px;font-size:13.5px;color:var(--ink-2)">Dica de prompt: <i>"Com base nestes resultados [cole os números dos 5 blocos], escreva uma recomendação executiva de um parágrafo para o patrocinador do projeto ZapRango."</i></p>
+  </div>
+
+</div>
+</body>
+</html>
