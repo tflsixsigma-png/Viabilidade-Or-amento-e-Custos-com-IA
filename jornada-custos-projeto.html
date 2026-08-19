@@ -16,6 +16,19 @@
     background-image:linear-gradient(var(--line) 1px, transparent 1px);background-size:100% 30px;background-position:0 -1px}
   .wrap{max-width:760px;margin:0 auto;padding:20px 18px 90px}
   .hand{font-family:'Caveat',cursive;font-weight:700}
+  .navbar{background:#2a2620;display:flex;align-items:center;gap:6px;padding:9px 14px;flex-wrap:wrap}
+  .navbar .brand{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:#fff;margin-right:auto;white-space:nowrap}
+  .navbar a{font-family:'Hanken Grotesk';font-weight:700;font-size:12.5px;color:#f3ece0;text-decoration:none;border:1.5px solid #574f42;background:#3a352c;border-radius:8px;padding:6px 12px;white-space:nowrap;transition:background .15s,border .15s}
+  .navbar a:hover{background:#4a4438;border-color:#e2722a}
+  .navbar a.home{background:#e2722a;border-color:#e2722a;color:#fff}
+  .navbar a.home:hover{background:#cf6320}
+  @media(max-width:520px){.navbar .brand{font-size:13px;width:100%;margin-bottom:2px}}
+  .bridge{border:2.5px solid var(--ink);border-radius:16px;background:linear-gradient(135deg,#1f2a30,#2a3942);color:#eaf1f4;padding:22px 24px;margin:22px 0;box-shadow:5px 5px 0 var(--line-d)}
+  .bridge .bridge-k{font-family:'Caveat',cursive;font-weight:700;font-size:20px;color:#7fd1a8}
+  .bridge h3{color:#fff;font-size:22px;margin:0}
+  .bridge p{color:#c8d4da;font-size:15px}
+  .bridge-btn{display:inline-block;font-family:'Hanken Grotesk';font-weight:700;font-size:15px;background:#e2722a;color:#fff;border:2px solid #fff;border-radius:12px;padding:12px 22px;text-decoration:none;transition:transform .1s}
+  .bridge-btn:hover{transform:translateY(-2px)}
 
   .progress{position:sticky;top:0;z-index:20;background:var(--cream);padding:14px 0 10px;border-bottom:2px solid var(--line-d);margin-bottom:24px}
   .ptop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
@@ -216,6 +229,12 @@
 </style>
 </head>
 <body>
+<nav class="navbar">
+  <span class="brand">🧭 Jornada · Custos na Prática</span>
+  <a class="home" href="index.html">⌂ Início</a>
+  <a href="consultor-de-projetos.html">📊 Consultor</a>
+  <a href="ficha-dados-caso.html">📋 Ficha</a>
+</nav>
 <div class="wrap">
 
   <div class="progress">
@@ -530,6 +549,13 @@
         <button class="btn ghost" onclick="copiarPlano()" id="copybtn">📄 Copiar texto</button>
       </div>
     </div>
+    <div class="bridge">
+      <div class="bridge-k">Próximo passo</div>
+      <h3 style="margin-top:2px">Agora assuma a cadeira de consultor.</h3>
+      <p style="margin-bottom:14px">Você aprendeu a pensar os custos como gestor. No <b>Consultor de Projetos</b>, você entra numa mesa de decisão executiva: lê indicadores ao vivo, decide entre cenários e leva um pacote de prompts de IA para os seus projetos.</p>
+      <a class="bridge-btn" href="consultor-de-projetos.html">Ir para o Consultor de Projetos →</a>
+    </div>
+
     <div class="nav"><button class="btn ghost" onclick="go(6)">← Voltar</button><span></span></div>
   </section>
 

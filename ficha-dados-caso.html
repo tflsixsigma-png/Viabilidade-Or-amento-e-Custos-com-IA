@@ -50,6 +50,9 @@
   .dados li .v.edit{border:1.5px dashed #d9a441;cursor:text;outline:none;min-width:60px;text-align:right;transition:background .15s,border .15s}
   .dados li .v.edit:hover{background:#fffdf6}
   .dados li .v.edit:focus{background:#fff;border:1.5px solid var(--blue);box-shadow:0 0 0 3px rgba(37,99,168,.15)}
+  .dados li .v.carry-edit{color:var(--violet);background:#f4f0fd;border:1.5px dashed #b9a3ec}
+  .dados li .v.carry-edit:focus{border:1.5px solid var(--violet);box-shadow:0 0 0 3px rgba(109,74,214,.18)}
+  .dados li .v.carry-edit.ph{color:#a99fc9;font-style:italic;font-weight:400}
   .editnote{font-size:12px;color:var(--ink-2);margin-top:9px;display:flex;align-items:center;gap:5px}
   .editnote b{color:#9a6b00}
 
@@ -153,7 +156,7 @@
         <li><div class="info"><div class="term">Orçamento No Término <span class="sig">ONT</span></div><div class="desc">o orçamento <b>total aprovado</b> do projeto</div></div><span class="v edit" contenteditable="true" data-f="b2_ont" oninput="upd()">R$ 600.000</span></li>
         <li><div class="info"><div class="term">Valor Agregado <span class="sig">VA</span></div><div class="desc">o que já foi entregue</div></div><span class="v edit" contenteditable="true" data-f="b2_va" oninput="upd()">R$ 357.000</span></li>
         <li><div class="info"><div class="term">Custo Real <span class="sig">CR</span></div><div class="desc">o que já foi gasto</div></div><span class="v edit" contenteditable="true" data-f="b2_cr" oninput="upd()">R$ 408.000</span></li>
-        <li><div class="info"><div class="term">Índice de Desempenho de Custo <span class="sig">IDC</span></div><div class="desc">mede se está caro ou barato (você calculou no Bloco 1)</div></div><span class="v carry">use o do Bloco 1</span></li>
+        <li><div class="info"><div class="term">Índice de Desempenho de Custo <span class="sig">IDC</span></div><div class="desc">mede se está caro ou barato — <b>traga o valor que você calculou no Bloco 1</b></div></div><span class="v edit carry-edit" contenteditable="true" data-f="b2_idc" oninput="upd()" data-ph="ex.: 0,875">use o do Bloco 1</span></li>
       </ul>
       <div class="editnote">✏️ <b>Edite os valores acima</b> para usar os dados do seu projeto — o prompt abaixo se atualiza sozinho.</div>
     </div>
@@ -231,7 +234,7 @@
         <li><div class="info"><div class="term">Custo do capital de terceiros</div><div class="desc">o quanto custa o dinheiro <b>emprestado</b> (mais barato)</div></div><span class="v edit" contenteditable="true" data-f="b5_terc" oninput="upd()">11% ao ano</span></li>
         <li><div class="info"><div class="term">Imposto</div><div class="desc">os juros da dívida abatem imposto (benefício fiscal)</div></div><span class="v edit" contenteditable="true" data-f="b5_imp" oninput="upd()">34%</span></li>
         <li><div class="info"><div class="term">Estrutura sugerida</div><div class="desc">quanto vem de cada fonte (próprio / emprestado)</div></div><span class="v edit" contenteditable="true" data-f="b5_estr" oninput="upd()">60% / 40%</span></li>
-        <li><div class="info"><div class="term">Taxa Interna de Retorno <span class="sig">TIR</span></div><div class="desc">a rentabilidade do projeto (você calculou no Bloco 4)</div></div><span class="v carry">use a do Bloco 4</span></li>
+        <li><div class="info"><div class="term">Taxa Interna de Retorno <span class="sig">TIR</span></div><div class="desc">a rentabilidade do projeto — <b>traga o valor que você calculou no Bloco 4</b></div></div><span class="v edit carry-edit" contenteditable="true" data-f="b5_tir" oninput="upd()" data-ph="ex.: 19,4%">use a do Bloco 4</span></li>
       </ul>
       <div class="editnote">✏️ <b>Edite os valores acima</b> para usar os dados do seu projeto — o prompt abaixo se atualiza sozinho.</div>
     </div>
@@ -259,17 +262,32 @@
 
 <script>
 function val(f){ const el=document.querySelector('[data-f="'+f+'"]'); return el?el.innerText.trim():''; }
-function wrap(f){ return '<span class="fld">'+val(f)+'</span>'; }
+function wrap(f){
+  const el=document.querySelector('[data-f="'+f+'"]');
+  let v=el?el.innerText.trim():'';
+  // se ainda não foi editado (mantém o texto-guia), mostra um marcador no prompt
+  if(v==='use o do Bloco 1'||v==='use a do Bloco 4'||v===''){
+    const ph=el&&el.dataset.ph?el.dataset.ph.replace('ex.: ','')+' — preencha':'[preencha]';
+    return '<span class="fld">['+ph+']</span>';
+  }
+  return '<span class="fld">'+v+'</span>';
+}
+function markPh(){
+  document.querySelectorAll('.carry-edit').forEach(el=>{
+    const t=el.innerText.trim();
+    el.classList.toggle('ph', t==='use o do Bloco 1'||t==='use a do Bloco 4');
+  });
+}
 
 const templates={
   prompt_b1: ()=>`Atue como analista de controle de custos de projetos. No meu projeto tenho: Valor Planejado (VP, o que eu deveria ter entregue) = ${wrap('b1_vp')}, Valor Agregado (VA, o que realmente entreguei) = ${wrap('b1_va')} e Custo Real (CR, o que já gastei) = ${wrap('b1_cr')}. Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o índice de desempenho de prazo (IDP = VA/VP) e o índice de desempenho de custo (IDC = VA/CR). Explique em linguagem executiva o que esses números significam e liste 3 ações de correção priorizadas.`,
-  prompt_b2: ()=>`Atue como especialista em valor agregado. No meu projeto: Orçamento No Término (ONT, orçamento total aprovado) = ${wrap('b2_ont')}, Valor Agregado (VA) = ${wrap('b2_va')}, Custo Real (CR) = ${wrap('b2_cr')} e IDC (índice de desempenho de custo, calculado no diagnóstico anterior) = [use o IDC que você calculou]. Calcule a Estimativa No Término (ENT) em dois cenários: (1) desvio recorrente: ENT = ONT / IDC; (2) desvio pontual: ENT = CR + (ONT − VA). Calcule também a Variação No Término (VNT = ONT − ENT) e a Estimativa Para Terminar (EPT = ENT − CR). Explique qual cenário adotar e por quê.`,
+  prompt_b2: ()=>`Atue como especialista em valor agregado. No meu projeto: Orçamento No Término (ONT, orçamento total aprovado) = ${wrap('b2_ont')}, Valor Agregado (VA) = ${wrap('b2_va')}, Custo Real (CR) = ${wrap('b2_cr')} e IDC (índice de desempenho de custo, calculado no Bloco 1) = ${wrap('b2_idc')}. Calcule a Estimativa No Término (ENT) em dois cenários: (1) desvio recorrente: ENT = ONT / IDC; (2) desvio pontual: ENT = CR + (ONT − VA). Calcule também a Variação No Término (VNT = ONT − ENT) e a Estimativa Para Terminar (EPT = ENT − CR). Explique qual cenário adotar e por quê.`,
   prompt_b3: ()=>`Atue como gerente de riscos de projetos. Meu projeto teve um desvio de custo de ${wrap('b3_desvio')} acima do orçamento. Minha reserva de contingência (para riscos já identificados) é ${wrap('b3_cont')} e há reserva gerencial (para imprevistos, liberada pela diretoria) de ${wrap('b3_ger')}. Há ainda um risco recorrente de ${wrap('b3_risco')} (probabilidade × impacto). Explique a diferença entre as duas reservas, recomende como cobrir o desvio e proponha um reforço de contingência com base no valor monetário esperado do risco.`,
   prompt_b4: ()=>`Atue como analista de viabilidade econômico-financeira. Meu projeto exige investimento inicial de ${wrap('b4_inv')} e gera retorno de ${wrap('b4_ret')} por ${wrap('b4_anos')}. A taxa mínima de retorno exigida é ${wrap('b4_taxa')}. Calcule e explique em linguagem simples: (1) o Valor Presente Líquido (VPL); (2) a Taxa Interna de Retorno (TIR); (3) o payback simples e o descontado; (4) o índice de lucratividade. Conclua com uma recomendação clara de investir ou não, usando a regra VPL>0 e TIR>taxa exigida.`,
-  prompt_b5: ()=>`Atue como analista financeiro de projetos. Vou financiar meu projeto com a estrutura ${wrap('b5_estr')} (próprio / terceiros). O capital próprio custa ${wrap('b5_prop')} e o capital de terceiros custa ${wrap('b5_terc')}, com imposto de ${wrap('b5_imp')}. Calcule o Custo Médio Ponderado de Capital (CMPC), considerando o benefício fiscal da dívida (os juros abatem imposto). Explique o impacto do dinheiro emprestado no caixa e diga como usar o CMPC como taxa mínima na decisão, comparando com a TIR do projeto (calculada no bloco anterior).`
+  prompt_b5: ()=>`Atue como analista financeiro de projetos. Vou financiar meu projeto com a estrutura ${wrap('b5_estr')} (próprio / terceiros). O capital próprio custa ${wrap('b5_prop')} e o capital de terceiros custa ${wrap('b5_terc')}, com imposto de ${wrap('b5_imp')}. Calcule o Custo Médio Ponderado de Capital (CMPC), considerando o benefício fiscal da dívida (os juros abatem imposto). A Taxa Interna de Retorno (TIR) do projeto, calculada no Bloco 4, é ${wrap('b5_tir')}. Explique o impacto do dinheiro emprestado no caixa e diga se o projeto é viável comparando o CMPC com a TIR.`
 };
 
-function upd(){ for(const id in templates){ const el=document.getElementById(id); if(el) el.innerHTML=templates[id](); } }
+function upd(){ markPh(); for(const id in templates){ const el=document.getElementById(id); if(el) el.innerHTML=templates[id](); } }
 function copyPrompt(id,btn){
   const txt=document.getElementById(id).innerText;
   navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✓ Copiado!'; setTimeout(()=>btn.textContent=o,1600); });
