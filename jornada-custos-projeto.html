@@ -138,18 +138,6 @@
   #plano-card .pl-item{font-size:15px;margin:6px 0}
   #plano-card .pl-item b{color:var(--green-d)}
 
-  /* IA cards */
-  .ia{background:#eaf2f7;border:2.5px solid var(--blue);border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 4px 0 #b3c9d6}
-  .ia .iah{font-family:'Caveat',cursive;font-weight:700;font-size:23px;color:var(--blue);margin-bottom:4px;display:flex;align-items:center;gap:6px}
-  .ia .ia-intro{font-size:15px;margin-bottom:10px;color:var(--ink)}
-  .prompt{background:#202b31;color:#e9f1f5;border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.55;font-family:'Hanken Grotesk';white-space:pre-wrap}
-  .btn-copy{font-family:'Hanken Grotesk';font-weight:700;font-size:13px;border:2px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;padding:8px 15px;margin:10px 0 4px;cursor:pointer;transition:background .15s}
-  .btn-copy:hover{background:var(--blue);color:#fff}
-  .verify{background:#fff;border-radius:10px;padding:13px 17px;margin-top:8px;border:1.5px dashed var(--green)}
-  .verify .vh{font-family:'Caveat',cursive;font-weight:700;font-size:19px;color:var(--green-d);margin-bottom:4px}
-  .verify ul{margin:0 0 0 18px;font-size:14.5px}
-  .verify li{margin:6px 0}
-
   /* termo das apostilas */
   .term{background:#f3ece0;border:2px solid var(--line-d);border-left:5px solid var(--orange);border-radius:0 11px 11px 0;padding:12px 16px;margin:16px 0;font-size:14.5px}
   .term .tt{font-family:'Caveat',cursive;font-weight:700;font-size:18px;color:#b85a1c;display:block;margin-bottom:3px}
@@ -167,19 +155,6 @@
   .deep .dc h4{font-family:'Fraunces',serif;font-size:16px;margin:12px 0 2px;color:var(--green-d)}
   .miniform{background:#202b31;color:#e9f1f5;border-radius:9px;padding:11px 14px;font-size:13.5px;font-family:'Hanken Grotesk';margin:10px 0;line-height:1.5}
   .miniform b{color:#7fd1a8}
-
-  /* copiloto */
-  .copilot{background:#202b31;border-radius:16px;padding:22px;margin:20px 0;color:#e9f1f5;box-shadow:0 5px 0 #11181c}
-  .copilot .ch{font-family:'Caveat',cursive;font-weight:700;font-size:24px;color:#7fd1a8;margin-bottom:2px}
-  .copilot p{font-size:14.5px;color:#c8d4da;margin-bottom:12px}
-  .cop-modes{display:grid;gap:8px}
-  .cop-mode{text-align:left;font-family:'Hanken Grotesk';font-weight:600;font-size:14.5px;border:2px solid #3a4b54;background:#2a373e;color:#e9f1f5;border-radius:10px;padding:12px 15px;cursor:pointer;transition:background .15s,border .15s}
-  .cop-mode:hover{background:#33424a;border-color:#7fd1a8}
-  .cop-mode b{color:#7fd1a8}
-  .cop-promptwrap{display:none;margin-top:14px}
-  .cop-plabel{font-family:'Caveat',cursive;font-weight:700;font-size:18px;color:#7fd1a8;margin-bottom:6px}
-  .cop-out{background:#fff;color:var(--ink);border-radius:10px;padding:16px 18px;margin-top:12px;white-space:pre-wrap;font-size:14.5px;line-height:1.6;display:none}
-  .cop-note{font-size:12.5px;color:#9fb0b8;margin-top:12px;border-top:1px solid #3a4b54;padding-top:10px}
 
   /* apresentação */
   .section-h{font-family:'Caveat',cursive;font-weight:700;font-size:26px;color:var(--green-d);margin:26px 0 4px;display:flex;align-items:center;gap:8px}
@@ -248,7 +223,7 @@
 
   <!-- ====== STEP 0: APRESENTAÇÃO ====== -->
   <section class="step active" id="s0">
-    <div class="eyebrow">Atividade prática · Gestão de custos de projetos com IA</div>
+    <div class="eyebrow">Atividade prática · Gestão de custos de projetos</div>
     <h1>Aprenda a cuidar do dinheiro de um projeto — fazendo, não decorando.</h1>
     <p class="big">Nesta jornada você vai <b>tocar um projeto de verdade</b>: planejar os custos da <span class="hand" style="font-size:21px">Cafeteria Grão Nobre</span>, acompanhar a obra, lidar com imprevistos e decidir se o negócio vale a pena. A cada passo, você aprende uma ideia, toma uma decisão e <b>vê o que acontece por causa dela</b>.</p>
 
@@ -259,7 +234,7 @@
       <div class="lcard"><div class="li">🛡️</div><div class="lt">Proteger o orçamento com reservas</div><div class="ld">Dimensionar o colchão de segurança certo para o nível de risco do projeto.</div><div class="lsrc">↳ Riscos e incerteza</div></div>
       <div class="lcard"><div class="li">📊</div><div class="lt">Saber se o projeto está saudável</div><div class="ld">Cruzar o que planejei, o que entreguei e o que gastei — e prever como vai terminar.</div><div class="lsrc">↳ Controle de custos</div></div>
       <div class="lcard"><div class="li">⚖️</div><div class="lt">Decidir se vale a pena investir</div><div class="ld">Fluxo de caixa, payback, VPL, TIR e o impacto de pegar dinheiro emprestado.</div><div class="lsrc">↳ Análise de viabilidade</div></div>
-      <div class="lcard"><div class="li">🤖</div><div class="lt">Usar IA como copiloto</div><div class="ld">Acelerar o trabalho com IA e adaptar o que ela sugere à sua realidade.</div><div class="lsrc">↳ Tema central da aula</div></div>
+      <div class="lcard"><div class="li">🧾</div><div class="lt">Fechar o orçamento do projeto</div><div class="ld">Juntar estimativas e reservas numa linha de base de custos consistente.</div><div class="lsrc">↳ Planejamento de custos</div></div>
     </div>
 
     <div class="section-h">🗺️ O mapa da jornada</div>
@@ -277,7 +252,7 @@
     <div class="method">
       <div class="mitem"><span class="me">✍️</span><div><b>Fazendo.</b> Você decide como gestor, não fica só lendo teoria.</div></div>
       <div class="mitem"><span class="me">🔁</span><div><b>Com consequências.</b> Cada escolha muda o resultado da sua frente.</div></div>
-      <div class="mitem"><span class="me">🤖</span><div><b>Com IA do lado.</b> Um copiloto em cada etapa — e você no comando.</div></div>
+      <div class="mitem"><span class="me">🧩</span><div><b>Com analogias.</b> Cada conceito ligado a algo do dia a dia.</div></div>
       <div class="mitem"><span class="me">🎁</span><div><b>Levando algo pronto.</b> No fim, o plano de custos do seu projeto.</div></div>
     </div>
 
@@ -294,17 +269,7 @@
     <div class="analogy">🧩 <b>Como montar um móvel:</b> você não pensa "vou montar um armário". Você segue peça por peça. O orçamento de um projeto é igual — soma dos pedacinhos.</div>
     <div class="do"><div class="doh">Toque em cada pedaço para ver o que tem dentro</div><div class="eap" id="eap"></div><p class="muted" style="font-size:14px;margin:8px 0 0">Cada pedaço grande se abre em tarefas menores. É só nas tarefas pequenas que conseguimos botar um preço com confiança.</p></div>
     <div class="term"><span class="tt">📚 Nas apostilas</span>Esses pedaços formam a <b>EAP — Estrutura Analítica do Projeto</b>. Somar os custos das tarefas de baixo para cima, até o total, é a <b>estimativa bottom-up</b> que dá origem à <b>linha de base de custos</b>.</div>
-    <div class="ia">
-      <div class="iah">🤖 Faça isso com IA</div>
-      <p class="ia-intro">A IA rascunha a lista de pedaços em segundos e lembra de coisas que você esqueceria. Cole este prompt em qualquer IA:</p>
-      <div class="prompt" id="p1">Vou abrir uma cafeteria de bairro. Liste os principais pacotes de trabalho (grupos de tarefas) necessários para abrir o negócio e, dentro de cada um, as atividades principais. Organize como uma lista hierárquica, em português do Brasil.</div>
-      <button class="btn-copy" onclick="copyPrompt('p1',this)">Copiar prompt</button>
-      <div class="verify"><div class="vh">✋ Antes de usar, adapte ao seu caso</div><ul>
-        <li>A IA não conhece o seu imóvel nem a sua cidade — ajuste a lista à <b>sua realidade</b>.</li>
-        <li>Acrescente o que existe só no seu caso (licença da prefeitura, seguro…).</li>
-        <li>Corte o que for genérico demais e não se aplica.</li>
-      </ul></div>
-    </div>
+    
     <div class="nav"><button class="btn ghost" onclick="go(0)">← Voltar</button><button class="btn" onclick="go(2)">Próximo →</button></div>
   </section>
 
@@ -321,17 +286,7 @@
       <button class="btn orange" id="estbtn" onclick="revelarEst()">Mostrar a estimativa realista</button>
     </div>
     <div class="term"><span class="tt">📚 Nas apostilas</span>Isso é a <b>estimativa de três pontos</b> (distribuição Beta, também chamada de <b>PERT</b>). A conta: <b>(otimista + 4×provável + pessimista) ÷ 6</b>. Quanto mais distante o otimista do pessimista, mais arriscada é a tarefa.</div>
-    <div class="ia">
-      <div class="iah">🤖 Faça isso com IA</div>
-      <p class="ia-intro">Peça à IA os 3 cenários e a justificativa de cada um:</p>
-      <div class="prompt" id="p2">Para a reforma de uma cafeteria de cerca de 60 m² em [sua cidade], me dê uma estimativa de custo em 3 cenários — otimista, mais provável e pessimista. Para cada cenário, explique o que está incluído e por que o valor muda.</div>
-      <button class="btn-copy" onclick="copyPrompt('p2',this)">Copiar prompt</button>
-      <div class="verify"><div class="vh">✋ Antes de usar, adapte ao seu caso</div><ul>
-        <li>Os preços batem com a <b>sua região</b>? Ajuste com uma cotação local.</li>
-        <li>O cenário pessimista cobre os imprevistos típicos do <b>seu</b> caso?</li>
-        <li>Use os números como <b>ponto de partida</b>, não como verdade final.</li>
-      </ul></div>
-    </div>
+    
     <div class="nav"><button class="btn ghost" onclick="go(1)">← Voltar</button><button class="btn" id="next2" disabled onclick="go(3)">Próximo →</button></div>
   </section>
 
@@ -347,17 +302,7 @@
       <div class="fb" id="r-fb"></div>
     </div>
     <div class="term"><span class="tt">📚 Nas apostilas (Módulo de riscos e incerteza)</span>A gordura para <b>riscos identificados</b> é a <b>reserva de contingência</b> (calculada pelo valor monetário esperado = probabilidade × impacto) e entra na <b>linha de base</b>. Para imprevistos não mapeados existe a <b>reserva gerencial</b>, que fica fora da linha de base e só os patrocinadores liberam.</div>
-    <div class="ia">
-      <div class="iah">🤖 Faça isso com IA</div>
-      <p class="ia-intro">O melhor uso da IA aqui: levantar riscos que você não pensaria sozinho.</p>
-      <div class="prompt" id="p3">Liste os riscos que podem aumentar o custo de uma reforma em um imóvel comercial antigo. Para cada risco, indique probabilidade (baixa, média ou alta) e o impacto no custo. Ordene do mais crítico para o menos crítico.</div>
-      <button class="btn-copy" onclick="copyPrompt('p3',this)">Copiar prompt</button>
-      <div class="verify"><div class="vh">✋ Antes de usar, adapte ao seu caso</div><ul>
-        <li>Há riscos específicos que <b>só você conhece</b> (um sócio indeciso, uma data apertada)? Some à lista.</li>
-        <li>Quais riscos são <b>realmente prováveis</b> no seu caso?</li>
-        <li>Use a lista para <b>dimensionar a sua reserva</b>.</li>
-      </ul></div>
-    </div>
+    
     <p class="muted" style="font-size:14px">Anote sua escolha — ela vai ser testada na próxima etapa. 👀</p>
     <div class="nav"><button class="btn ghost" onclick="go(2)">← Voltar</button><button class="btn" id="next3" disabled onclick="go(4)">Executar o projeto →</button></div>
   </section>
@@ -395,17 +340,7 @@
         <div class="term" style="margin:10px 0 0"><span class="tt">📚 Nome técnico</span>Essa projeção é a <b>Estimativa no Término (ENT)</b>. Para desvio recorrente, ENT = orçamento ÷ IDC; para desvio pontual, ENT = gasto atual + (orçamento − valor agregado). Trabalhar com cenários (otimista/provável/pessimista) ajuda a antecipar o comportamento futuro dos custos.</div>
       </div>
     </div>
-    <div class="ia">
-      <div class="iah">🤖 Faça isso com IA</div>
-      <p class="ia-intro">A IA traduz os números em diagnóstico simples e sugere o que investigar:</p>
-      <div class="prompt" id="p5">No meu projeto, até agora planejei entregar R$ 60 mil, entreguei de verdade R$ 48 mil e já gastei R$ 58 mil. Diagnostique a saúde do projeto em linguagem simples, calcule os índices de prazo e de custo, e sugira o que eu deveria investigar primeiro.</div>
-      <button class="btn-copy" onclick="copyPrompt('p5',this)">Copiar prompt</button>
-      <div class="verify"><div class="vh">✋ Antes de usar, adapte ao seu caso</div><ul>
-        <li>A IA só viu números — <b>complete com o que você sabe</b> do contexto.</li>
-        <li>O diagnóstico bate com a <b>sua leitura</b> dos três valores?</li>
-        <li>As sugestões fazem sentido para a <b>sua equipe</b>?</li>
-      </ul></div>
-    </div>
+    
     <div class="nav"><button class="btn ghost" onclick="go(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="go(6)">Próximo →</button></div>
   </section>
 
@@ -456,17 +391,6 @@
       </div>
     </div>
 
-    <div class="ia">
-      <div class="iah">🤖 Faça isso com IA</div>
-      <p class="ia-intro">A IA transforma números em comunicação — um resumo para o investidor, um e-mail difícil:</p>
-      <div class="prompt" id="p6">Meu projeto custa R$ 133 mil e gera lucro de R$ 5 mil por mês. Escreva um resumo de um parágrafo para o investidor, explicando em quanto tempo o dinheiro volta e se vale a pena — de forma honesta, sem otimismo exagerado.</div>
-      <button class="btn-copy" onclick="copyPrompt('p6',this)">Copiar prompt</button>
-      <div class="verify"><div class="vh">✋ Antes de usar, adapte ao seu caso</div><ul>
-        <li>O texto reflete o que <b>você</b> quer comunicar ao investidor?</li>
-        <li>Ajuste o tom à <b>sua relação</b> com quem vai ler.</li>
-        <li>Troque pelos <b>números do seu projeto</b>, não os do exemplo.</li>
-      </ul></div>
-    </div>
     <div class="tip"><span class="th">Como decidir</span>Não existe payback "certo". Um dono topa 2 anos, outro só aceita 1. Os indicadores te dão base para uma <b>decisão consciente</b> — não um chute emocional.</div>
     <div class="nav"><button class="btn ghost" onclick="go(5)">← Voltar</button><button class="btn" id="next6" disabled onclick="go(7)">Aplicar no MEU projeto →</button></div>
   </section>
@@ -476,23 +400,6 @@
     <div class="eyebrow">Etapa 7 · Agora é com você</div>
     <h2>Use o mesmo método no seu projeto de verdade.</h2>
     <p class="big">Pense em <b>um projeto real</b> da sua vida ou trabalho: um evento, uma reforma, um lançamento, um app, um curso, uma viagem grande. Vamos montar o plano de custos dele — no mesmo passo a passo da cafeteria.</p>
-
-    <div class="copilot">
-      <div class="ch">🤖 Copiloto: gere o prompt e cole na sua IA</div>
-      <p>Preencha pelo menos o nome do projeto abaixo. Escolha uma ajuda e o copiloto <b>monta o prompt pronto</b> com os seus dados — é só copiar e colar em qualquer IA (ChatGPT, Claude, Gemini).</p>
-      <div class="cop-modes">
-        <button class="cop-mode" onclick="copEAP(this)"><b>1 ▸ Rascunhar a EAP</b> do meu projeto (os pedaços)</button>
-        <button class="cop-mode" onclick="copEst(this)"><b>2 ▸ Sugerir estimativa</b> em 3 cenários para a parte incerta</button>
-        <button class="cop-mode" onclick="copRevisor(this)"><b>3 ▸ Revisor Cético</b> — pedir críticas ao meu plano</button>
-      </div>
-      <div class="cop-promptwrap" id="cop-promptwrap">
-        <div class="cop-plabel">📋 Seu prompt — copie e cole na sua IA:</div>
-        <div class="prompt" id="cop-prompt"></div>
-        <button class="btn-copy" onclick="copyPrompt('cop-prompt',this)">Copiar prompt</button>
-      </div>
-      <div class="cop-out" id="cop-out"></div>
-      <p class="cop-note">💡 Se este arquivo estiver aberto dentro do Claude.ai, a resposta também pode aparecer aqui ao vivo. Em qualquer outro lugar, use o prompt acima.</p>
-    </div>
 
     <div class="do"><div class="doh">1. Qual é o seu projeto?</div>
       <label>Nome do projeto</label>
@@ -552,7 +459,7 @@
     <div class="bridge">
       <div class="bridge-k">Próximo passo</div>
       <h3 style="margin-top:2px">Agora assuma a cadeira de consultor.</h3>
-      <p style="margin-bottom:14px">Você aprendeu a pensar os custos como gestor. No <b>Consultor de Projetos</b>, você entra numa mesa de decisão executiva: lê indicadores ao vivo, decide entre cenários e leva um pacote de prompts de IA para os seus projetos.</p>
+      <p style="margin-bottom:14px">Você aprendeu a pensar os custos como gestor. No <b>Consultor de Projetos</b>, você entra numa mesa de decisão executiva: lê indicadores ao vivo e decide entre cenários, aplicando esses conceitos na prática.</p>
       <a class="bridge-btn" href="consultor-de-projetos.html">Ir para o Consultor de Projetos →</a>
     </div>
 
@@ -714,9 +621,6 @@ function rodarPayback(){
   document.getElementById('next6').disabled=false;
 }
 
-/* copiar prompts */
-function copyPrompt(id,btn){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=o,1700);});}
-
 /* projeto real */
 let pkgCount=0;
 function addPkg(){if(pkgCount>=5)return;pkgCount++;const d=document.createElement('div');d.className='row2';d.style.marginTop='8px';d.innerHTML=`<input type="text" class="my-pkg-n" placeholder="Pedaço ${pkgCount} (ex.: Equipamentos)"><input type="number" class="my-pkg-c" placeholder="Custo aprox. R$">`;document.getElementById('my-pkgs').appendChild(d);}
@@ -734,43 +638,6 @@ function lerPkgs(){
   const cs=[...document.querySelectorAll('.my-pkg-c')].map(e=>+e.value||0);
   let txt='',base=0;ns.forEach((n,i)=>{if(n){base+=cs[i];txt+=`- ${n}: ${cs[i]?fmt(cs[i]):'(sem custo)'}\n`;}});
   return{txt:txt||'(ainda não preenchidos)',base};
-}
-
-/* copiloto: monta prompt copiável + tenta ao vivo */
-function mostrarCop(prompt,btn){
-  document.getElementById('cop-prompt').innerText=prompt;
-  document.getElementById('cop-promptwrap').style.display='block';
-  document.getElementById('cop-promptwrap').scrollIntoView({behavior:'smooth',block:'nearest'});
-  askAI(prompt,btn);
-}
-async function askAI(prompt,btn){
-  const out=document.getElementById('cop-out');
-  out.style.display='block';out.innerHTML='🤖 <i>Tentando gerar a resposta ao vivo…</i>';
-  document.querySelectorAll('.cop-mode').forEach(b=>b.disabled=true);
-  try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
-    const data=await r.json();
-    const text=data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n").trim();
-    if(text){out.innerText=text;}else{throw new Error('vazio');}
-  }catch(e){
-    out.innerHTML='<span style="color:#5c554a">💡 A resposta ao vivo não está disponível aqui. Sem problema: <b>copie o prompt acima</b> e cole em qualquer IA (ChatGPT, Claude, Gemini).</span>';
-  }finally{document.querySelectorAll('.cop-mode').forEach(b=>b.disabled=false);}
-}
-function copEAP(btn){
-  const nome=document.getElementById('my-nome').value||'meu projeto',obj=document.getElementById('my-obj').value||'(não informado)';
-  mostrarCop(`Sou aluno de gestão de projetos. Meu projeto é: "${nome}". Objetivo: ${obj}.\nListe os principais pacotes de trabalho (grupos de tarefas) para realizá-lo e, dentro de cada um, as atividades principais. Use lista hierárquica, conciso, em português do Brasil.\nNo final, me lembre em 1 frase de adaptar a lista ao meu contexto, já que você não conhece os detalhes do meu caso.`,btn);
-}
-function copEst(btn){
-  const nome=document.getElementById('my-nome').value||'meu projeto',{txt}=lerPkgs(),inc=document.getElementById('my-inc-nome').value||'a parte mais incerta do projeto';
-  mostrarCop(`Meu projeto: "${nome}". Pedaços que listei:\n${txt}\nPara o pedaço "${inc}", proponha 3 cenários de custo — otimista, mais provável e pessimista — e explique brevemente o que muda entre eles.\nAo final, deixe claro que esses valores são apenas referências e que eu devo confirmar com preços reais da minha região. Português do Brasil, conciso.`,btn);
-}
-function copRevisor(btn){
-  const nome=document.getElementById('my-nome').value||'meu projeto',obj=document.getElementById('my-obj').value||'(não informado)',{txt,base}=lerPkgs();
-  const pct=+document.getElementById('my-reserva').value,reservaVal=base*pct/100,total=base+reservaVal;
-  const incN=document.getElementById('my-inc-nome').value,o=+document.getElementById('my-o').value,m=+document.getElementById('my-m').value,pp=+document.getElementById('my-p').value;
-  const incInfo=(incN&&o&&m&&pp)?`${incN} (otimista ${fmt(o)}, provável ${fmt(m)}, pessimista ${fmt(pp)})`:'(não detalhada)';
-  const ret=+document.getElementById('my-retorno').value;
-  mostrarCop(`Você é um revisor de projetos experiente e CÉTICO, mas construtivo. Critique o plano de custos abaixo, feito por um aluno.\nAponte de 3 a 5 pontos objetivos: estimativas que parecem otimistas demais, riscos que provavelmente foram esquecidos, se a reserva parece adequada ao risco e qualquer ponto que valha a pena reanalisar. Seja direto e específico. Termine com UMA pergunta que faça o aluno repensar algo. Use tópicos, português do Brasil.\n\nPLANO DO ALUNO\nProjeto: ${nome}\nObjetivo: ${obj}\nPedaços e custos:\n${txt}\nCusto planejado: ${fmt(base)}\nReserva: ${pct}% (${fmt(reservaVal)})\nOrçamento total: ${fmt(total)}\nParte mais incerta: ${incInfo}\nRetorno estimado: ${ret?fmt(ret)+'/mês':'não informado'}`,btn);
 }
 
 /* gerar plano */
