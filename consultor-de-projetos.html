@@ -337,84 +337,11 @@
         <textarea id="resp_r5" oninput="saveResp(5)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
       </div>
     </div>
-    <div class="nav"><button class="btn ghost" onclick="goStage(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="goStage(6)">Aplicar num caso novo →</button></div>
+    <div class="nav"><button class="btn ghost" onclick="goStage(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="goStage(6)">Ver meu pacote de IA →</button></div>
   </section>
 
-  <!-- ===== STAGE 6: CASO DE APLICAÇÃO ===== -->
+  <!-- ===== STAGE 6: PACOTE ===== -->
   <section class="stage" id="st6">
-    <div class="eyebrow">Caso de aplicação · sua vez de fechar o diagnóstico</div>
-    <h2>Agora você é o consultor de um projeto novo.</h2>
-    <p class="soft">Use os <b>prompts que você coletou</b> (ou faça as contas você mesmo) para responder cada bloco. Ao final, junte tudo numa recomendação. Os botões "Tira-dúvidas" das rodadas anteriores continuam valendo.</p>
-
-    <div class="brief">
-      <div class="bl">Briefing do projeto · App "ZapRango" (delivery regional)</div>
-      <div class="quote">"Estamos desenvolvendo um app de delivery. O orçamento aprovado (ONT) é de <b>R$ 600.000</b>. Na última medição, eu deveria ter entregue <b>R$ 420.000</b> de trabalho, mas só entreguei <b>R$ 357.000</b> — e já gastei <b>R$ 408.000</b>. Quero saber em que pé estamos, como o projeto deve terminar, e se vale investir <b>R$ 500.000</b> num módulo de pagamentos que renderia <b>R$ 165.000/ano por 5 anos</b> (exijo no mínimo 14% ao ano). Meu capital próprio custa 18% e consigo empréstimo a 11% (imposto de 34%)."</div>
-    </div>
-
-    <!-- bloco 1 -->
-    <div class="appblock">
-      <div class="abh">1 · Como está o desempenho? <span class="abhint">(prompt 1 · IDP e IDC)</span></div>
-      <p class="soft" style="font-size:14px">Dados: VP = R$ 420.000 · VA = R$ 357.000 · CR = R$ 408.000</p>
-      <div class="appq">
-        <label>O projeto está…</label>
-        <div class="opts" data-q="q1">
-          <button class="optbtn" onclick="pick('q1',this)" data-v="0">Adiantado e barato</button>
-          <button class="optbtn" onclick="pick('q1',this)" data-v="1">Atrasado e estourando o custo</button>
-          <button class="optbtn" onclick="pick('q1',this)" data-v="2">No prazo e no custo</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- bloco 2 -->
-    <div class="appblock">
-      <div class="abh">2 · Como deve terminar? <span class="abhint">(prompt 2 · ENT, premissa recorrente)</span></div>
-      <p class="soft" style="font-size:14px">ONT = R$ 600.000 · IDC = 0,875 (se o desempenho continuar). ENT = ONT ÷ IDC.</p>
-      <div class="appq">
-        <label>A estimativa de custo final (ENT) será de aproximadamente…</label>
-        <div class="opts" data-q="q2">
-          <button class="optbtn" onclick="pick('q2',this)" data-v="0">R$ 525.000 (abaixo do orçamento)</button>
-          <button class="optbtn" onclick="pick('q2',this)" data-v="1">R$ 600.000 (igual ao orçamento)</button>
-          <button class="optbtn" onclick="pick('q2',this)" data-v="2">R$ 686.000 (acima do orçamento)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- bloco 3 -->
-    <div class="appblock">
-      <div class="abh">3 · O novo investimento cria valor? <span class="abhint">(prompt 4 · VPL e TIR)</span></div>
-      <p class="soft" style="font-size:14px">Investir R$ 500.000 hoje; receber R$ 165.000/ano por 5 anos; taxa exigida 14%. <span class="mono">(VPL ≈ +R$ 66 mil · TIR ≈ 19,4%)</span></p>
-      <div class="appq">
-        <label>Sua leitura:</label>
-        <div class="opts" data-q="q3">
-          <button class="optbtn" onclick="pick('q3',this)" data-v="0">VPL positivo e TIR acima de 14% → cria valor</button>
-          <button class="optbtn" onclick="pick('q3',this)" data-v="1">VPL negativo → destrói valor</button>
-          <button class="optbtn" onclick="pick('q3',this)" data-v="2">A soma simples (R$ 825 mil) já basta para decidir</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- bloco 4 -->
-    <div class="appblock">
-      <div class="abh">4 · Como financiar? <span class="abhint">(prompt 5 · CMPC vs. TIR)</span></div>
-      <p class="soft" style="font-size:14px">Próprio 18% · terceiros 11% (imposto 34%). Com 40% emprestado, o CMPC ≈ 13,7%. A TIR é 19,4%.</p>
-      <div class="appq">
-        <label>A decisão de financiamento:</label>
-        <div class="opts" data-q="q4">
-          <button class="optbtn" onclick="pick('q4',this)" data-v="0">100% próprio (CMPC 18%) — a TIR não supera a régua</button>
-          <button class="optbtn" onclick="pick('q4',this)" data-v="1">Misto (CMPC 13,7%) — a TIR 19,4% supera a régua → financia</button>
-          <button class="optbtn" onclick="pick('q4',this)" data-v="2">Não importa a origem do dinheiro</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin:20px 0"><button class="btn" onclick="fecharCaso()">Fechar diagnóstico e ver a recomendação →</button></div>
-    <div class="outcome" id="caso-final" style="border-left-color:var(--violet);background:#1c1830"></div>
-
-    <div class="nav"><button class="btn ghost" onclick="goStage(5)">← Voltar</button><button class="btn" id="next6" disabled onclick="goStage(7)">Ver meu pacote de IA →</button></div>
-  </section>
-
-  <!-- ===== STAGE 7: PACOTE ===== -->
-  <section class="stage" id="st7">
     <div class="eyebrow">Encerramento</div>
     <h2>Consultoria concluída. Aqui está o seu pacote de IA.</h2>
     <div class="brief"><div class="bl">Resumo das suas decisões</div><div id="resumo"></div></div>
@@ -513,7 +440,7 @@ function montarPrompt(pid){
 }
 function montarTodosPrompts(){['p1','p2','p3','p4','p5'].forEach(montarPrompt);}
 const f3=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:3,maximumFractionDigits:3});
-const roundLabels=['Briefing','Diagnóstico','Projeção','Correção','Viabilidade','Capital','Aplicação','Pacote'];
+const roundLabels=['Briefing','Diagnóstico','Projeção','Correção','Viabilidade','Capital','Pacote'];
 let stage=0;const decisions={};
 
 function renderRounds(){
@@ -526,7 +453,7 @@ function goStage(n){
   document.getElementById('st'+n).classList.add('active');
   stage=n;renderRounds();window.scrollTo({top:0,behavior:'smooth'});
   if(n>=1&&n<=5)restoreResp(n);
-  if(n===7)montarPacote();
+  if(n===6)montarPacote();
 }
 renderRounds();
 montarTodosPrompts();
@@ -712,40 +639,6 @@ initR1();initR2();initR3();initR4();initR5();
 
 function copyP(id,btn){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado';const sv=btn.parentNode.querySelector('.saved-tag');if(sv)sv.textContent='✓ salvo no seu pacote';setTimeout(()=>btn.textContent=o,1600);});}
 
-/* ===== caso de aplicação ===== */
-const casoCorreto={q1:1,q2:2,q3:0,q4:1};
-const casoFb={
- q1:['❌ Olhe de novo: VA (357k) < VP (420k) = atrasado; e CR (408k) > VA (357k) = gastando mais do que entrega.','✅ Isso mesmo. IDP = 357÷420 = 0,85 (atrasado) e IDC = 357÷408 = 0,875 (estourando). Alerta duplo.','❌ Os números não batem: entregou menos do que devia e gastou mais do que entregou.'],
- q2:['❌ Para terminar abaixo, o IDC teria que ser maior que 1. Aqui ele é 0,875.','❌ Só terminaria igual se não houvesse desvio (IDC = 1).','✅ Correto. ENT = 600.000 ÷ 0,875 = R$ 685.714. Vai estourar ~R$ 86 mil (VNT negativa).'],
- q3:['✅ Correto. VPL ≈ +R$ 66 mil (positivo) e TIR 19,4% > 14% exigido → o investimento cria valor.','❌ O VPL é positivo (+R$ 66 mil), não negativo.','❌ Somar valores de anos diferentes ignora o valor do dinheiro no tempo. Precisa do VPL.'],
- q4:['❌ Com 100% próprio o CMPC fica em 18% — acima da TIR (19,4%) por pouco, mas a estrutura mista é claramente melhor.','✅ Correto. Com financiamento misto o CMPC cai para ~13,7%, bem abaixo da TIR de 19,4% → vale financiar e investir.','❌ A origem do dinheiro muda o custo do capital (a régua da decisão). Importa muito.']
-};
-const casoEscolhas={};
-function pick(q,btn){
-  if(document.querySelector('#st6 .opts[data-q="'+q+'"] .optbtn.lock'))return;
-  const v=+btn.dataset.v;casoEscolhas[q]=v;
-  const correct=casoCorreto[q];
-  document.querySelectorAll('#st6 .opts[data-q="'+q+'"] .optbtn').forEach(b=>{
-    b.classList.add('lock');
-    if(+b.dataset.v===correct)b.classList.add('right');
-    else if(b===btn)b.classList.add('wrong');
-  });
-}
-function fecharCaso(){
-  const out=document.getElementById('caso-final');
-  const ans=['q1','q2','q3','q4'];
-  const faltam=ans.filter(q=>casoEscolhas[q]===undefined);
-  if(faltam.length){out.className='outcome show warn';out.innerHTML='<div class="ot">Responda os 4 blocos antes de fechar.</div>Faltam '+faltam.length+' resposta(s).';return;}
-  let acertos=ans.filter(q=>casoEscolhas[q]===casoCorreto[q]).length;
-  let det=ans.map((q,i)=>`<div style="margin:6px 0">Bloco ${i+1}: ${casoFb[q][casoEscolhas[q]]}</div>`).join('');
-  const venceu=acertos===4;
-  out.className='outcome show'+(venceu?'':' warn');
-  out.innerHTML=`<div class="ot">${venceu?'🏆 Diagnóstico fechado com nota máxima!':'Você acertou '+acertos+' de 4. Veja os ajustes:'}</div>${det}
-    <div style="margin-top:14px;padding:13px 15px;border:1px solid var(--violet);border-radius:10px;background:#15111f">
-    <b style="color:var(--violet)">📋 Recomendação final ao patrocinador do ZapRango:</b><br>
-    "O projeto está <b>atrasado e acima do custo</b> (IDP 0,85 · IDC 0,875) e, mantido o ritmo, deve <b>encerrar em ~R$ 686 mil</b>, cerca de R$ 86 mil acima do orçamento — recomendo acionar reservas e plano de correção. <b>Apesar disso, o novo módulo vale a pena</b>: VPL positivo (+R$ 66 mil) e TIR de 19,4%, acima dos 14% exigidos. <b>Recomendo aprovar o investimento com financiamento misto</b> (CMPC ~13,7%, bem abaixo da TIR), que viabiliza o retorno com menor custo de capital."</div>`;
-  document.getElementById('next6').disabled=false;
-}
 
 const pacoteData=[
  {n:'1 · Diagnóstico de desempenho (VP, VA, CR, IDP, IDC)',id:'p1'},
