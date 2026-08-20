@@ -116,6 +116,28 @@
 
   .pkg-item{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:15px 17px;margin:12px 0}
   .pkg-item .pn{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--gold);margin-bottom:8px}
+  .prompt .ptcf-lbl{color:#c9b3ff;font-weight:700;background:rgba(109,74,214,.25);padding:0 5px;border-radius:4px}
+  .pkg-resp{margin-top:11px;border-top:1px dashed var(--line);padding-top:10px}
+  .pkg-resp .prl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+  .pkg-resp textarea{width:100%;min-height:66px;font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--ink);border:1.5px solid #2a3a34;border-radius:8px;padding:9px 11px;resize:vertical;background:#0e1a15;line-height:1.5}
+  .pkg-resp textarea:focus{outline:none;border-color:#2f9e63;box-shadow:0 0 0 3px rgba(47,158,99,.18)}
+  /* banner de acesso ao especialista */
+  .nextband{display:flex;align-items:center;gap:14px;justify-content:space-between;border:2px solid var(--violet);background:linear-gradient(135deg,#241a3d,#2d2350);border-radius:14px;padding:16px 20px;margin-top:20px;cursor:pointer;transition:transform .12s}
+  .nextband:hover{transform:translateY(-2px)}
+  .nextband .nb-k{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#c9b3ff;font-weight:700}
+  .nextband .nb-t{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:#fff;margin:2px 0 3px}
+  .nextband .nb-d{font-size:13px;color:#c8c0e0}
+  .nextband .nb-go{font-size:30px;color:#c9b3ff;flex:none}
+  /* aba especialista */
+  .esp-what{display:grid;gap:9px;margin-top:6px}
+  .esp-what .ew-item{display:flex;align-items:flex-start;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--ink-2)}
+  .esp-what .ew-item b{color:var(--ink)}
+  .esp-what .ew-i{font-size:15px}
+  .esp-steps{display:grid;gap:9px;margin-top:4px}
+  .esp-steps .es{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--ink-2)}
+  .esp-steps .es b{color:var(--ink)}
+  .esp-steps .es-n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;font-weight:700;display:grid;place-items:center;font-size:13px;font-family:'Space Mono'}
+  .esp-tip{margin-top:16px;background:#16202e;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 15px;font-size:13.5px;color:var(--ink-2)}
 
   /* caso de aplicação */
   .appblock{border:1px solid var(--line);background:var(--panel);border-radius:13px;padding:16px 18px;margin:14px 0}
@@ -145,8 +167,7 @@
   .ex{font-size:13.5px;color:var(--ink-2);background:#13251c;border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:9px 13px;margin:8px 0}
   .ex b{color:var(--green)}
 
-  @media print{.nav,.btn,.rounds,.ai-actions,.overlay,.helpbtn{display:none!important}body{background:#fff;color:#111}.prompt{color:#111;background:#f2f2f2}}
-</style>
+  @media print{.nav,.btn,.rounds,.ai-actions,.overlay,.helpbtn{display:none!important}body{background:#fff;color:#111}.prompt{color:#111;background:#f2f2f2}}</style>
 </head>
 <body>
 <nav class="navbar">
@@ -193,7 +214,16 @@
     <div class="aibox" id="ai1" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Diagnóstico de desempenho</div>
       <div class="ai-why">Use sempre que precisar interpretar VP/VA/CR e explicar a situação para a liderança.</div>
-      <div class="prompt" id="p1">Atue como analista de controle de custos de projetos. No meu projeto, até a data tenho: Valor Planejado (VP, o quanto eu deveria ter entregue) = [valor], Valor Agregado (VA, o quanto realmente entreguei) = [valor] e Custo Real (CR, o quanto já gastei) = [valor]. Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o índice de desempenho de prazo (IDP = VA/VP) e o índice de desempenho de custo (IDC = VA/CR). Depois, explique em linguagem executiva o que esses números significam e liste 3 ações de correção priorizadas.</div>
+      <div class="prompt" id="p1">PERSONA: Você é um analista de controle de custos de projetos, experiente e didático.
+
+TAREFA: Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o IDP (VA/VP) e o IDC (VA/CR).
+
+CONTEXTO: Dados da última medição do meu projeto:
+- Valor Planejado (VP, o que eu deveria ter entregue) = [valor]
+- Valor Agregado (VA, o que realmente entreguei) = [valor]
+- Custo Real (CR, o que já gastei) = [valor]
+
+FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que significam e liste 3 ações de correção priorizadas.</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p1',this)">Copiar prompt</button><span class="saved-tag" id="sv1"></span></div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(0)">← Voltar</button><button class="btn" id="next1" disabled onclick="goStage(2)">Próxima rodada →</button></div>
@@ -213,7 +243,18 @@
     <div class="aibox" id="ai2" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Estimar resultados futuros</div>
       <div class="ai-why">Use para projetar o custo final do seu projeto a partir dos índices atuais.</div>
-      <div class="prompt" id="p2">Atue como especialista em valor agregado. No meu projeto: Orçamento No Término (ONT, orçamento total aprovado) = [valor], Valor Agregado (VA) = [valor], Custo Real (CR) = [valor] e IDC acumulado (índice de desempenho de custo) = [valor]. Calcule a Estimativa No Término (ENT, previsão do custo final) em dois cenários: (1) desvio recorrente, em que ENT = ONT / IDC; e (2) desvio pontual já corrigido, em que ENT = CR + (ONT − VA). Calcule também a Variação No Término (VNT = ONT − ENT) e a Estimativa Para Terminar (EPT = ENT − CR) em cada caso. Explique qual cenário adotar e por quê, considerando esta causa do desvio: [descreva a causa].</div>
+      <div class="prompt" id="p2">PERSONA: Você é um especialista em Análise de Valor Agregado (AVA).
+
+TAREFA: Calcule a Estimativa No Término (ENT) em dois cenários — recorrente (ENT = ONT/IDC) e pontual (ENT = CR + (ONT−VA)) — e também a VNT (ONT−ENT) e a EPT (ENT−CR).
+
+CONTEXTO: Dados do meu projeto:
+- Orçamento No Término (ONT) = [valor]
+- Valor Agregado (VA) = [valor]
+- Custo Real (CR) = [valor]
+- IDC acumulado = [valor]
+- Causa do desvio observado = [descreva a causa]
+
+FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, em linguagem simples.</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p2',this)">Copiar prompt</button><span class="saved-tag" id="sv2"></span></div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(1)">← Voltar</button><button class="btn" id="next2" disabled onclick="goStage(3)">Próxima rodada →</button></div>
@@ -233,7 +274,17 @@
     <div class="aibox" id="ai3" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Riscos e reservas</div>
       <div class="ai-why">Use para dimensionar reservas e decidir entre contingência e reserva gerencial.</div>
-      <div class="prompt" id="p3">Atue como gerente de riscos de projetos. Meu projeto teve um desvio de custo de [valor] acima do orçamento. Minha reserva de contingência (para riscos já identificados) é [valor] e há reserva gerencial (para imprevistos, liberada pela diretoria) de [valor]. Explique a diferença entre as duas reservas e recomende como cobrir o desvio. Depois, liste os riscos que eu deveria reavaliar para reforçar a contingência e proponha um novo percentual de reserva coerente com o risco que vou descrever: [descreva o contexto].</div>
+      <div class="prompt" id="p3">PERSONA: Você é um gerente de riscos de projetos.
+
+TAREFA: Recomende como cobrir o desvio usando as reservas corretas e proponha um reforço de contingência baseado no valor esperado do risco.
+
+CONTEXTO: No meu projeto:
+- Desvio de custo = [valor] acima do orçamento
+- Reserva de contingência (riscos identificados, usada pela equipe) = [valor]
+- Reserva gerencial (imprevistos, liberada pela diretoria) = [valor]
+- Contexto do risco que pode se repetir = [descreva o contexto]
+
+FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desvio e proponha um novo percentual de contingência. Em tópicos, linguagem simples.</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p3',this)">Copiar prompt</button><span class="saved-tag" id="sv3"></span></div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(2)">← Voltar</button><button class="btn" id="next3" disabled onclick="goStage(4)">Ir para viabilidade →</button></div>
@@ -253,7 +304,16 @@
     <div class="aibox" id="ai4" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Viabilidade (VPL, TIR, payback)</div>
       <div class="ai-why">Use para decidir se um investimento de projeto cria valor.</div>
-      <div class="prompt" id="p4">Atue como analista de viabilidade econômico-financeira. Meu projeto exige investimento inicial de [valor] e gera os seguintes ganhos anuais: [liste os valores por ano]. A taxa mínima de retorno exigida é [taxa]% ao ano. Calcule e explique em linguagem simples: (1) o Valor Presente Líquido (VPL, soma dos ganhos futuros trazidos a valor de hoje menos o investimento); (2) a Taxa Interna de Retorno (TIR, a rentabilidade do projeto); (3) o payback simples e o descontado (tempo para recuperar o dinheiro); (4) o índice de lucratividade. Conclua com uma recomendação clara de investir ou não, usando a regra VPL>0 e TIR>taxa exigida.</div>
+      <div class="prompt" id="p4">PERSONA: Você é um analista de viabilidade econômico-financeira de projetos.
+
+TAREFA: Calcule o VPL, a TIR, o payback (simples e descontado) e o índice de lucratividade.
+
+CONTEXTO: A oportunidade de investimento:
+- Investimento inicial = [valor]
+- Ganhos anuais = [liste os valores por ano]
+- Taxa mínima de retorno exigida = [taxa]% ao ano
+
+FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclua com uma recomendação clara de investir ou não (regra: VPL>0 e TIR>taxa exigida).</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p4',this)">Copiar prompt</button><span class="saved-tag" id="sv4"></span></div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(3)">← Voltar</button><button class="btn" id="next4" disabled onclick="goStage(5)">Última rodada →</button></div>
@@ -273,7 +333,17 @@
     <div class="aibox" id="ai5" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Financiamento e custo de capital</div>
       <div class="ai-why">Use para calcular o custo do capital e ver o efeito do dinheiro emprestado.</div>
-      <div class="prompt" id="p5">Atue como analista financeiro de projetos. Vou financiar meu projeto com [%] de capital próprio (dinheiro do dono, custo [taxa]% ao ano) e [%] de capital de terceiros (dinheiro emprestado, custo [taxa]% ao ano), com imposto de [valor]%. Calcule o Custo Médio Ponderado de Capital (CMPC, a média do custo das duas fontes), considerando o benefício fiscal da dívida (os juros abatem imposto). Explique o impacto do dinheiro emprestado no caixa do dono (entra dinheiro no início, mas saem parcelas e juros depois) e diga como usar o CMPC como taxa mínima na decisão, comparando com a TIR do projeto.</div>
+      <div class="prompt" id="p5">PERSONA: Você é um analista financeiro de projetos.
+
+TAREFA: Calcule o Custo Médio Ponderado de Capital (CMPC) com o benefício fiscal da dívida e explique como usá-lo na decisão.
+
+CONTEXTO: Estrutura de financiamento do projeto:
+- Capital próprio = [%] a [taxa]% ao ano
+- Capital de terceiros = [%] a [taxa]% ao ano
+- Imposto = [valor]%
+- TIR do projeto (do bloco anterior) = [valor]%
+
+FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique o impacto do dinheiro emprestado no caixa e conclua comparando CMPC com a TIR (regra: TIR > CMPC = aprovar).</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p5',this)">Copiar prompt</button><span class="saved-tag" id="sv5"></span></div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="goStage(6)">Aplicar num caso novo →</button></div>
@@ -361,10 +431,53 @@
     <p class="soft">Estes são os prompts que você praticou. Adapte os campos [entre colchetes] aos dados do seu projeto real e cole em qualquer IA. Leve este pacote para a sua mesa de trabalho.</p>
     <div id="pacote"></div>
     <div style="text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn violet" onclick="copyPacote(this)">📋 Copiar pacote inteiro</button>
+      <button class="btn violet" onclick="baixarPacote()">⬇️ Baixar relatório (.txt)</button>
+      <button class="btn violet" onclick="copyPacote(this)">📋 Copiar tudo</button>
       <button class="btn ghost" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
       <button class="btn ghost" onclick="goStage(0)">↻ Refazer</button>
     </div>
+    <div class="nextband" onclick="goStage(8)">
+      <div>
+        <div class="nb-k">Bônus para levar ao trabalho</div>
+        <div class="nb-t">🧠 Crie seu Especialista em Projetos com IA</div>
+        <div class="nb-d">Monte um assistente permanente (GPT, Gem ou Projeto no Claude) que já pensa como consultor de custos. Texto pronto para copiar.</div>
+      </div>
+      <div class="nb-go">→</div>
+    </div>
+  </section>
+
+  <!-- ===== STAGE 8 · ESPECIALISTA ===== -->
+  <section class="stage" id="st8">
+    <div class="eyebrow">Bônus · leve a IA para o seu dia a dia</div>
+    <h2>Crie seu Especialista em Projetos</h2>
+    <p class="soft">Em vez de reescrever prompts toda vez, você pode criar um <b>assistente permanente</b> que já sabe pensar como um consultor de custos de projetos. Abaixo está o "cérebro" dele pronto — é só copiar e colar na plataforma que você usa.</p>
+
+    <div class="esp-what">
+      <div class="ew-item"><div class="ew-i">🟢</div><div><b>GPT personalizado</b> (ChatGPT Plus) — em "Explorar GPTs → Criar".</div></div>
+      <div class="ew-item"><div class="ew-i">🔵</div><div><b>Gem</b> (Google Gemini) — em "Gerenciar Gems → Novo Gem".</div></div>
+      <div class="ew-item"><div class="ew-i">🟣</div><div><b>Projeto</b> (Claude) — crie um Projeto e cole em "Instruções do projeto".</div></div>
+    </div>
+
+    <h3 style="margin-top:20px">1 · Texto pronto do especialista</h3>
+    <p class="soft">Copie tudo abaixo e cole no campo de instruções da plataforma escolhida.</p>
+    <div class="prompt" id="esp_pronto"></div>
+    <div class="ai-actions"><button class="btn-copy" onclick="copyP('esp_pronto',this)">Copiar texto do especialista</button></div>
+
+    <h3 style="margin-top:22px">2 · Modelo em branco (para criar o seu)</h3>
+    <p class="soft">Quer um especialista de outra área (riscos, cronograma, qualidade)? Preencha os campos [entre colchetes] deste molde — ele segue a mesma estrutura PTCF.</p>
+    <div class="prompt" id="esp_molde"></div>
+    <div class="ai-actions"><button class="btn-copy" onclick="copyP('esp_molde',this)">Copiar modelo em branco</button></div>
+
+    <h3 style="margin-top:22px">3 · Como configurar (passo a passo)</h3>
+    <div class="esp-steps">
+      <div class="es"><div class="es-n">1</div><div>Abra a plataforma (ChatGPT, Gemini ou Claude) e vá à área de criar assistente (veja os nomes acima).</div></div>
+      <div class="es"><div class="es-n">2</div><div>Dê um nome — ex.: <b>"Consultor de Custos de Projetos"</b> — e uma descrição curta.</div></div>
+      <div class="es"><div class="es-n">3</div><div>No campo de <b>instruções</b>, cole o texto do especialista (passo 1).</div></div>
+      <div class="es"><div class="es-n">4</div><div>Salve. Pronto: agora é só conversar, mandar seus números (VP, VA, CR, investimentos…) e pedir análises quando quiser.</div></div>
+    </div>
+    <div class="esp-tip">💡 Dica: anexe ao seu especialista os materiais da sua empresa (planilhas, modelos de orçamento). Assim ele responde com a realidade dos seus projetos, não em tese.</div>
+
+    <div class="nav" style="margin-top:22px"><button class="btn ghost" onclick="goStage(7)">← Voltar ao pacote</button><button class="btn" onclick="goStage(0)">↻ Recomeçar</button></div>
   </section>
 
 </div>
@@ -394,6 +507,7 @@ function goStage(n){
   document.getElementById('st'+n).classList.add('active');
   stage=n;renderRounds();window.scrollTo({top:0,behavior:'smooth'});
   if(n===7)montarPacote();
+  if(n===8)montarEspecialista();
 }
 renderRounds();
 
@@ -620,12 +734,73 @@ const pacoteData=[
  {n:'4 · Viabilidade (VPL, TIR, payback, lucratividade)',id:'p4'},
  {n:'5 · Financiamento e custo de capital (CMPC)',id:'p5'}
 ];
+function hlPTCF(txt){return txt.replace(/^(PERSONA|TAREFA|CONTEXTO|FORMATO):/gm,'<span class="ptcf-lbl">$1:</span>');}
 function montarPacote(){const map={good:'✅',warn:'⚠️',bad:'❌'};let r='';
   [1,2,3,4,5].forEach(n=>{const d=decisions[n];r+=`<div style="font-size:14px;margin:4px 0;color:var(--ink)">Rodada ${n}: ${d?map[d.res]+' '+d.opt+' — '+d.t:'<span class="soft">não decidida</span>'}</div>`;});
   document.getElementById('resumo').innerHTML=r;
-  document.getElementById('pacote').innerHTML=pacoteData.map(p=>`<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${document.getElementById(p.id).innerText}</div></div>`).join('');
+  // preserva respostas já digitadas
+  const saved={};document.querySelectorAll('#pacote textarea').forEach(t=>saved[t.id]=t.value);
+  document.getElementById('pacote').innerHTML=pacoteData.map((p,i)=>`<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${hlPTCF(document.getElementById(p.id).innerText)}</div><div class="pkg-resp"><div class="prl">📝 Cole aqui a resposta que a IA te deu</div><textarea id="resp_p${i+1}" placeholder="Cole a resposta da IA. Entra no relatório que você exporta abaixo.">${saved['resp_p'+(i+1)]||''}</textarea></div></div>`).join('');
 }
-function copyPacote(btn){let txt='PACOTE DE IA PARA GESTÃO DE CUSTOS DE PROJETOS\n(adapte os campos [entre colchetes] ao seu projeto)\n\n';pacoteData.forEach(p=>{txt+='### '+p.n+'\n'+document.getElementById(p.id).innerText+'\n\n';});navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✓ Pacote copiado';setTimeout(()=>btn.textContent=o,1800);});}
+function montarRelatorioConsultor(){
+  const map={good:'APROVADA',warn:'PARCIAL',bad:'REVISAR'};
+  let txt='RELATÓRIO — CONSULTOR DE PROJETOS\nGestão de Custos de Projetos com IA\nData: '+new Date().toLocaleDateString('pt-BR')+'\nAluno(a): _______________________________\n\n';
+  txt+='='.repeat(60)+'\nRESUMO DAS DECISÕES NAS 5 RODADAS\n'+'='.repeat(60)+'\n';
+  [1,2,3,4,5].forEach(n=>{const d=decisions[n];txt+=`Rodada ${n}: ${d?'['+map[d.res]+'] '+d.opt+' — '+d.t:'(não decidida)'}\n`;});
+  txt+='\n'+'='.repeat(60)+'\nPACOTE DE PROMPTS E RESPOSTAS\n'+'='.repeat(60)+'\n';
+  pacoteData.forEach((p,i)=>{
+    txt+='\n### '+p.n+'\n\nPROMPT:\n'+document.getElementById(p.id).innerText.trim()+'\n\n';
+    const el=document.getElementById('resp_p'+(i+1));
+    txt+='RESPOSTA DA IA:\n'+((el&&el.value.trim())||'(não preenchido)')+'\n\n'+'-'.repeat(60)+'\n';
+  });
+  txt+='\nObservação: adapte os campos [entre colchetes] ao seu projeto real. Confira sempre os números — a IA pode variar no arredondamento ou errar uma conta.\n';
+  return txt;
+}
+function copyPacote(btn){navigator.clipboard.writeText(montarRelatorioConsultor()).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=o,1800);});}
+function baixarPacote(){const blob=new Blob([montarRelatorioConsultor()],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relatorio-consultor-projetos.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);}
+
+/* ===== ESPECIALISTA ===== */
+const espPronto=`PERSONA
+Você é um consultor sênior de custos e viabilidade de projetos, com anos de experiência em gestão de valor agregado e análise econômico-financeira. Você é didático: explica cada conceito em linguagem simples, como se falasse com um gestor que não é da área financeira, mas sem perder o rigor técnico.
+
+TAREFA
+Ajudar o usuário a planejar, controlar e decidir sobre os custos de projetos. Isso inclui:
+- Controle: calcular e interpretar VP, VA, CR, IDP, IDC, e projetar o custo final (ENT, VNT, EPT).
+- Riscos: orientar sobre reserva de contingência vs. gerencial e cálculo por valor esperado (probabilidade × impacto).
+- Viabilidade: calcular e explicar VPL, TIR, payback (simples e descontado), índice de lucratividade.
+- Financiamento: calcular o CMPC (custo médio ponderado de capital) com benefício fiscal e comparar com a TIR.
+
+CONTEXTO
+O usuário pode não dominar finanças. Sempre que ele trouxer números, confirme o que cada um representa antes de calcular. Quando faltar um dado, pergunte de forma objetiva em vez de supor. Use as fórmulas padrão: IDP=VA/VP; IDC=VA/CR; ENT=ONT/IDC (desvio recorrente) ou CR+(ONT−VA) (pontual); VPL = entradas trazidas a valor presente − investimento; regra de decisão VPL>0 e TIR>taxa exigida; CMPC = %próprio×custo próprio + %terceiros×custo terceiros×(1−imposto); aprovar se TIR>CMPC.
+
+FORMATO
+- Mostre as contas passo a passo, com os números do usuário.
+- Depois traduza o resultado em uma frase executiva ("na prática, isso significa…").
+- Ao recomendar, seja direto (investir/não investir, aprovar/revisar) e justifique pela regra usada.
+- Sempre termine lembrando que os cálculos devem ser conferidos e que você pode ter arredondado.
+- Nunca invente dados que o usuário não forneceu.`;
+
+const espMolde=`PERSONA
+Você é um [especialista em QUAL ÁREA — ex.: gestão de riscos / cronograma / qualidade] de projetos, experiente e didático. Explique em linguagem [simples / técnica], para um público [descreva quem vai usar].
+
+TAREFA
+Ajudar o usuário a [descreva o que o especialista deve fazer — ex.: identificar riscos, montar cronograma, revisar entregas]. Especifique as análises e cálculos esperados: [liste].
+
+CONTEXTO
+[Descreva a realidade do usuário: tipo de projeto, setor, nível de conhecimento, dados que costuma ter em mãos.]
+Regras e fórmulas que o especialista deve seguir: [liste as fórmulas, políticas ou boas práticas que ele deve usar].
+Quando faltar um dado, [instrua: perguntar em vez de supor].
+
+FORMATO
+- [Como mostrar o raciocínio — ex.: passo a passo.]
+- [Como traduzir o resultado — ex.: uma frase prática.]
+- [Como concluir — ex.: recomendação direta e justificada.]
+- [Ressalvas — ex.: lembrar de conferir números; não inventar dados.]`;
+
+function montarEspecialista(){
+  const a=document.getElementById('esp_pronto'); if(a&&!a.dataset.done){a.textContent=espPronto;a.dataset.done='1';}
+  const b=document.getElementById('esp_molde'); if(b&&!b.dataset.done){b.textContent=espMolde;b.dataset.done='1';}
+}
 </script>
 </body>
 </html>

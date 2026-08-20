@@ -62,6 +62,30 @@
   .promptcard .ptext .fld{color:var(--blue);font-weight:700}
   .promptcard .copybtn{font-family:'Space Grotesk';font-weight:700;font-size:12.5px;border:1.5px solid var(--violet);background:var(--violet);color:#fff;border-radius:8px;padding:8px 15px;margin-top:10px;cursor:pointer;transition:background .15s}
   .promptcard .copybtn:hover{background:#5a3ac0}
+  .promptcard .ptext .lbl{color:#5232b0;font-weight:700;background:#efe8fc;padding:0 5px;border-radius:4px}
+  .ptcf-note{font-size:11.5px;color:var(--ink-2);margin:6px 0 0;display:flex;align-items:flex-start;gap:5px}
+  .ptcf-note b{color:#5232b0}
+  /* campo de resposta */
+  .respbox{margin-top:12px;border-top:1px dashed #d9cdf5;padding-top:11px}
+  .respbox .rl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+  .respbox textarea{width:100%;min-height:70px;font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--ink);border:1.5px solid #cfe0d3;border-radius:8px;padding:9px 11px;resize:vertical;background:#f7fbf8;line-height:1.5}
+  .respbox textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(31,138,76,.13);background:#fff}
+  .respbox .rh{font-size:11px;color:var(--ink-2);margin-top:4px}
+  /* exportar */
+  .ptcf{border:1.5px solid #cdbef0;border-radius:12px;background:#f7f4fb;padding:13px 16px;margin:0 0 8px}
+  .ptcf-h{font-size:14px;color:#5232b0;margin-bottom:9px}
+  .ptcf-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;font-size:13px;color:var(--ink-2)}
+  .ptcf-grid .pl{display:inline-block;font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:#6d4ad6;padding:1px 7px;border-radius:5px;margin-right:5px}
+  .ptcf-foot{font-size:11.5px;color:var(--ink-2);margin-top:9px;font-style:italic}
+  @media(max-width:520px){.ptcf-grid{grid-template-columns:1fr}}
+  .export{border:2px solid #d9cdf5;border-radius:14px;background:#faf8ff;padding:18px 20px;margin:22px 0}
+  .export .sl{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:1px;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+  .expbtns{display:flex;gap:9px;flex-wrap:wrap}
+  .ebtn{font-family:'Space Grotesk';font-weight:700;font-size:13px;border:1.5px solid #cdbef0;background:#fff;color:#5232b0;border-radius:9px;padding:10px 16px;cursor:pointer;transition:all .15s}
+  .ebtn:hover{background:#f0e9fc}
+  .ebtn.primary{background:var(--violet);border-color:var(--violet);color:#fff}
+  .ebtn.primary:hover{background:#5a3ac0}
+  .prev{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;color:var(--ink);white-space:pre-wrap;max-height:340px;overflow:auto}
 
   .out{font-size:13.5px;color:var(--ink-2);margin-top:11px;background:#eef4ec;border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:8px 13px}
   .out b{color:var(--green)}
@@ -116,7 +140,17 @@
     </ul>
   </div>
 
-  <div class="tip">⏱️ <b>Como usar:</b> pegue o prompt indicado no seu pacote, cole os "Dados úteis" deste bloco e rode na IA. Anote o resultado — você vai precisar dele adiante.</div>
+  <div class="tip">⏱️ <b>Como usar:</b> em cada bloco, edite os dados se quiser, copie o prompt pronto, rode na sua IA e <b>cole a resposta no campo verde</b>. No fim, exporte o relatório com tudo.</div>
+  <div class="ptcf">
+    <div class="ptcf-h">🧩 Todos os prompts seguem a estrutura <b>PTCF</b></div>
+    <div class="ptcf-grid">
+      <div><span class="pl">Persona</span> quem a IA deve ser</div>
+      <div><span class="pl">Tarefa</span> o que ela deve fazer</div>
+      <div><span class="pl">Contexto</span> os dados e a situação</div>
+      <div><span class="pl">Formato</span> como deve responder</div>
+    </div>
+    <div class="ptcf-foot">É um jeito simples de escrever bons prompts. Repare nesses 4 rótulos dentro de cada prompt — e use a mesma estrutura nos seus projetos.</div>
+  </div>
 
   <!-- B1 -->
   <div class="block">
@@ -138,6 +172,11 @@
       <div class="ph">🤖 Prompt pronto — copie e cole na sua IA</div>
       <div class="ptext" id="prompt_b1"></div>
       <button class="copybtn" onclick="copyPrompt('prompt_b1',this)">Copiar prompt</button>
+      <div class="respbox">
+        <div class="rl">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_b1" data-r="Bloco 1" placeholder="Depois de rodar o prompt na sua IA, cole a resposta aqui. Ela entra no relatório final."></textarea>
+        <div class="rh">Isso fica salvo só nesta tela, para montar seu relatório no fim.</div>
+      </div>
     </div>
     <div class="out">Você vai obter: variação de prazo e de custo, o <b>IDP</b> (índice de prazo) e o <b>IDC</b> (índice de custo).</div>
     <span class="carrytag">↪ leve o IDC para o Bloco 2.</span>
@@ -164,6 +203,11 @@
       <div class="ph">🤖 Prompt pronto — copie e cole na sua IA</div>
       <div class="ptext" id="prompt_b2"></div>
       <button class="copybtn" onclick="copyPrompt('prompt_b2',this)">Copiar prompt</button>
+      <div class="respbox">
+        <div class="rl">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_b2" data-r="Bloco 2" placeholder="Depois de rodar o prompt na sua IA, cole a resposta aqui. Ela entra no relatório final."></textarea>
+        <div class="rh">Isso fica salvo só nesta tela, para montar seu relatório no fim.</div>
+      </div>
     </div>
     <div class="out">Você vai obter: <b>ENT</b> (custo final previsto), <b>VNT</b> (sobra ou estouro) e <b>EPT</b>.</div>
     <span class="carrytag">↪ o sinal de estouro prepara a decisão do Bloco 3.</span>
@@ -190,6 +234,11 @@
       <div class="ph">🤖 Prompt pronto — copie e cole na sua IA</div>
       <div class="ptext" id="prompt_b3"></div>
       <button class="copybtn" onclick="copyPrompt('prompt_b3',this)">Copiar prompt</button>
+      <div class="respbox">
+        <div class="rl">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_b3" data-r="Bloco 3" placeholder="Depois de rodar o prompt na sua IA, cole a resposta aqui. Ela entra no relatório final."></textarea>
+        <div class="rh">Isso fica salvo só nesta tela, para montar seu relatório no fim.</div>
+      </div>
     </div>
     <div class="out">Você vai obter: como fechar o desvio (contingência → gerencial) e uma <b>nova reserva sugerida</b>.</div>
   </div>
@@ -215,6 +264,11 @@
       <div class="ph">🤖 Prompt pronto — copie e cole na sua IA</div>
       <div class="ptext" id="prompt_b4"></div>
       <button class="copybtn" onclick="copyPrompt('prompt_b4',this)">Copiar prompt</button>
+      <div class="respbox">
+        <div class="rl">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_b4" data-r="Bloco 4" placeholder="Depois de rodar o prompt na sua IA, cole a resposta aqui. Ela entra no relatório final."></textarea>
+        <div class="rh">Isso fica salvo só nesta tela, para montar seu relatório no fim.</div>
+      </div>
     </div>
     <div class="out">Você vai obter: <b>VPL</b>, <b>TIR</b>, payback e índice de lucratividade.</div>
     <span class="carrytag">↪ leve a TIR para o Bloco 5.</span>
@@ -242,6 +296,11 @@
       <div class="ph">🤖 Prompt pronto — copie e cole na sua IA</div>
       <div class="ptext" id="prompt_b5"></div>
       <button class="copybtn" onclick="copyPrompt('prompt_b5',this)">Copiar prompt</button>
+      <div class="respbox">
+        <div class="rl">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_b5" data-r="Bloco 5" placeholder="Depois de rodar o prompt na sua IA, cole a resposta aqui. Ela entra no relatório final."></textarea>
+        <div class="rh">Isso fica salvo só nesta tela, para montar seu relatório no fim.</div>
+      </div>
     </div>
     <div class="out">Você vai obter: o <b>CMPC</b> e a decisão final — vale se <b>TIR &gt; CMPC</b>.</div>
   </div>
@@ -256,6 +315,18 @@
       <li><b>Investimento</b> — o módulo novo vale a pena e como financiá-lo? (Blocos 4 e 5)</li>
     </ol>
     <p style="margin-top:10px;font-size:13.5px;color:var(--ink-2)">Dica de prompt: <i>"Com base nestes resultados [cole os números dos 5 blocos], escreva uma recomendação executiva de um parágrafo para o patrocinador do projeto ZapRango."</i></p>
+  </div>
+
+  <!-- EXPORTAR -->
+  <div class="export">
+    <div class="sl" style="color:#5232b0">📤 Extrair meus resultados</div>
+    <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:12px">Gere um documento com os 5 prompts, os dados que você usou e as respostas que colou. Serve de registro da atividade e para entregar ao professor.</p>
+    <div class="expbtns">
+      <button class="ebtn primary" onclick="baixarRelatorio()">⬇️ Baixar relatório (.txt)</button>
+      <button class="ebtn" onclick="copiarRelatorio(this)">📋 Copiar tudo</button>
+      <button class="ebtn" onclick="togglePrev()">👁️ Pré-visualizar</button>
+    </div>
+    <pre id="prev" class="prev" style="display:none"></pre>
   </div>
 
 </div>
@@ -280,17 +351,101 @@ function markPh(){
 }
 
 const templates={
-  prompt_b1: ()=>`Atue como analista de controle de custos de projetos. No meu projeto tenho: Valor Planejado (VP, o que eu deveria ter entregue) = ${wrap('b1_vp')}, Valor Agregado (VA, o que realmente entreguei) = ${wrap('b1_va')} e Custo Real (CR, o que já gastei) = ${wrap('b1_cr')}. Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o índice de desempenho de prazo (IDP = VA/VP) e o índice de desempenho de custo (IDC = VA/CR). Explique em linguagem executiva o que esses números significam e liste 3 ações de correção priorizadas.`,
-  prompt_b2: ()=>`Atue como especialista em valor agregado. No meu projeto: Orçamento No Término (ONT, orçamento total aprovado) = ${wrap('b2_ont')}, Valor Agregado (VA) = ${wrap('b2_va')}, Custo Real (CR) = ${wrap('b2_cr')} e IDC (índice de desempenho de custo, calculado no Bloco 1) = ${wrap('b2_idc')}. Calcule a Estimativa No Término (ENT) em dois cenários: (1) desvio recorrente: ENT = ONT / IDC; (2) desvio pontual: ENT = CR + (ONT − VA). Calcule também a Variação No Término (VNT = ONT − ENT) e a Estimativa Para Terminar (EPT = ENT − CR). Explique qual cenário adotar e por quê.`,
-  prompt_b3: ()=>`Atue como gerente de riscos de projetos. Meu projeto teve um desvio de custo de ${wrap('b3_desvio')} acima do orçamento. Minha reserva de contingência (para riscos já identificados) é ${wrap('b3_cont')} e há reserva gerencial (para imprevistos, liberada pela diretoria) de ${wrap('b3_ger')}. Há ainda um risco recorrente de ${wrap('b3_risco')} (probabilidade × impacto). Explique a diferença entre as duas reservas, recomende como cobrir o desvio e proponha um reforço de contingência com base no valor monetário esperado do risco.`,
-  prompt_b4: ()=>`Atue como analista de viabilidade econômico-financeira. Meu projeto exige investimento inicial de ${wrap('b4_inv')} e gera retorno de ${wrap('b4_ret')} por ${wrap('b4_anos')}. A taxa mínima de retorno exigida é ${wrap('b4_taxa')}. Calcule e explique em linguagem simples: (1) o Valor Presente Líquido (VPL); (2) a Taxa Interna de Retorno (TIR); (3) o payback simples e o descontado; (4) o índice de lucratividade. Conclua com uma recomendação clara de investir ou não, usando a regra VPL>0 e TIR>taxa exigida.`,
-  prompt_b5: ()=>`Atue como analista financeiro de projetos. Vou financiar meu projeto com a estrutura ${wrap('b5_estr')} (próprio / terceiros). O capital próprio custa ${wrap('b5_prop')} e o capital de terceiros custa ${wrap('b5_terc')}, com imposto de ${wrap('b5_imp')}. Calcule o Custo Médio Ponderado de Capital (CMPC), considerando o benefício fiscal da dívida (os juros abatem imposto). A Taxa Interna de Retorno (TIR) do projeto, calculada no Bloco 4, é ${wrap('b5_tir')}. Explique o impacto do dinheiro emprestado no caixa e diga se o projeto é viável comparando o CMPC com a TIR.`
+  prompt_b1: ()=>`PERSONA: Você é um analista de controle de custos de projetos, experiente e didático.
+
+TAREFA: Calcule e interprete os indicadores de desempenho do meu projeto. Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o IDP (índice de desempenho de prazo = VA/VP) e o IDC (índice de desempenho de custo = VA/CR).
+
+CONTEXTO: São os dados da última medição do meu projeto:
+- Valor Planejado (VP, o que eu deveria ter entregue) = ${wrap('b1_vp')}
+- Valor Agregado (VA, o que realmente entreguei) = ${wrap('b1_va')}
+- Custo Real (CR, o que já gastei) = ${wrap('b1_cr')}
+
+FORMATO: Mostre as contas passo a passo, depois explique em linguagem executiva (para um patrocinador leigo) o que os números significam, e termine com 3 ações de correção priorizadas em tópicos.`,
+  prompt_b2: ()=>`PERSONA: Você é um especialista em Análise de Valor Agregado (AVA) em projetos.
+
+TAREFA: Projete o custo final do meu projeto. Calcule a Estimativa No Término (ENT) em dois cenários — (1) desvio recorrente: ENT = ONT ÷ IDC; (2) desvio pontual: ENT = CR + (ONT − VA). Calcule também a Variação No Término (VNT = ONT − ENT) e a Estimativa Para Terminar (EPT = ENT − CR).
+
+CONTEXTO: Dados do meu projeto:
+- Orçamento No Término (ONT, orçamento total aprovado) = ${wrap('b2_ont')}
+- Valor Agregado (VA) = ${wrap('b2_va')}
+- Custo Real (CR) = ${wrap('b2_cr')}
+- IDC (índice de desempenho de custo, que calculei no Bloco 1) = ${wrap('b2_idc')}
+
+FORMATO: Mostre as contas dos dois cenários, e conclua explicando qual cenário eu deveria adotar e por quê, em linguagem simples.`,
+  prompt_b3: ()=>`PERSONA: Você é um gerente de riscos de projetos.
+
+TAREFA: Recomende como cobrir um desvio de custo usando as reservas corretas, e proponha um reforço de reserva com base no valor monetário esperado (VME = probabilidade × impacto) do risco.
+
+CONTEXTO: No meu projeto:
+- Desvio de custo ocorrido = ${wrap('b3_desvio')} acima do orçamento
+- Reserva de contingência disponível (riscos já identificados, usada pela equipe) = ${wrap('b3_cont')}
+- Reserva gerencial disponível (imprevistos, liberada pela diretoria) = ${wrap('b3_ger')}
+- Risco que pode se repetir = ${wrap('b3_risco')} (probabilidade × impacto)
+
+FORMATO: Explique brevemente a diferença entre as duas reservas, mostre como cobrir o desvio (quanto sai de cada reserva) e recomende o novo valor de contingência. Linguagem simples, em tópicos.`,
+  prompt_b4: ()=>`PERSONA: Você é um analista de viabilidade econômico-financeira de projetos.
+
+TAREFA: Avalie se vale a pena o investimento. Calcule o Valor Presente Líquido (VPL), a Taxa Interna de Retorno (TIR), o payback (simples e descontado) e o índice de lucratividade.
+
+CONTEXTO: A oportunidade de investimento é:
+- Investimento inicial = ${wrap('b4_inv')}
+- Retorno gerado = ${wrap('b4_ret')} por ${wrap('b4_anos')}
+- Taxa mínima de retorno exigida (taxa de desconto) = ${wrap('b4_taxa')}
+
+FORMATO: Mostre as contas, explique cada indicador em linguagem simples, e conclua com uma recomendação clara de investir ou não — usando a regra "VPL > 0 e TIR > taxa exigida = vale a pena".`,
+  prompt_b5: ()=>`PERSONA: Você é um analista financeiro de projetos.
+
+TAREFA: Calcule o Custo Médio Ponderado de Capital (CMPC), considerando o benefício fiscal da dívida (os juros do capital de terceiros abatem imposto), e diga se o projeto é viável comparando o CMPC com a TIR.
+
+CONTEXTO: Vou financiar o projeto assim:
+- Estrutura de capital = ${wrap('b5_estr')} (próprio / terceiros)
+- Custo do capital próprio = ${wrap('b5_prop')}
+- Custo do capital de terceiros = ${wrap('b5_terc')}
+- Imposto = ${wrap('b5_imp')}
+- TIR do projeto (que calculei no Bloco 4) = ${wrap('b5_tir')}
+
+FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique em linguagem simples o impacto de usar dinheiro emprestado, e conclua se o projeto deve ser aprovado (regra: TIR > CMPC = aprovar).`
 };
 
-function upd(){ markPh(); for(const id in templates){ const el=document.getElementById(id); if(el) el.innerHTML=templates[id](); } }
+function hlPTCF(txt){ return txt.replace(/^(PERSONA|TAREFA|CONTEXTO|FORMATO):/gm,'<span class="lbl">$1:</span>'); }
+function upd(){ markPh(); for(const id in templates){ const el=document.getElementById(id); if(el) el.innerHTML=hlPTCF(templates[id]()); } }
 function copyPrompt(id,btn){
   const txt=document.getElementById(id).innerText;
   navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✓ Copiado!'; setTimeout(()=>btn.textContent=o,1600); });
+}
+
+/* ===== RELATÓRIO / EXPORTAÇÃO ===== */
+const blocoNomes={1:'Diagnóstico de desempenho (IDP, IDC)',2:'Estimativa no término (ENT)',3:'Riscos e reservas',4:'Viabilidade (VPL, TIR)',5:'Financiamento (CMPC)'};
+function montarRelatorio(){
+  const hoje=new Date().toLocaleDateString('pt-BR');
+  let t='RELATÓRIO DA ATIVIDADE — CASO ZAPRANGO\n';
+  t+='Gestão de Custos de Projetos com IA\n';
+  t+='Data: '+hoje+'\nAluno(a): _______________________________\n';
+  t+='\n'+'='.repeat(60)+'\n';
+  for(const n of '12345'){
+    t+='\nBLOCO '+n+' — '+blocoNomes[n]+'\n'+'-'.repeat(60)+'\n\n';
+    t+='PROMPT UTILIZADO:\n'+document.getElementById('prompt_b'+n).innerText.trim()+'\n\n';
+    const r=document.getElementById('resp_b'+n).value.trim();
+    t+='RESPOSTA DA IA:\n'+(r||'(não preenchido)')+'\n\n'+'='.repeat(60)+'\n';
+  }
+  t+='\nObservação: os cálculos foram feitos por uma IA a partir dos prompts acima. ';
+  t+='Confira sempre os números — a IA pode variar no arredondamento ou errar uma conta.\n';
+  return t;
+}
+function baixarRelatorio(){
+  const blob=new Blob([montarRelatorio()],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='relatorio-zaprango.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+function copiarRelatorio(btn){
+  navigator.clipboard.writeText(montarRelatorio()).then(()=>{ const o=btn.textContent; btn.textContent='✓ Copiado!'; setTimeout(()=>btn.textContent=o,1600); });
+}
+function togglePrev(){
+  const p=document.getElementById('prev');
+  if(p.style.display==='none'){ p.textContent=montarRelatorio(); p.style.display='block'; }
+  else p.style.display='none';
 }
 upd();
 </script>
