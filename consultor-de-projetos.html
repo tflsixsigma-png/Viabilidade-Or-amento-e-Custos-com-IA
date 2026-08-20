@@ -121,6 +121,16 @@
   .pkg-resp .prl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:6px}
   .pkg-resp textarea{width:100%;min-height:66px;font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--ink);border:1.5px solid #2a3a34;border-radius:8px;padding:9px 11px;resize:vertical;background:#0e1a15;line-height:1.5}
   .pkg-resp textarea:focus{outline:none;border-color:#2f9e63;box-shadow:0 0 0 3px rgba(47,158,99,.18)}
+  /* resposta por rodada */
+  .round-resp{margin-top:11px;border-top:1px dashed var(--line);padding-top:10px}
+  .round-resp .rr-l{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+  .round-resp textarea{width:100%;min-height:66px;font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--ink);border:1.5px solid #2a3a34;border-radius:8px;padding:9px 11px;resize:vertical;background:#0e1a15;line-height:1.5}
+  .round-resp textarea:focus{outline:none;border-color:#2f9e63;box-shadow:0 0 0 3px rgba(47,158,99,.18)}
+  /* preview de resposta no pacote */
+  .pkg-resp-view{margin-top:10px;border-top:1px dashed var(--line);padding-top:9px}
+  .pkg-resp-view .prl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:5px}
+  .pkg-resp-view .rv{font-size:13px;color:var(--ink);background:#0e1a15;border:1px solid #24322c;border-radius:8px;padding:9px 11px;white-space:pre-wrap;line-height:1.5}
+  .pkg-resp-view.empty{font-size:12.5px;color:#8a7a55;font-style:italic}
   /* banner de acesso ao especialista */
   .nextband{display:flex;align-items:center;gap:14px;justify-content:space-between;border:2px solid var(--violet);background:linear-gradient(135deg,#241a3d,#2d2350);border-radius:14px;padding:16px 20px;margin-top:20px;cursor:pointer;transition:transform .12s}
   .nextband:hover{transform:translateY(-2px)}
@@ -174,7 +184,8 @@
   <span class="brand">📊 Consultor de Projetos</span>
   <a class="home" href="index.html">⌂ Início</a>
   <a href="jornada-custos-projeto.html">🧭 Jornada</a>
-  <a href="ficha-dados-caso.html">📋 Ficha</a>
+  <a href="ficha-dados-caso.html">📝 Exercício</a>
+  <a href="crie-seu-especialista.html">🧠 Especialista</a>
 </nav>
 <div class="wrap">
 
@@ -225,6 +236,10 @@ CONTEXTO: Dados da última medição do meu projeto:
 
 FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que significam e liste 3 ações de correção priorizadas.</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p1',this)">Copiar prompt</button><span class="saved-tag" id="sv1"></span></div>
+      <div class="round-resp">
+        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_r1" oninput="saveResp(1)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+      </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(0)">← Voltar</button><button class="btn" id="next1" disabled onclick="goStage(2)">Próxima rodada →</button></div>
   </section>
@@ -256,6 +271,10 @@ CONTEXTO: Dados do meu projeto:
 
 FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, em linguagem simples.</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p2',this)">Copiar prompt</button><span class="saved-tag" id="sv2"></span></div>
+      <div class="round-resp">
+        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_r2" oninput="saveResp(2)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+      </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(1)">← Voltar</button><button class="btn" id="next2" disabled onclick="goStage(3)">Próxima rodada →</button></div>
   </section>
@@ -286,6 +305,10 @@ CONTEXTO: No meu projeto:
 
 FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desvio e proponha um novo percentual de contingência. Em tópicos, linguagem simples.</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p3',this)">Copiar prompt</button><span class="saved-tag" id="sv3"></span></div>
+      <div class="round-resp">
+        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_r3" oninput="saveResp(3)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+      </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(2)">← Voltar</button><button class="btn" id="next3" disabled onclick="goStage(4)">Ir para viabilidade →</button></div>
   </section>
@@ -315,6 +338,10 @@ CONTEXTO: A oportunidade de investimento:
 
 FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclua com uma recomendação clara de investir ou não (regra: VPL>0 e TIR>taxa exigida).</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p4',this)">Copiar prompt</button><span class="saved-tag" id="sv4"></span></div>
+      <div class="round-resp">
+        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_r4" oninput="saveResp(4)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+      </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(3)">← Voltar</button><button class="btn" id="next4" disabled onclick="goStage(5)">Última rodada →</button></div>
   </section>
@@ -345,6 +372,10 @@ CONTEXTO: Estrutura de financiamento do projeto:
 
 FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique o impacto do dinheiro emprestado no caixa e conclua comparando CMPC com a TIR (regra: TIR > CMPC = aprovar).</div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p5',this)">Copiar prompt</button><span class="saved-tag" id="sv5"></span></div>
+      <div class="round-resp">
+        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
+        <textarea id="resp_r5" oninput="saveResp(5)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+      </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="goStage(6)">Aplicar num caso novo →</button></div>
   </section>
@@ -436,48 +467,6 @@ FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique
       <button class="btn ghost" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
       <button class="btn ghost" onclick="goStage(0)">↻ Refazer</button>
     </div>
-    <div class="nextband" onclick="goStage(8)">
-      <div>
-        <div class="nb-k">Bônus para levar ao trabalho</div>
-        <div class="nb-t">🧠 Crie seu Especialista em Projetos com IA</div>
-        <div class="nb-d">Monte um assistente permanente (GPT, Gem ou Projeto no Claude) que já pensa como consultor de custos. Texto pronto para copiar.</div>
-      </div>
-      <div class="nb-go">→</div>
-    </div>
-  </section>
-
-  <!-- ===== STAGE 8 · ESPECIALISTA ===== -->
-  <section class="stage" id="st8">
-    <div class="eyebrow">Bônus · leve a IA para o seu dia a dia</div>
-    <h2>Crie seu Especialista em Projetos</h2>
-    <p class="soft">Em vez de reescrever prompts toda vez, você pode criar um <b>assistente permanente</b> que já sabe pensar como um consultor de custos de projetos. Abaixo está o "cérebro" dele pronto — é só copiar e colar na plataforma que você usa.</p>
-
-    <div class="esp-what">
-      <div class="ew-item"><div class="ew-i">🟢</div><div><b>GPT personalizado</b> (ChatGPT Plus) — em "Explorar GPTs → Criar".</div></div>
-      <div class="ew-item"><div class="ew-i">🔵</div><div><b>Gem</b> (Google Gemini) — em "Gerenciar Gems → Novo Gem".</div></div>
-      <div class="ew-item"><div class="ew-i">🟣</div><div><b>Projeto</b> (Claude) — crie um Projeto e cole em "Instruções do projeto".</div></div>
-    </div>
-
-    <h3 style="margin-top:20px">1 · Texto pronto do especialista</h3>
-    <p class="soft">Copie tudo abaixo e cole no campo de instruções da plataforma escolhida.</p>
-    <div class="prompt" id="esp_pronto"></div>
-    <div class="ai-actions"><button class="btn-copy" onclick="copyP('esp_pronto',this)">Copiar texto do especialista</button></div>
-
-    <h3 style="margin-top:22px">2 · Modelo em branco (para criar o seu)</h3>
-    <p class="soft">Quer um especialista de outra área (riscos, cronograma, qualidade)? Preencha os campos [entre colchetes] deste molde — ele segue a mesma estrutura PTCF.</p>
-    <div class="prompt" id="esp_molde"></div>
-    <div class="ai-actions"><button class="btn-copy" onclick="copyP('esp_molde',this)">Copiar modelo em branco</button></div>
-
-    <h3 style="margin-top:22px">3 · Como configurar (passo a passo)</h3>
-    <div class="esp-steps">
-      <div class="es"><div class="es-n">1</div><div>Abra a plataforma (ChatGPT, Gemini ou Claude) e vá à área de criar assistente (veja os nomes acima).</div></div>
-      <div class="es"><div class="es-n">2</div><div>Dê um nome — ex.: <b>"Consultor de Custos de Projetos"</b> — e uma descrição curta.</div></div>
-      <div class="es"><div class="es-n">3</div><div>No campo de <b>instruções</b>, cole o texto do especialista (passo 1).</div></div>
-      <div class="es"><div class="es-n">4</div><div>Salve. Pronto: agora é só conversar, mandar seus números (VP, VA, CR, investimentos…) e pedir análises quando quiser.</div></div>
-    </div>
-    <div class="esp-tip">💡 Dica: anexe ao seu especialista os materiais da sua empresa (planilhas, modelos de orçamento). Assim ele responde com a realidade dos seus projetos, não em tese.</div>
-
-    <div class="nav" style="margin-top:22px"><button class="btn ghost" onclick="goStage(7)">← Voltar ao pacote</button><button class="btn" onclick="goStage(0)">↻ Recomeçar</button></div>
   </section>
 
 </div>
@@ -506,8 +495,8 @@ function goStage(n){
   document.querySelectorAll('.stage').forEach(s=>s.classList.remove('active'));
   document.getElementById('st'+n).classList.add('active');
   stage=n;renderRounds();window.scrollTo({top:0,behavior:'smooth'});
+  if(n>=1&&n<=5)restoreResp(n);
   if(n===7)montarPacote();
-  if(n===8)montarEspecialista();
 }
 renderRounds();
 
@@ -735,12 +724,17 @@ const pacoteData=[
  {n:'5 · Financiamento e custo de capital (CMPC)',id:'p5'}
 ];
 function hlPTCF(txt){return txt.replace(/^(PERSONA|TAREFA|CONTEXTO|FORMATO):/gm,'<span class="ptcf-lbl">$1:</span>');}
+const respostas={};
+function saveResp(n){const el=document.getElementById('resp_r'+n);if(el)respostas[n]=el.value;}
+function restoreResp(n){const el=document.getElementById('resp_r'+n);if(el&&respostas[n]!=null)el.value=respostas[n];}
 function montarPacote(){const map={good:'✅',warn:'⚠️',bad:'❌'};let r='';
   [1,2,3,4,5].forEach(n=>{const d=decisions[n];r+=`<div style="font-size:14px;margin:4px 0;color:var(--ink)">Rodada ${n}: ${d?map[d.res]+' '+d.opt+' — '+d.t:'<span class="soft">não decidida</span>'}</div>`;});
   document.getElementById('resumo').innerHTML=r;
-  // preserva respostas já digitadas
-  const saved={};document.querySelectorAll('#pacote textarea').forEach(t=>saved[t.id]=t.value);
-  document.getElementById('pacote').innerHTML=pacoteData.map((p,i)=>`<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${hlPTCF(document.getElementById(p.id).innerText)}</div><div class="pkg-resp"><div class="prl">📝 Cole aqui a resposta que a IA te deu</div><textarea id="resp_p${i+1}" placeholder="Cole a resposta da IA. Entra no relatório que você exporta abaixo.">${saved['resp_p'+(i+1)]||''}</textarea></div></div>`).join('');
+  document.getElementById('pacote').innerHTML=pacoteData.map((p,i)=>{
+    const resp=(respostas[i+1]||'').trim();
+    const respHtml=resp?`<div class="pkg-resp-view"><div class="prl">📝 Sua resposta da IA</div><div class="rv">${resp.replace(/</g,'&lt;')}</div></div>`:`<div class="pkg-resp-view empty">📝 Você ainda não colou a resposta na Rodada ${i+1}.</div>`;
+    return `<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${hlPTCF(document.getElementById(p.id).innerText)}</div>${respHtml}</div>`;
+  }).join('');
 }
 function montarRelatorioConsultor(){
   const map={good:'APROVADA',warn:'PARCIAL',bad:'REVISAR'};
@@ -751,56 +745,13 @@ function montarRelatorioConsultor(){
   pacoteData.forEach((p,i)=>{
     txt+='\n### '+p.n+'\n\nPROMPT:\n'+document.getElementById(p.id).innerText.trim()+'\n\n';
     const el=document.getElementById('resp_p'+(i+1));
-    txt+='RESPOSTA DA IA:\n'+((el&&el.value.trim())||'(não preenchido)')+'\n\n'+'-'.repeat(60)+'\n';
+    txt+='RESPOSTA DA IA:\n'+((respostas[i+1]&&respostas[i+1].trim())||'(não preenchido)')+'\n\n'+'-'.repeat(60)+'\n';
   });
   txt+='\nObservação: adapte os campos [entre colchetes] ao seu projeto real. Confira sempre os números — a IA pode variar no arredondamento ou errar uma conta.\n';
   return txt;
 }
 function copyPacote(btn){navigator.clipboard.writeText(montarRelatorioConsultor()).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=o,1800);});}
 function baixarPacote(){const blob=new Blob([montarRelatorioConsultor()],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relatorio-consultor-projetos.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);}
-
-/* ===== ESPECIALISTA ===== */
-const espPronto=`PERSONA
-Você é um consultor sênior de custos e viabilidade de projetos, com anos de experiência em gestão de valor agregado e análise econômico-financeira. Você é didático: explica cada conceito em linguagem simples, como se falasse com um gestor que não é da área financeira, mas sem perder o rigor técnico.
-
-TAREFA
-Ajudar o usuário a planejar, controlar e decidir sobre os custos de projetos. Isso inclui:
-- Controle: calcular e interpretar VP, VA, CR, IDP, IDC, e projetar o custo final (ENT, VNT, EPT).
-- Riscos: orientar sobre reserva de contingência vs. gerencial e cálculo por valor esperado (probabilidade × impacto).
-- Viabilidade: calcular e explicar VPL, TIR, payback (simples e descontado), índice de lucratividade.
-- Financiamento: calcular o CMPC (custo médio ponderado de capital) com benefício fiscal e comparar com a TIR.
-
-CONTEXTO
-O usuário pode não dominar finanças. Sempre que ele trouxer números, confirme o que cada um representa antes de calcular. Quando faltar um dado, pergunte de forma objetiva em vez de supor. Use as fórmulas padrão: IDP=VA/VP; IDC=VA/CR; ENT=ONT/IDC (desvio recorrente) ou CR+(ONT−VA) (pontual); VPL = entradas trazidas a valor presente − investimento; regra de decisão VPL>0 e TIR>taxa exigida; CMPC = %próprio×custo próprio + %terceiros×custo terceiros×(1−imposto); aprovar se TIR>CMPC.
-
-FORMATO
-- Mostre as contas passo a passo, com os números do usuário.
-- Depois traduza o resultado em uma frase executiva ("na prática, isso significa…").
-- Ao recomendar, seja direto (investir/não investir, aprovar/revisar) e justifique pela regra usada.
-- Sempre termine lembrando que os cálculos devem ser conferidos e que você pode ter arredondado.
-- Nunca invente dados que o usuário não forneceu.`;
-
-const espMolde=`PERSONA
-Você é um [especialista em QUAL ÁREA — ex.: gestão de riscos / cronograma / qualidade] de projetos, experiente e didático. Explique em linguagem [simples / técnica], para um público [descreva quem vai usar].
-
-TAREFA
-Ajudar o usuário a [descreva o que o especialista deve fazer — ex.: identificar riscos, montar cronograma, revisar entregas]. Especifique as análises e cálculos esperados: [liste].
-
-CONTEXTO
-[Descreva a realidade do usuário: tipo de projeto, setor, nível de conhecimento, dados que costuma ter em mãos.]
-Regras e fórmulas que o especialista deve seguir: [liste as fórmulas, políticas ou boas práticas que ele deve usar].
-Quando faltar um dado, [instrua: perguntar em vez de supor].
-
-FORMATO
-- [Como mostrar o raciocínio — ex.: passo a passo.]
-- [Como traduzir o resultado — ex.: uma frase prática.]
-- [Como concluir — ex.: recomendação direta e justificada.]
-- [Ressalvas — ex.: lembrar de conferir números; não inventar dados.]`;
-
-function montarEspecialista(){
-  const a=document.getElementById('esp_pronto'); if(a&&!a.dataset.done){a.textContent=espPronto;a.dataset.done='1';}
-  const b=document.getElementById('esp_molde'); if(b&&!b.dataset.done){b.textContent=espMolde;b.dataset.done='1';}
-}
 </script>
 </body>
 </html>
