@@ -130,6 +130,12 @@
   .round-resp .rr-l{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:6px}
   .round-resp textarea{width:100%;min-height:66px;font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--ink);border:1.5px solid #2a3a34;border-radius:8px;padding:9px 11px;resize:vertical;background:#0e1a15;line-height:1.5}
   .round-resp textarea:focus{outline:none;border-color:#2f9e63;box-shadow:0 0 0 3px rgba(47,158,99,.18)}
+  .round-resp .rr-exec{color:#ffc233;margin-top:12px}
+  .round-resp .rr-hint{color:var(--ink-2);font-weight:400;text-transform:none;letter-spacing:0;font-family:'Space Grotesk',sans-serif}
+  .round-resp textarea#concl_r1,.round-resp textarea#concl_r2,.round-resp textarea#concl_r3,.round-resp textarea#concl_r4,.round-resp textarea#concl_r5{min-height:52px;border-color:#4a3d1a;background:#191307}
+  .round-resp textarea[id^="concl"]:focus{border-color:#ffc233;box-shadow:0 0 0 3px rgba(255,194,51,.16)}
+  .pkg-resp-view .prl.exec{color:#ffc233}
+  .pkg-resp-view .rv.exec{background:#191307;border-color:#4a3d1a}
   /* preview de resposta no pacote */
   .pkg-resp-view{margin-top:10px;border-top:1px dashed var(--line);padding-top:9px}
   .pkg-resp-view .prl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:5px}
@@ -233,8 +239,10 @@
       <div class="prompt" id="p1"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p1',this)">Copiar prompt</button><span class="saved-tag" id="sv1"></span></div>
       <div class="round-resp">
-        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
-        <textarea id="resp_r1" oninput="saveResp(1)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+        <div class="rr-l">📝 Resposta completa da IA</div>
+        <textarea id="resp_r1" oninput="saveResp(1)" placeholder="Cole aqui a resposta completa que a IA te deu (as contas e a análise)."></textarea>
+        <div class="rr-l rr-exec">📣 Conclusão executiva <span class="rr-hint">— o resumo para comunicar ao patrocinador</span></div>
+        <textarea id="concl_r1" oninput="saveConcl(1)" placeholder="Cole aqui só a conclusão executiva (2-3 frases) que a IA gerou no fim da resposta."></textarea>
       </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(0)">← Voltar</button><button class="btn" id="next1" disabled onclick="goStage(2)">Próxima rodada →</button></div>
@@ -258,8 +266,10 @@
       <div class="prompt" id="p2"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p2',this)">Copiar prompt</button><span class="saved-tag" id="sv2"></span></div>
       <div class="round-resp">
-        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
-        <textarea id="resp_r2" oninput="saveResp(2)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+        <div class="rr-l">📝 Resposta completa da IA</div>
+        <textarea id="resp_r2" oninput="saveResp(2)" placeholder="Cole aqui a resposta completa que a IA te deu (as contas e a análise)."></textarea>
+        <div class="rr-l rr-exec">📣 Conclusão executiva <span class="rr-hint">— o resumo para comunicar ao patrocinador</span></div>
+        <textarea id="concl_r2" oninput="saveConcl(2)" placeholder="Cole aqui só a conclusão executiva (2-3 frases) que a IA gerou no fim da resposta."></textarea>
       </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(1)">← Voltar</button><button class="btn" id="next2" disabled onclick="goStage(3)">Próxima rodada →</button></div>
@@ -283,8 +293,10 @@
       <div class="prompt" id="p3"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p3',this)">Copiar prompt</button><span class="saved-tag" id="sv3"></span></div>
       <div class="round-resp">
-        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
-        <textarea id="resp_r3" oninput="saveResp(3)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+        <div class="rr-l">📝 Resposta completa da IA</div>
+        <textarea id="resp_r3" oninput="saveResp(3)" placeholder="Cole aqui a resposta completa que a IA te deu (as contas e a análise)."></textarea>
+        <div class="rr-l rr-exec">📣 Conclusão executiva <span class="rr-hint">— o resumo para comunicar ao patrocinador</span></div>
+        <textarea id="concl_r3" oninput="saveConcl(3)" placeholder="Cole aqui só a conclusão executiva (2-3 frases) que a IA gerou no fim da resposta."></textarea>
       </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(2)">← Voltar</button><button class="btn" id="next3" disabled onclick="goStage(4)">Ir para viabilidade →</button></div>
@@ -308,8 +320,10 @@
       <div class="prompt" id="p4"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p4',this)">Copiar prompt</button><span class="saved-tag" id="sv4"></span></div>
       <div class="round-resp">
-        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
-        <textarea id="resp_r4" oninput="saveResp(4)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+        <div class="rr-l">📝 Resposta completa da IA</div>
+        <textarea id="resp_r4" oninput="saveResp(4)" placeholder="Cole aqui a resposta completa que a IA te deu (as contas e a análise)."></textarea>
+        <div class="rr-l rr-exec">📣 Conclusão executiva <span class="rr-hint">— o resumo para comunicar ao patrocinador</span></div>
+        <textarea id="concl_r4" oninput="saveConcl(4)" placeholder="Cole aqui só a conclusão executiva (2-3 frases) que a IA gerou no fim da resposta."></textarea>
       </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(3)">← Voltar</button><button class="btn" id="next4" disabled onclick="goStage(5)">Última rodada →</button></div>
@@ -333,8 +347,10 @@
       <div class="prompt" id="p5"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p5',this)">Copiar prompt</button><span class="saved-tag" id="sv5"></span></div>
       <div class="round-resp">
-        <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
-        <textarea id="resp_r5" oninput="saveResp(5)" placeholder="Rode o prompt na sua IA e cole a resposta. Ela entra no relatório final que você exporta no fim."></textarea>
+        <div class="rr-l">📝 Resposta completa da IA</div>
+        <textarea id="resp_r5" oninput="saveResp(5)" placeholder="Cole aqui a resposta completa que a IA te deu (as contas e a análise)."></textarea>
+        <div class="rr-l rr-exec">📣 Conclusão executiva <span class="rr-hint">— o resumo para comunicar ao patrocinador</span></div>
+        <textarea id="concl_r5" oninput="saveConcl(5)" placeholder="Cole aqui só a conclusão executiva (2-3 frases) que a IA gerou no fim da resposta."></textarea>
       </div>
     </div>
     <div class="nav"><button class="btn ghost" onclick="goStage(4)">← Voltar</button><button class="btn" id="next5" disabled onclick="goStage(6)">Ver meu pacote de IA →</button></div>
@@ -349,9 +365,10 @@
     <p class="soft">Estes são os prompts que você praticou. Adapte os campos [entre colchetes] aos dados do seu projeto real e cole em qualquer IA. Leve este pacote para a sua mesa de trabalho.</p>
     <div id="pacote"></div>
     <div style="text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn violet" onclick="baixarPacote()">⬇️ Baixar relatório (.txt)</button>
-      <button class="btn violet" onclick="copyPacote(this)">📋 Copiar tudo</button>
-      <button class="btn ghost" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+      <button class="btn violet" onclick="baixarPacote()">⬇️ Relatório completo (.txt)</button>
+      <button class="btn violet" onclick="baixarExecutivo()">📣 Conclusões executivas (.txt)</button>
+      <button class="btn ghost" onclick="copyPacote(this)">📋 Copiar completo</button>
+      <button class="btn ghost" onclick="window.print()">🖨️ Imprimir</button>
       <button class="btn ghost" onclick="goStage(0)">↻ Refazer</button>
     </div>
   </section>
@@ -382,7 +399,7 @@ CONTEXTO: Dados da última medição do meu projeto:
 - Valor Agregado (VA, o que realmente entreguei) = ${fld('p1_va','R$ 1.150.000')}
 - Custo Real (CR, o que já gastei) = ${fld('p1_cr','R$ 1.125.000')}
 
-FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que significam e liste 3 ações de correção priorizadas.`,
+FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que significam e liste 3 ações de correção priorizadas.\n\nAo final, sob o título "CONCLUSÃO EXECUTIVA:", escreva de 2 a 3 frases em linguagem para o patrocinador (sem jargão), resumindo a situação e a recomendação — pronto para eu comunicar à diretoria.`,
  p2:()=>`PERSONA: Você é um especialista em Análise de Valor Agregado (AVA).
 
 TAREFA: Calcule a Estimativa No Término (ENT) em dois cenários — recorrente (ENT = ONT/IDC) e pontual (ENT = CR + (ONT−VA)) — e também a VNT (ONT−ENT) e a EPT (ENT−CR).
@@ -394,7 +411,7 @@ CONTEXTO: Dados do meu projeto:
 - IDC acumulado = ${fld('p2_idc','1,024')}
 - Causa do desvio observado = ${fld('p2_causa','[descreva a causa]')}
 
-FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, em linguagem simples.`,
+FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, em linguagem simples.\n\nAo final, sob o título "CONCLUSÃO EXECUTIVA:", escreva de 2 a 3 frases em linguagem para o patrocinador (sem jargão), resumindo a situação e a recomendação — pronto para eu comunicar à diretoria.`,
  p3:()=>`PERSONA: Você é um gerente de riscos de projetos.
 
 TAREFA: Recomende como cobrir o desvio usando as reservas corretas e proponha um reforço de contingência baseado no valor esperado do risco.
@@ -405,7 +422,7 @@ CONTEXTO: No meu projeto:
 - Reserva gerencial (imprevistos, liberada pela diretoria) = ${fld('p3_ger','R$ 500.000')}
 - Contexto do risco que pode se repetir = ${fld('p3_risco','[descreva o contexto]')}
 
-FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desvio e proponha um novo percentual de contingência. Em tópicos, linguagem simples.`,
+FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desvio e proponha um novo percentual de contingência. Em tópicos, linguagem simples.\n\nAo final, sob o título "CONCLUSÃO EXECUTIVA:", escreva de 2 a 3 frases em linguagem para o patrocinador (sem jargão), resumindo a situação e a recomendação — pronto para eu comunicar à diretoria.`,
  p4:()=>`PERSONA: Você é um analista de viabilidade econômico-financeira de projetos.
 
 TAREFA: Calcule o VPL, a TIR, o payback (simples e descontado) e o índice de lucratividade.
@@ -415,7 +432,7 @@ CONTEXTO: A oportunidade de investimento:
 - Ganho por ano = ${fld('p4_fluxo','R$ 2.410.000')} durante ${fld('p4_anos','5 anos')}
 - Taxa mínima de retorno exigida = ${fld('p4_taxa','12% ao ano')}
 
-FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclua com uma recomendação clara de investir ou não (regra: VPL>0 e TIR>taxa exigida).`,
+FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclua com uma recomendação clara de investir ou não (regra: VPL>0 e TIR>taxa exigida).\n\nAo final, sob o título "CONCLUSÃO EXECUTIVA:", escreva de 2 a 3 frases em linguagem para o patrocinador (sem jargão), resumindo a situação e a recomendação — pronto para eu comunicar à diretoria.`,
  p5:()=>`PERSONA: Você é um analista financeiro de projetos.
 
 TAREFA: Calcule o Custo Médio Ponderado de Capital (CMPC) com o benefício fiscal da dívida e explique como usá-lo na decisão.
@@ -426,7 +443,7 @@ CONTEXTO: Estrutura de financiamento do projeto:
 - Imposto = ${fld('p5_ir','25%')}
 - TIR do projeto (do bloco anterior) = ${fld('p5_tir','[traga a TIR que você calculou]')}
 
-FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique o impacto do dinheiro emprestado no caixa e conclua comparando CMPC com a TIR (regra: TIR > CMPC = aprovar).`
+FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique o impacto do dinheiro emprestado no caixa e conclua comparando CMPC com a TIR (regra: TIR > CMPC = aprovar).\n\nAo final, sob o título "CONCLUSÃO EXECUTIVA:", escreva de 2 a 3 frases em linguagem para o patrocinador (sem jargão), resumindo a situação e a recomendação — pronto para eu comunicar à diretoria.`
 };
 function hlPTCFc(txt){return txt.replace(/^(PERSONA|TAREFA|CONTEXTO|FORMATO):/gm,'<span class="ptcf-lbl">$1:</span>');}
 const promptState={};
@@ -452,7 +469,7 @@ function goStage(n){
   document.querySelectorAll('.stage').forEach(s=>s.classList.remove('active'));
   document.getElementById('st'+n).classList.add('active');
   stage=n;renderRounds();window.scrollTo({top:0,behavior:'smooth'});
-  if(n>=1&&n<=5)restoreResp(n);
+  if(n>=1&&n<=5){restoreResp(n);restoreConcl(n);}
   if(n===6)montarPacote();
 }
 renderRounds();
@@ -649,15 +666,20 @@ const pacoteData=[
 ];
 function hlPTCF(txt){return txt.replace(/^(PERSONA|TAREFA|CONTEXTO|FORMATO):/gm,'<span class="ptcf-lbl">$1:</span>');}
 const respostas={};
+const conclusoes={};
 function saveResp(n){const el=document.getElementById('resp_r'+n);if(el)respostas[n]=el.value;}
 function restoreResp(n){const el=document.getElementById('resp_r'+n);if(el&&respostas[n]!=null)el.value=respostas[n];}
+function saveConcl(n){const el=document.getElementById('concl_r'+n);if(el)conclusoes[n]=el.value;}
+function restoreConcl(n){const el=document.getElementById('concl_r'+n);if(el&&conclusoes[n]!=null)el.value=conclusoes[n];}
 function montarPacote(){const map={good:'✅',warn:'⚠️',bad:'❌'};let r='';
   [1,2,3,4,5].forEach(n=>{const d=decisions[n];r+=`<div style="font-size:14px;margin:4px 0;color:var(--ink)">Rodada ${n}: ${d?map[d.res]+' '+d.opt+' — '+d.t:'<span class="soft">não decidida</span>'}</div>`;});
   document.getElementById('resumo').innerHTML=r;
   document.getElementById('pacote').innerHTML=pacoteData.map((p,i)=>{
     const resp=(respostas[i+1]||'').trim();
-    const respHtml=resp?`<div class="pkg-resp-view"><div class="prl">📝 Sua resposta da IA</div><div class="rv">${resp.replace(/</g,'&lt;')}</div></div>`:`<div class="pkg-resp-view empty">📝 Você ainda não colou a resposta na Rodada ${i+1}.</div>`;
-    return `<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${hlPTCF(document.getElementById(p.id).innerText)}</div>${respHtml}</div>`;
+    const concl=(conclusoes[i+1]||'').trim();
+    const respHtml=resp?`<div class="pkg-resp-view"><div class="prl">📝 Resposta da IA</div><div class="rv">${resp.replace(/</g,'&lt;')}</div></div>`:`<div class="pkg-resp-view empty">📝 Resposta não preenchida (Rodada ${i+1}).</div>`;
+    const conclHtml=concl?`<div class="pkg-resp-view"><div class="prl exec">📣 Conclusão executiva</div><div class="rv exec">${concl.replace(/</g,'&lt;')}</div></div>`:`<div class="pkg-resp-view empty">📣 Conclusão executiva não preenchida.</div>`;
+    return `<div class="pkg-item"><div class="pn">${p.n}</div><div class="prompt">${hlPTCF(document.getElementById(p.id).innerText)}</div>${respHtml}${conclHtml}</div>`;
   }).join('');
 }
 function montarRelatorioConsultor(){
@@ -668,14 +690,30 @@ function montarRelatorioConsultor(){
   txt+='\n'+'='.repeat(60)+'\nPACOTE DE PROMPTS E RESPOSTAS\n'+'='.repeat(60)+'\n';
   pacoteData.forEach((p,i)=>{
     txt+='\n### '+p.n+'\n\nPROMPT:\n'+document.getElementById(p.id).innerText.trim()+'\n\n';
-    const el=document.getElementById('resp_p'+(i+1));
-    txt+='RESPOSTA DA IA:\n'+((respostas[i+1]&&respostas[i+1].trim())||'(não preenchido)')+'\n\n'+'-'.repeat(60)+'\n';
+    txt+='RESPOSTA DA IA:\n'+((respostas[i+1]&&respostas[i+1].trim())||'(não preenchido)')+'\n\n';
+    txt+='CONCLUSÃO EXECUTIVA:\n'+((conclusoes[i+1]&&conclusoes[i+1].trim())||'(não preenchido)')+'\n\n'+'-'.repeat(60)+'\n';
   });
   txt+='\nObservação: adapte os campos [entre colchetes] ao seu projeto real. Confira sempre os números — a IA pode variar no arredondamento ou errar uma conta.\n';
   return txt;
 }
+function montarRelatorioExecutivo(){
+  const map={good:'APROVADA',warn:'PARCIAL',bad:'REVISAR'};
+  const titulos={1:'Diagnóstico de desempenho',2:'Projeção do custo final',3:'Riscos e reservas',4:'Viabilidade do investimento',5:'Financiamento (custo de capital)'};
+  let txt='RELATÓRIO EXECUTIVO — PARECER AO PATROCINADOR\nGestão de Custos de Projetos\nData: '+new Date().toLocaleDateString('pt-BR')+'\nElaborado por: _______________________________\n\n';
+  txt+='='.repeat(60)+'\nCONCLUSÕES EXECUTIVAS POR TEMA\n'+'='.repeat(60)+'\n';
+  [1,2,3,4,5].forEach(n=>{
+    txt+='\n'+n+'. '+titulos[n].toUpperCase()+'\n';
+    txt+=((conclusoes[n]&&conclusoes[n].trim())||'(não preenchido)')+'\n';
+  });
+  txt+='\n'+'='.repeat(60)+'\nDECISÕES TOMADAS\n'+'='.repeat(60)+'\n';
+  [1,2,3,4,5].forEach(n=>{const d=decisions[n];txt+=`${n}. ${d?'['+map[d.res]+'] '+d.t:'(não decidida)'}\n`;});
+  txt+='\nDocumento de comunicação — resumo executivo para a diretoria.\n';
+  return txt;
+}
+function baixarTxt(conteudo,nome){const blob=new Blob([conteudo],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=nome;document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function copyPacote(btn){navigator.clipboard.writeText(montarRelatorioConsultor()).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent=o,1800);});}
-function baixarPacote(){const blob=new Blob([montarRelatorioConsultor()],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relatorio-consultor-projetos.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);}
+function baixarPacote(){baixarTxt(montarRelatorioConsultor(),'relatorio-completo.txt');}
+function baixarExecutivo(){baixarTxt(montarRelatorioExecutivo(),'relatorio-executivo.txt');}
 </script>
 </body>
 </html>
