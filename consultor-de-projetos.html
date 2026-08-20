@@ -117,6 +117,10 @@
   .pkg-item{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:15px 17px;margin:12px 0}
   .pkg-item .pn{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--gold);margin-bottom:8px}
   .prompt .ptcf-lbl{color:#c9b3ff;font-weight:700;background:rgba(109,74,214,.25);padding:0 5px;border-radius:4px}
+  .prompt .fld{color:#7fc8ff;font-weight:700;background:rgba(45,110,142,.28);border-bottom:1px dashed #4a86b0;padding:0 3px;border-radius:3px;cursor:text;outline:none}
+  .prompt .fld:focus{background:#0a2233;border-bottom:1px solid #7fc8ff}
+  .ai-edit{font-size:12.5px;color:var(--ink-2);margin:6px 0 4px}
+  .ai-edit b{color:#7fc8ff}
   .pkg-resp{margin-top:11px;border-top:1px dashed var(--line);padding-top:10px}
   .pkg-resp .prl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;color:#7fd1a8;font-weight:700;text-transform:uppercase;margin-bottom:6px}
   .pkg-resp textarea{width:100%;min-height:66px;font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--ink);border:1.5px solid #2a3a34;border-radius:8px;padding:9px 11px;resize:vertical;background:#0e1a15;line-height:1.5}
@@ -225,16 +229,8 @@
     <div class="aibox" id="ai1" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Diagnóstico de desempenho</div>
       <div class="ai-why">Use sempre que precisar interpretar VP/VA/CR e explicar a situação para a liderança.</div>
-      <div class="prompt" id="p1">PERSONA: Você é um analista de controle de custos de projetos, experiente e didático.
-
-TAREFA: Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o IDP (VA/VP) e o IDC (VA/CR).
-
-CONTEXTO: Dados da última medição do meu projeto:
-- Valor Planejado (VP, o que eu deveria ter entregue) = [valor]
-- Valor Agregado (VA, o que realmente entreguei) = [valor]
-- Custo Real (CR, o que já gastei) = [valor]
-
-FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que significam e liste 3 ações de correção priorizadas.</div>
+      <div class="ai-edit">✏️ Já vem preenchido com os números desta rodada. <b>Edite os valores</b> (em azul) para usar os dados do seu projeto — o prompt se atualiza.</div>
+      <div class="prompt" id="p1"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p1',this)">Copiar prompt</button><span class="saved-tag" id="sv1"></span></div>
       <div class="round-resp">
         <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
@@ -258,18 +254,8 @@ FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que s
     <div class="aibox" id="ai2" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Estimar resultados futuros</div>
       <div class="ai-why">Use para projetar o custo final do seu projeto a partir dos índices atuais.</div>
-      <div class="prompt" id="p2">PERSONA: Você é um especialista em Análise de Valor Agregado (AVA).
-
-TAREFA: Calcule a Estimativa No Término (ENT) em dois cenários — recorrente (ENT = ONT/IDC) e pontual (ENT = CR + (ONT−VA)) — e também a VNT (ONT−ENT) e a EPT (ENT−CR).
-
-CONTEXTO: Dados do meu projeto:
-- Orçamento No Término (ONT) = [valor]
-- Valor Agregado (VA) = [valor]
-- Custo Real (CR) = [valor]
-- IDC acumulado = [valor]
-- Causa do desvio observado = [descreva a causa]
-
-FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, em linguagem simples.</div>
+      <div class="ai-edit">✏️ Já vem preenchido com os números desta rodada. <b>Edite os valores</b> (em azul) para usar os dados do seu projeto — o prompt se atualiza.</div>
+      <div class="prompt" id="p2"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p2',this)">Copiar prompt</button><span class="saved-tag" id="sv2"></span></div>
       <div class="round-resp">
         <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
@@ -293,17 +279,8 @@ FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, e
     <div class="aibox" id="ai3" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Riscos e reservas</div>
       <div class="ai-why">Use para dimensionar reservas e decidir entre contingência e reserva gerencial.</div>
-      <div class="prompt" id="p3">PERSONA: Você é um gerente de riscos de projetos.
-
-TAREFA: Recomende como cobrir o desvio usando as reservas corretas e proponha um reforço de contingência baseado no valor esperado do risco.
-
-CONTEXTO: No meu projeto:
-- Desvio de custo = [valor] acima do orçamento
-- Reserva de contingência (riscos identificados, usada pela equipe) = [valor]
-- Reserva gerencial (imprevistos, liberada pela diretoria) = [valor]
-- Contexto do risco que pode se repetir = [descreva o contexto]
-
-FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desvio e proponha um novo percentual de contingência. Em tópicos, linguagem simples.</div>
+      <div class="ai-edit">✏️ Já vem preenchido com os números desta rodada. <b>Edite os valores</b> (em azul) para usar os dados do seu projeto — o prompt se atualiza.</div>
+      <div class="prompt" id="p3"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p3',this)">Copiar prompt</button><span class="saved-tag" id="sv3"></span></div>
       <div class="round-resp">
         <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
@@ -327,16 +304,8 @@ FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desv
     <div class="aibox" id="ai4" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Viabilidade (VPL, TIR, payback)</div>
       <div class="ai-why">Use para decidir se um investimento de projeto cria valor.</div>
-      <div class="prompt" id="p4">PERSONA: Você é um analista de viabilidade econômico-financeira de projetos.
-
-TAREFA: Calcule o VPL, a TIR, o payback (simples e descontado) e o índice de lucratividade.
-
-CONTEXTO: A oportunidade de investimento:
-- Investimento inicial = [valor]
-- Ganhos anuais = [liste os valores por ano]
-- Taxa mínima de retorno exigida = [taxa]% ao ano
-
-FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclua com uma recomendação clara de investir ou não (regra: VPL>0 e TIR>taxa exigida).</div>
+      <div class="ai-edit">✏️ Já vem preenchido com os números desta rodada. <b>Edite os valores</b> (em azul) para usar os dados do seu projeto — o prompt se atualiza.</div>
+      <div class="prompt" id="p4"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p4',this)">Copiar prompt</button><span class="saved-tag" id="sv4"></span></div>
       <div class="round-resp">
         <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
@@ -360,17 +329,8 @@ FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclu
     <div class="aibox" id="ai5" style="display:none">
       <div class="ah">🤖 Prompt para o seu projeto · Financiamento e custo de capital</div>
       <div class="ai-why">Use para calcular o custo do capital e ver o efeito do dinheiro emprestado.</div>
-      <div class="prompt" id="p5">PERSONA: Você é um analista financeiro de projetos.
-
-TAREFA: Calcule o Custo Médio Ponderado de Capital (CMPC) com o benefício fiscal da dívida e explique como usá-lo na decisão.
-
-CONTEXTO: Estrutura de financiamento do projeto:
-- Capital próprio = [%] a [taxa]% ao ano
-- Capital de terceiros = [%] a [taxa]% ao ano
-- Imposto = [valor]%
-- TIR do projeto (do bloco anterior) = [valor]%
-
-FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique o impacto do dinheiro emprestado no caixa e conclua comparando CMPC com a TIR (regra: TIR > CMPC = aprovar).</div>
+      <div class="ai-edit">✏️ Já vem preenchido com os números desta rodada. <b>Edite os valores</b> (em azul) para usar os dados do seu projeto — o prompt se atualiza.</div>
+      <div class="prompt" id="p5"></div>
       <div class="ai-actions"><button class="btn-copy" onclick="copyP('p5',this)">Copiar prompt</button><span class="saved-tag" id="sv5"></span></div>
       <div class="round-resp">
         <div class="rr-l">📝 Cole aqui a resposta que a IA te deu</div>
@@ -482,6 +442,76 @@ FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique
 
 <script>
 const fmt=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
+
+/* ===== PROMPTS EDITÁVEIS (preenchidos com os valores da rodada) ===== */
+function fld(id,val){return `<span class="fld" contenteditable="true" data-p="${id}">${val}</span>`;}
+const promptTpl={
+ p1:()=>`PERSONA: Você é um analista de controle de custos de projetos, experiente e didático.
+
+TAREFA: Calcule a variação de prazo (VA−VP), a variação de custo (VA−CR), o IDP (VA/VP) e o IDC (VA/CR).
+
+CONTEXTO: Dados da última medição do meu projeto:
+- Valor Planejado (VP, o que eu deveria ter entregue) = ${fld('p1_vp','R$ 1.283.000')}
+- Valor Agregado (VA, o que realmente entreguei) = ${fld('p1_va','R$ 1.150.000')}
+- Custo Real (CR, o que já gastei) = ${fld('p1_cr','R$ 1.125.000')}
+
+FORMATO: Mostre as contas passo a passo, explique em linguagem executiva o que significam e liste 3 ações de correção priorizadas.`,
+ p2:()=>`PERSONA: Você é um especialista em Análise de Valor Agregado (AVA).
+
+TAREFA: Calcule a Estimativa No Término (ENT) em dois cenários — recorrente (ENT = ONT/IDC) e pontual (ENT = CR + (ONT−VA)) — e também a VNT (ONT−ENT) e a EPT (ENT−CR).
+
+CONTEXTO: Dados do meu projeto:
+- Orçamento No Término (ONT) = ${fld('p2_ont','R$ 31.396.500')}
+- Valor Agregado (VA) = ${fld('p2_va','R$ 1.150.000')}
+- Custo Real (CR) = ${fld('p2_cr','R$ 1.125.000')}
+- IDC acumulado = ${fld('p2_idc','1,024')}
+- Causa do desvio observado = ${fld('p2_causa','[descreva a causa]')}
+
+FORMATO: Mostre as contas dos dois cenários e conclua qual adotar e por quê, em linguagem simples.`,
+ p3:()=>`PERSONA: Você é um gerente de riscos de projetos.
+
+TAREFA: Recomende como cobrir o desvio usando as reservas corretas e proponha um reforço de contingência baseado no valor esperado do risco.
+
+CONTEXTO: No meu projeto:
+- Desvio de custo = ${fld('p3_desvio','R$ 900.000')} acima do orçamento
+- Reserva de contingência (riscos identificados, usada pela equipe) = ${fld('p3_cont','R$ 600.000')}
+- Reserva gerencial (imprevistos, liberada pela diretoria) = ${fld('p3_ger','R$ 500.000')}
+- Contexto do risco que pode se repetir = ${fld('p3_risco','[descreva o contexto]')}
+
+FORMATO: Explique a diferença entre as duas reservas, mostre como cobrir o desvio e proponha um novo percentual de contingência. Em tópicos, linguagem simples.`,
+ p4:()=>`PERSONA: Você é um analista de viabilidade econômico-financeira de projetos.
+
+TAREFA: Calcule o VPL, a TIR, o payback (simples e descontado) e o índice de lucratividade.
+
+CONTEXTO: A oportunidade de investimento:
+- Investimento inicial = ${fld('p4_inv','R$ 8.000.000')}
+- Ganho por ano = ${fld('p4_fluxo','R$ 2.410.000')} durante ${fld('p4_anos','5 anos')}
+- Taxa mínima de retorno exigida = ${fld('p4_taxa','12% ao ano')}
+
+FORMATO: Mostre as contas, explique cada indicador em linguagem simples e conclua com uma recomendação clara de investir ou não (regra: VPL>0 e TIR>taxa exigida).`,
+ p5:()=>`PERSONA: Você é um analista financeiro de projetos.
+
+TAREFA: Calcule o Custo Médio Ponderado de Capital (CMPC) com o benefício fiscal da dívida e explique como usá-lo na decisão.
+
+CONTEXTO: Estrutura de financiamento do projeto:
+- Capital próprio = ${fld('p5_wp','50%')} a ${fld('p5_ke','16% ao ano')}
+- Capital de terceiros = ${fld('p5_wt','50%')} a ${fld('p5_kd','9% ao ano')}
+- Imposto = ${fld('p5_ir','25%')}
+- TIR do projeto (do bloco anterior) = ${fld('p5_tir','[traga a TIR que você calculou]')}
+
+FORMATO: Mostre o cálculo do custo da dívida após imposto e do CMPC, explique o impacto do dinheiro emprestado no caixa e conclua comparando CMPC com a TIR (regra: TIR > CMPC = aprovar).`
+};
+function hlPTCFc(txt){return txt.replace(/^(PERSONA|TAREFA|CONTEXTO|FORMATO):/gm,'<span class="ptcf-lbl">$1:</span>');}
+const promptState={};
+function montarPrompt(pid){
+  const el=document.getElementById(pid); if(!el)return;
+  // preserva valores já editados
+  el.querySelectorAll('.fld').forEach(s=>{promptState[s.dataset.p]=s.innerText;});
+  el.innerHTML=hlPTCFc(promptTpl[pid]());
+  // restaura edições
+  el.querySelectorAll('.fld').forEach(s=>{ if(promptState[s.dataset.p]!=null) s.innerText=promptState[s.dataset.p]; s.addEventListener('input',()=>{promptState[s.dataset.p]=s.innerText;}); });
+}
+function montarTodosPrompts(){['p1','p2','p3','p4','p5'].forEach(montarPrompt);}
 const f3=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:3,maximumFractionDigits:3});
 const roundLabels=['Briefing','Diagnóstico','Projeção','Correção','Viabilidade','Capital','Aplicação','Pacote'];
 let stage=0;const decisions={};
@@ -499,6 +529,7 @@ function goStage(n){
   if(n===7)montarPacote();
 }
 renderRounds();
+montarTodosPrompts();
 
 /* ===== TIRA-DÚVIDAS (conteúdo por rodada) ===== */
 const helpData={
