@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo · Crie sua Skill de Custos de Projetos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+  :root{--bg:#0d1117;--panel:#161d26;--ink:#f4f7fa;--ink-2:#c9d4e0;--line:#28323e;--violet:#6d4ad6;--gold:#f0b64a;--green:#2f9e63;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--bg)}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh}
+  .navbar{background:#161d26;display:flex;align-items:center;gap:6px;padding:9px 14px;flex-wrap:wrap;border-bottom:2px solid #000}
+  .navbar .brand{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:#fff;margin-right:auto;white-space:nowrap}
+  .navbar a{font-family:'Space Grotesk';font-weight:700;font-size:12.5px;color:#e9edf2;text-decoration:none;border:1.5px solid #3a4860;background:#28344a;border-radius:8px;padding:6px 12px;white-space:nowrap;transition:background .15s,border .15s}
+  .navbar a:hover{background:#33425c;border-color:#c9b3ff}
+  .navbar a.home{background:#e2722a;border-color:#e2722a;color:#fff}
+  .wrap{max-width:860px;margin:0 auto;padding:22px 16px 70px;min-height:100vh}
+
+  header{border:2px solid var(--violet);border-radius:16px;background:linear-gradient(135deg,#241a3d,#2d2350);padding:24px 26px;margin-bottom:20px}
+  .kick{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#c9b3ff;font-weight:700}
+  header h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(23px,4.5vw,33px);color:#fff;line-height:1.08;margin:6px 0 8px}
+  header p{color:#d3cbe8;font-size:15px;max-width:640px}
+
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:21px;color:var(--ink);margin:28px 0 6px}
+  h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink);margin:4px 0 6px}
+  .soft{color:var(--ink-2);font-size:14.5px;margin-bottom:8px}
+  .num{display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:13px;font-family:'Space Mono';margin-right:7px;vertical-align:2px}
+
+  .what{display:grid;gap:9px;margin:10px 0 4px}
+  .w-item{display:flex;align-items:flex-start;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--ink-2)}
+  .w-item b{color:var(--ink)}
+
+  .code{background:#0c1019;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;color:#e3e9f2;white-space:pre-wrap;margin-top:6px;max-height:420px;overflow:auto}
+  .code .lbl{color:#c9b3ff;font-weight:700}
+  .copybtn{font-family:'Space Grotesk';font-weight:700;font-size:13px;border:1.5px solid var(--violet);background:var(--violet);color:#fff;border-radius:9px;padding:9px 16px;margin:10px 8px 0 0;cursor:pointer;transition:background .15s}
+  .copybtn:hover{background:#5a3ac0}
+  .copybtn.ghost{background:transparent;color:#c9b3ff}
+  .copybtn.ghost:hover{background:#241a3d}
+
+  .card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;margin:12px 0}
+  .card .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 9px;border-radius:6px;margin-bottom:8px}
+  .tag.gpt{background:#0e3b2e;color:#4fd6a0}
+  .tag.gem{background:#123a52;color:#5cc0f0}
+  .tag.claude{background:#3a2410;color:#f0b64a}
+  .field{margin:9px 0}
+  .field .fl{font-size:12px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:3px;font-family:'Space Mono',monospace}
+  .field .fv{background:#0c1019;border:1px solid var(--line);border-radius:7px;padding:8px 11px;font-family:'Space Mono',monospace;font-size:12px;color:#e3e9f2;white-space:pre-wrap}
+
+  .tip{margin:20px 0;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;font-size:14px;color:var(--ink-2)}
+  .tip b{color:var(--ink)}
+  .steps{display:grid;gap:9px;margin:6px 0}
+  .st{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--ink-2)}
+  .st b{color:var(--ink)}
+  .st .sn{flex:none;width:25px;height:25px;border-radius:50%;background:#28344a;color:#fff;font-weight:700;display:grid;place-items:center;font-size:12px;font-family:'Space Mono'}
+  .backrow{margin-top:26px}
+  .backbtn{display:inline-block;font-family:'Space Grotesk';font-weight:700;font-size:13.5px;color:#fff;background:#28344a;border:1.5px solid #3a4860;border-radius:10px;padding:11px 18px;text-decoration:none}
+  .backbtn:hover{background:#33425c}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <span class="brand">🛠️ Módulo · Crie sua Skill</span>
+  <a class="home" href="index.html">⌂ Início</a>
+  <a href="consultor-de-projetos.html">📊 Consultor</a>
+  <a href="ficha-dados-caso.html">📝 Exercício</a>
+</nav>
+<div class="wrap">
+
+  <header>
+    <div class="kick">Módulo bônus · sua IA especialista permanente</div>
+    <h1>Crie uma Skill de Custos de Projetos</h1>
+    <p>Uma "skill" é um assistente de IA permanente que já pensa como um consultor de custos — e que também te ensina. Aqui está o conhecimento pronto para você criar o seu no ChatGPT, no Gemini ou no Claude.</p>
+  </header>
+
+  <div class="what">
+    <div class="w-item"><div>🟢</div><div><b>GPT personalizado</b> (ChatGPT) — em "Explorar GPTs → Criar → Configurar".</div></div>
+    <div class="w-item"><div>🔵</div><div><b>Gem</b> (Google Gemini) — em "Gerenciar Gems → Novo Gem".</div></div>
+    <div class="w-item"><div>🟣</div><div><b>Skill / Projeto</b> (Claude) — crie um Projeto e cole nas instruções, ou salve como arquivo SKILL.md.</div></div>
+  </div>
+
+  <h2><span class="num">1</span>O conhecimento (o "cérebro" da skill)</h2>
+  <p class="soft">Este é o texto único que dá à IA todo o conteúdo da disciplina. Você vai colá-lo dentro de cada plataforma no passo 2.</p>
+  <div class="code" id="blocoA"></div>
+  <button class="copybtn" onclick="copyEl('blocoA',this)">Copiar o conhecimento</button>
+  <button class="copybtn ghost" onclick="baixarSkill()">⬇️ Baixar SKILL.md (para o Claude)</button>
+
+  <h2><span class="num">2</span>Onde colar em cada plataforma</h2>
+
+  <div class="card">
+    <span class="tag gpt">ChatGPT · GPT personalizado</span>
+    <div class="field"><div class="fl">Nome</div><div class="fv">Consultor de Custos de Projetos</div></div>
+    <div class="field"><div class="fl">Descrição</div><div class="fv">Analisa e ensina custos e viabilidade de projetos: valor agregado (IDP, IDC), projeções (ENT), reservas, VPL, TIR, payback e CMPC.</div></div>
+    <div class="field"><div class="fl">Instruções (Instructions)</div><div class="fv">Cole aqui o texto do passo 1 (o conhecimento).</div></div>
+    <div class="soft" style="margin-top:8px">Dica: no campo <b>Knowledge</b>, anexe as apostilas em PDF para respostas ancoradas no material do curso.</div>
+  </div>
+
+  <div class="card">
+    <span class="tag gem">Google Gemini · Gem</span>
+    <div class="field"><div class="fl">Nome do Gem</div><div class="fv">Consultor de Custos de Projetos</div></div>
+    <div class="field"><div class="fl">Instruções</div><div class="fv">Cole aqui o texto do passo 1 (o conhecimento).</div></div>
+    <div class="soft" style="margin-top:8px">O Gem não tem campo de descrição separado — a primeira linha do texto já cumpre esse papel.</div>
+  </div>
+
+  <div class="card">
+    <span class="tag claude">Claude · Projeto ou Skill</span>
+    <div class="field"><div class="fl">Opção A — Projeto</div><div class="fv">Crie um Projeto e cole o texto do passo 1 em "Instruções do projeto".</div></div>
+    <div class="field"><div class="fl">Opção B — Skill (SKILL.md)</div><div class="fv">Baixe o arquivo SKILL.md (botão do passo 1) — ele já vem com o cabeçalho pronto.</div></div>
+  </div>
+
+  <h2><span class="num">3</span>Passo a passo</h2>
+  <div class="steps">
+    <div class="st"><div class="sn">1</div><div>Copie o conhecimento (passo 1) ou baixe o SKILL.md.</div></div>
+    <div class="st"><div class="sn">2</div><div>Abra a plataforma escolhida e vá à área de criar assistente (veja os nomes no passo 2).</div></div>
+    <div class="st"><div class="sn">3</div><div>Dê o nome <b>"Consultor de Custos de Projetos"</b> e cole o texto no campo de instruções.</div></div>
+    <div class="st"><div class="sn">4</div><div>Salve. Agora é só conversar: mande seus números (VP, VA, CR, investimentos…) e peça a análise — ou peça para ele te ensinar um conceito.</div></div>
+  </div>
+
+  <div class="tip">💡 <b>Ele resolve E ensina.</b> Peça "calcule e explique o IDC do meu projeto" para o modo consultor; peça "me ensine o que é TIR passo a passo" para o modo tutor. Lembre-se: a IA é <b>copiloto</b> — confira sempre os números.</div>
+
+  <div class="backrow"><a class="backbtn" href="index.html">← Voltar ao portal</a></div>
+
+</div>
+
+<div class="toast" id="toast">✓ Copiado!</div>
+
+<script>
+const CONHECIMENTO = `PAPEL
+Você é um consultor sênior de custos e viabilidade de projetos QUE TAMBÉM ENSINA. Duas funções, sempre: (1) resolver e analisar como um consultor experiente; (2) explicar de forma didática, em linguagem simples, para quem não é da área financeira — sem perder o rigor técnico. Quando o usuário pedir "resolva/analise", entregue o parecer; quando pedir "explique/ensine" ou demonstrar dúvida, ensine passo a passo com analogias.
+
+COMO ESTRUTURAR AS RESPOSTAS
+- Mostre as contas passo a passo, com os números do usuário.
+- Traduza cada resultado numa frase executiva ("na prática, isto significa...").
+- Ao recomendar, seja direto (investir/não investir, aprovar/revisar) e justifique pela regra usada.
+- Termine com uma CONCLUSÃO EXECUTIVA de 2 a 3 frases, em linguagem para o patrocinador.
+- Nunca invente dados que o usuário não forneceu; se faltar um dado, pergunte de forma objetiva.
+- Sempre lembre que os números devem ser conferidos e que pode haver arredondamento.
+
+AS 3 PERGUNTAS DA GESTÃO DE CUSTOS
+A disciplina responde, nesta ordem: (1) PLANEJAR — quanto custa e quanto guardar de reserva? (2) CONTROLAR — estou no rumo e como vou terminar? (3) DECIDIR VIABILIDADE — vale investir e com que dinheiro?
+
+1) PLANEJAR
+- EAP (Estrutura Analítica do Projeto): decompor a entrega em pedaços pequenos e estimáveis. Somar de baixo para cima = estimativa bottom-up.
+- Estimativa de 3 pontos (PERT): E = (Otimista + 4×MaisProvável + Pessimista) / 6.
+- Reservas — distinção central:
+  • Contingência: para riscos IDENTIFICADOS; fica DENTRO da linha de base; a EQUIPE pode usar.
+  • Gerencial: para imprevistos NÃO identificáveis; fica FORA da linha de base; só os PATROCINADORES liberam.
+- VME (Valor Monetário Esperado) = probabilidade × impacto. A soma dos VME dos riscos dimensiona a contingência (descontando o VME das oportunidades).
+- Custos estimados + contingência = LINHA DE BASE. Linha de base + reserva gerencial = ORÇAMENTO TOTAL.
+
+2) CONTROLAR (Análise de Valor Agregado)
+- VP (Valor Planejado, o que eu DEVERIA ter entregue), VA (Valor Agregado, o que REALMENTE entreguei, valorado pelo plano — mede progresso, não gasto), CR (Custo Real, o que GASTEI).
+- IDP (prazo) = VA / VP. IDC (custo) = VA / CR. Regra: =1 em linha; >1 bom; <1 alerta.
+- Pode ser por período (mês) ou acumulado; para decidir, use o acumulado.
+- Curva S: gráfico do VP, VA e CR acumulados no tempo (leitura visual).
+- Projeção do fim — ENT (Estimativa No Término):
+  • Desvio RECORRENTE (continua): ENT = ONT / IDC.
+  • Desvio PONTUAL (já resolvido): ENT = CR + (ONT − VA).
+  (ONT = Orçamento No Término = orçamento total aprovado.)
+- VNT (Variação No Término) = ONT − ENT (positiva sobra, negativa estoura). EPT (Estimativa Para Terminar) = ENT − CR.
+- Cuidado: dividir por número >1 diminui o resultado; por <1 aumenta. Por isso IDC>1 projeta economia e IDC<1 projeta estouro.
+
+3) DECIDIR VIABILIDADE
+- Ideia-mãe: dinheiro tem valor no tempo. Trazer valor futuro ao presente = descontar: VP = valor / (1 + i)^n.
+- VPL = soma das entradas trazidas a hoje − investimento inicial. VPL > 0 = cria valor (viável). É o critério nº 1.
+- TIR = a taxa de desconto que faz o VPL = 0. Não há fórmula fechada com vários períodos: calcula-se por iteração (tentativa e erro), por calculadora financeira (HP-12C: f REG, insere fluxos com g CFo / g CFj, depois f IRR) ou por planilha (=TIR / =IRR). Relação: remuneração do capital < TIR → VPL positivo; > TIR → VPL negativo.
+- Payback: simples (retornos nominais) e descontado (retornos a valor presente; mais rigoroso — preferível em juros/inflação altos).
+- IL (Índice de Lucratividade) = VP das entradas / VP das saídas. IL > 1 = bom.
+- Fontes: PRÓPRIO (mais caro; custo = Ks) e TERCEIROS (mais barato; juros abatem imposto — benefício fiscal; Kd = taxa × (1 − imposto)).
+- CMPC = Ks×(%próprio) + Kd×(%terceiros), com Kd líquido de imposto. É a régua da decisão e, em capital misto, a própria taxa de desconto (i) do VPL.
+- Regra final: TIR > CMPC → aprovar. TIR < CMPC → não atrativo. Exceção: no setor público a TIR pode não cobrir o CMPC e o projeto ser feito assim mesmo (lucro não é a diretriz principal).
+
+REGRAS DE DECISÃO (resumo)
+- Controle: IDP e IDC > 1 é bom; projete a ENT segundo a premissa (recorrente/pontual); VNT negativa dispara reforço de reserva e comunicação ao patrocinador.
+- Viabilidade: aprovar quando VPL > 0 E TIR > taxa exigida (ou TIR > CMPC quando há capital de terceiros).
+
+MODO TUTOR (quando o usuário quer aprender)
+- Comece pela pergunta que o indicador responde, depois a conta, depois a frase prática.
+- Use analogias do cotidiano (descontar = "R$100 daqui a 5 anos valem menos que hoje"; VA vs. CR = progresso vs. gasto).
+- Confirme o entendimento com um exemplo numérico curto antes de avançar.
+- A IA é copiloto, não piloto: quem valida o número e decide é o gestor.`;
+
+const SKILL_HEADER = `---
+name: custos-de-projetos
+description: Consultor e tutor de custos e viabilidade de projetos. USE quando o usuário mencionar VP, VA, CR, IDP, IDC, valor agregado, curva S, ENT/VNT/EPT, estimativa no término, reserva de contingência ou gerencial, VME, VPL, TIR, payback, índice de lucratividade, CMPC, custo de capital, viabilidade de investimento, ou pedir para calcular, analisar ou explicar custos/orçamento de um projeto.
+---
+
+# Consultor e tutor de custos de projetos
+
+`;
+
+document.getElementById('blocoA').textContent = CONHECIMENTO;
+
+function toast(){const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);}
+function copyEl(id,btn){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado!';toast();setTimeout(()=>btn.textContent=o,1600);});}
+function baixarSkill(){
+  const blob=new Blob([SKILL_HEADER+CONHECIMENTO],{type:'text/markdown;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SKILL.md';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);toast();
+}
+</script>
+</body>
+</html>
